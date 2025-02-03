@@ -1,0 +1,21 @@
+.corousalContainer{
+    border: 2px solid black;
+    width: 50vw;
+    height: 20rem;
+    display: flex;
+}
+.imgContainer{
+    width: 30vw;
+}
+
+.imgContainer > img{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.textContainer{
+    width: 40vw;
+}
