@@ -1,0 +1,62 @@
+.SuggestionContainer{
+    /* max-width: 24.5rem; */
+    /* background-color: red; */
+    margin: 0.8rem;
+}
+
+.SuggestionTitle{
+    font-size: 2rem;
+    font-weight: 300;
+    color: #000;
+    margin-bottom: 1rem;
+}
+
+
+.SuggestionImg{
+    height: 20rem;
+    max-width: 35rem;
+    border-radius: 0.8rem;
+}
+
+.SuggestionImg_description{
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.SuggestionImg_description_subtext{
+    color: gray;
+    font-size: 0.7rem;
+}
+
+.suggestion_text {
+    font-size: 0.8rem;
+    font-weight: 300;
+    margin-top: 1rem;
+}
+
+.suggestion_textButton{
+    margin: 1rem 0 0 0;
+    /* padding: 2rem; */
+}   
+
+.suggestion_textButton_button_yes {
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 0.3rem;
+    background-color: #000;
+    color: #fff;
+    font-size: 0.8rem;
+    /* font-weight: 300; */
+    cursor: pointer;
+}
+
+.suggestion_textButton_button_no{
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 0.3rem;
+    background-color: #fff;
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: 300;
+    cursor: pointer;
+}

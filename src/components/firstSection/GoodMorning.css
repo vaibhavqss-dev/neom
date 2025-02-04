@@ -1,0 +1,34 @@
+.gmContainer {
+  margin-left: 2rem;
+  font-family: sans-serif;
+}
+
+.gmContainer_title {
+  font-size: 2rem;
+  font-weight: 200;
+  color: #333;
+}
+
+.CorousalSlider {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none; /* For Firefox */
+}
+
+.CorousalSlider::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+
+/* Suggestion Starts from here */
+.SuggestionSectionSlider {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.SuggestionSectionSlider::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+  }
