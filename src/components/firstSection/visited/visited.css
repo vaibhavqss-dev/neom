@@ -1,0 +1,34 @@
+.visitedContainer{
+    margin: 1rem 1rem 1rem 0;
+}
+
+
+#visitedContainer_img{
+    height: 20rem;
+    width: 14rem;
+}
+
+.visitedContainer_description > p {
+    /* margin: 0; */
+}
+
+.visitedContainer_description_title{
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0;
+}
+.visitedContainer_description_attented {
+    margin: 0.4rem 0 0 0;
+    font-size: 0.7rem;
+    font-weight: 300;
+}
+.visitedContainer_description_dateandTime{
+    margin: 0;
+    font-size: 0.7rem;
+}
+
+.visitedContainer_rating_stars {
+    font-size: 0.8rem;
+    margin: 0.5rem 0 0 0;
+}
+

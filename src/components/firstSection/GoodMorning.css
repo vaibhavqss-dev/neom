@@ -32,3 +32,19 @@
 .SuggestionSectionSlider::-webkit-scrollbar {
     display: none; /* For Chrome, Safari, and Opera */
   }
+
+
+  .visitedContainer_title {
+    font-family: cursive;
+    font-size: 1.5rem;
+    font-weight: 200;
+    color: #333;
+  }
+
+  .visitedContainer_slider{
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
