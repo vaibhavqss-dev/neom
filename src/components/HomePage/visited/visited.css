@@ -1,15 +1,13 @@
 .visitedContainer{
     margin: 1rem 1rem 1rem 0;
+    font-family: cursive;
 }
 
 
 #visitedContainer_img{
-    height: 20rem;
-    width: 14rem;
-}
-
-.visitedContainer_description > p {
-    /* margin: 0; */
+    height: 22rem;
+    border-radius: 0.5rem;
+    width: 16rem;
 }
 
 .visitedContainer_description_title{
@@ -32,3 +30,6 @@
     margin: 0.5rem 0 0 0;
 }
 
+.visitedContainer_rating_stars_black{
+    margin-left: 0.4rem;
+}

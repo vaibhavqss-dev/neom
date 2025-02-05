@@ -39,7 +39,7 @@
 }
 
 
-.hamburgerContainer{
+.hamburger{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -47,6 +47,8 @@
     background-color: white;
     border-radius: 1rem;
     padding: 0.5rem;
+
+    cursor: pointer;
 }
 
 .hamburger-character {
@@ -61,12 +63,40 @@
     justify-content: center;
 }
 
-.hamburger div {
+.hamburgerIcons div {
   width: 15px;
   height: 2px;
   background-color: black;
   margin: 3px 0;
 }
+
+.hamburger_model {
+  position: absolute;
+  top: 3rem;
+  right: 5rem;
+  background-color: white;
+  border-radius: 0.7rem;
+  padding: 0.5rem;
+  width: 10rem;
+}
+.active {
+  display: none;
+}
+.hamburger_model_links {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: start;
+  margin: 0.5rem;
+  font-size: 0.9rem;
+  transition: .2s all;
+}
+.hamburger_model_links > a {
+  text-decoration: none;
+  margin: 0.2rem;
+  color: black;
+}
+
 
 .notification::after {
     content: '';

@@ -1,0 +1,59 @@
+.Home {
+  margin-left: 2rem;
+  font-family: sans-serif;
+}
+
+.Home_title {
+  font-family: cursive;
+  font-size: 2rem;
+  font-weight: 200;
+  color: #333;
+}
+
+/* Suggestion Starts from here */
+.SuggestionSectionSlider {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.suggestionSection_title {
+  font-family: cursive;
+  font-size: 2rem;
+  font-weight: 200;
+  color: #333;
+}
+
+.SuggestionSectionSlider::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+.recommandationSection_title{
+  font-family: cursive;
+  font-size: 2rem;
+  font-weight: 200;
+  color: #333;
+}
+
+.recommandationSection_container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin: 0 1rem; */
+  margin-right: 2rem;
+}
+
+.visitedSection_title {
+  font-family: cursive;
+  font-size: 1.5rem;
+  font-weight: 200;
+  color: #333;
+}
+
+.visitedSectionSlider {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+}

@@ -1,0 +1,21 @@
+.FooterContainer{
+    background-color: #222222;
+    color: white;
+    padding: 0.4rem;
+    font-family: 'Roboto', sans-serif;
+    font-size: .7rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.FooterContainer_left{
+    margin-left: 1.5rem;
+}
+
+.FooterContainer_right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 13rem;
+    margin-right: 2.3rem;
+}

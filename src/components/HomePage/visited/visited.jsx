@@ -25,7 +25,7 @@ export default function Visited({
           </p>
         </div>
         <p className="visitedContainer_rating_stars">
-          You rated this event {rating}
+          You rated this event
           <span className="visitedContainer_rating_stars_black">
             {Array.from({ length: parseInt(rating) }, (_, index) => (
               <span key={index}>★</span>

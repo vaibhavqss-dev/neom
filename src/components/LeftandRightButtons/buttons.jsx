@@ -1,11 +1,11 @@
 import React from "react";
 import "./buttons.css";
 
-export default function Buttons() {
+export default function Buttons({ scrollLeft, scrollRight }) {
   return (
     <div class="button-container">
-      <button class="arrow-button left"></button>
-      <button class="arrow-button right"></button>
+      <button onClick={scrollLeft} className="arrow-button left"></button>
+      <button onClick={scrollRight} className="arrow-button right"></button>
     </div>
   );
 }

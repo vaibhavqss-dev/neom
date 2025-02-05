@@ -4,12 +4,12 @@ import location from "../../../assets/location.svg";
 import category from "../../../assets/category.svg";
 import "./Corousal.css";
 import smileGreenFace from "../../../assets/smileGreenFace.svg";
-import underwaterImg from "../../../assets/neom-underwater.jpg";
 import redstars from "../../../assets/star.svg"
 
 export default function Corousal({ ImgUrl, title, description, stars, reviews, dateandTime, locationName, categoryName, Scheduled }) {
 
-  // let stars = 
+
+  
   return (
     <div className="corousalContainer">
       <div className="corousalContainer_imgContainer">
@@ -19,12 +19,11 @@ export default function Corousal({ ImgUrl, title, description, stars, reviews, d
       <div className="corousalContainer_textContainer">
         <p className="corousalContainer_textContainer_heading">{title}</p>
         <div className="stars">
-          <span><img id="redstars" src={redstars} alt="redstars" /></span>
-          <span><img id="redstars" src={redstars} alt="redstars" /></span>
-          <span><img id="redstars" src={redstars} alt="redstars" /></span>
-          <span><img id="redstars" src={redstars} alt="redstars" /></span>
-          <span><img id="redstars" src={redstars} alt="redstars" /></span>
 
+          {Array.from({ length: stars }).map((_, index) => (
+            <span key={index}><img id="redstars" src={redstars} alt="redstars" /></span>
+            
+          ))}
           <div className="stars-text">{stars} ({reviews} reviews)</div>
         </div>
 
