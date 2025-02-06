@@ -1,0 +1,196 @@
+#neom-logo {
+  width: 40px;
+  height: 50px;
+}
+
+.header {
+  height: 4rem;
+  display: flex;
+}
+
+.neomLogoContainer {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-left: 2rem;
+  width: 60vw;
+}
+
+.dashboard {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-decoration: none;
+  width: 40vw;
+  margin-right: 2rem;
+}
+
+.links {
+  font-size: 12px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 19rem;
+}
+
+.dashboard a {
+  text-decoration: none;
+  color: black;
+}
+
+.hamburger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 3rem;
+  background-color: white;
+  border-radius: 1rem;
+  padding: 0.5rem;
+
+  cursor: pointer;
+}
+
+.hamburger-character {
+  background-color: #b79535;
+  padding: 0.3rem;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 1rem 1rem;
+  color: white;
+  margin: -2px;
+  display: flex;
+  justify-content: center;
+}
+
+.hamburgerIcons div {
+  width: 15px;
+  height: 2px;
+  background-color: black;
+  margin: 3px 0;
+}
+
+.hamburger_model {
+  position: absolute;
+  top: 3rem;
+  right: 5rem;
+  background-color: white;
+  border-radius: 0.7rem;
+  padding: 0.5rem;
+  width: 10rem;
+}
+
+.active {
+  display: none;
+}
+
+.hamburger_model_links {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: start;
+  margin: 0.5rem;
+  font-size: 0.9rem;
+  transition: 0.2s all;
+}
+
+.hamburger_model_links > a {
+  text-decoration: none;
+  margin: 0.2rem;
+  color: black;
+}
+
+.notification{
+  cursor: pointer;
+}
+
+.notification::after {
+  content: "";
+  position: relative;
+  top: -11px;
+  right: 10px;
+  width: 10px;
+  height: 10px;
+  background-color: #b79535;
+  border-radius: 50%;
+  font-size: 10px;
+  display: inline-block;
+}
+
+#bell-logo {
+  width: 20px;
+  height: 20px;
+}
+
+#web-logo {
+  width: 15px;
+  height: 15px;
+}
+
+.notification_model {
+  position: absolute;
+  top: 3rem;
+  right: 11rem;
+  background-color: #222222;
+  border-radius: 0.7rem;
+  padding: 0.5rem;
+  width: 22rem;
+}
+
+.notification_model_cancel {
+  text-align: right;
+}
+
+.notification_model_cancelBtn {
+  height: 1.5rem;
+  width: 1.5rem;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  border-radius: 1rem;
+  padding: 0.2rem;
+  cursor: pointer;
+}
+
+.notification_model_title {
+  color: #EEFF00;
+  font-size: 1.5rem;
+  font-family: cursive;
+  margin: 0rem 1rem;
+}
+
+#notification_model_title_bell {
+  height: 1.3rem;
+  padding: 0rem 0rem;
+  /* color: #EEFF00; */
+  transform: rotate(335deg);
+}
+
+.notification_model_text {
+  color: white;
+  font-size: 0.8rem;
+  margin: 0.6rem 1rem;
+}
+
+.notification_model_btns {
+  display: flex;
+  margin: 1.6rem 1rem 0.7rem 1rem;
+}
+
+.notification_model_btns_rescheduleBtn {
+  border: none;
+  border-radius: 0.3rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.notification_model_btns_cancelBtn{
+  border: none;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+  border-radius: 0.3rem;
+  background-color: transparent;
+  padding: 0.5rem 1rem;
+  color: white;
+  margin-left: 1rem;
+  cursor: pointer;
+}

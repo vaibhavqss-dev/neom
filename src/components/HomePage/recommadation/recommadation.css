@@ -16,17 +16,15 @@
 
 .number {
   font-size: 84px;
-  font-weight: bold;
-  color: white;
+  font-weight: bolder;
+  color: transparent;
   background-color: transparent;
-  text-shadow: -2px -2px 0 rgb(255, 255, 255), 2px -2px 0 rgb(255, 255, 255),
-    -2px 2px 0 rgb(255, 255, 255), 2px 2px 0 rgb(255, 255, 255);
-  mix-blend-mode: overlay;
+  text-shadow: none;
   position: absolute;
   z-index: 1;
   top: 14.1rem;
   left: 11.1rem;
-  -webkit-text-stroke: 2px rgb(255, 255, 255);
+  -webkit-text-stroke: 2px white;
 }
 
 .recommationContainer_subtext {

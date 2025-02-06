@@ -1,16 +1,14 @@
 import React from "react";
 import "./recommadation.css";
-import desertcity from "../../../assets/desertcity.jpg";
-import heart from "../../../assets/heart.png";
 
-export default function Recommadation({ rank, name, subtext, date, time }) {
+export default function Recommadation({ imgURL, rank, name, subtext, date, time }) {
   return (
     <>
       <div className="recommationContainer">
         <div className="recommationContainer_imgContainer">
-          <div class="heart">
+          <div className="heart">
             <svg
-              class="heart-overlay"
+              className="heart-overlay"
               width="200"
               height="200"
               viewBox="0 0 24 24"
@@ -25,11 +23,13 @@ export default function Recommadation({ rank, name, subtext, date, time }) {
               />
             </svg>
           </div>
+
           <img
             id="recommationContainer_img"
-            src={desertcity}
+            src={imgURL}
             alt="desertcity"
           />
+
           <div className="number">{rank}</div>
         </div>
 

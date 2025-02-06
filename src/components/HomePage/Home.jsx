@@ -3,6 +3,7 @@ import React from "react";
 import Buttons from "../LeftandRightButtons/buttons";
 import "./Home.css";
 import underwaterImg from "../../assets/neom-underwater.jpg";
+import desertcity from "../../assets/desertcity.jpg";
 import Suggestion from "./Suggestion/Suggestion";
 import food from "../../assets/food.jpg";
 import city from "../../assets/city.jpg";
@@ -16,22 +17,33 @@ import SuggestionSlider from "./Suggestion/SuggestionSlider";
 import VisitedSlider from "./visited/VisitedSlider";
 
 const coordinates = [
-  [28.6139, 77.209, "swim"], // New Delhi
-  [19.076, 72.8777, "golf"], // Mumbai
-  [13.0827, 80.2707, "location"], // Chennai
-  [22.5726, 88.3639, "music"], // Kolkata
-  [12.9716, 77.5946, "swim"], // Bangalore
-  [23.0225, 72.5714, "shopping"], // Ahmedabad
-  [18.5204, 73.8567, "shopping"], // Pune
-  [26.9124, 75.7873, "shopping"], // Jaipur
-  [21.1702, 72.8311, "shopping"], // Surat
-  [11.0168, 76.9558, "school"], // Coimbatore
+  [21.7793, 72.589814, "swim"], // New Delhi
+  [21.748583, 72.669192, "golf"], // Mumbai
+  [21.697117, 72.607178, "location"], // Chennai
+  [21.709793, 72.717977, "music"], // Kolkata
+  [21.771237, 72.598909, "music"], // Bangalore
+  [21.750119, 72.663818, "golf"], // Bangalore
+  [21.715555, 72.620407, "music"], // Bangalore
 ];
 
 export default function Home() {
   return (
     <>
-      <div className="Home">
+      <div className="cancel_event_container">
+        <div className="cancel_event">
+          <p className="cancel_event_title">Hey Vaibhav!</p>
+          <p className="cancel_event_description">
+            Are you sure you want to cancel the event? <br />
+          </p>
+
+          <div className="cancel_event_btns">
+            <button className="cancel_event_btn_yes">Yes</button>
+            <button className="cancel_event_btn_no">No</button>
+          </div>
+        </div>
+      </div>
+
+      <div className="Home isblur">
         <p className="Home_title">Good Morning Vaibhav!</p>
         <p>
           {" "}
@@ -41,8 +53,6 @@ export default function Home() {
         </p>
         <CarouselSlider />
         <SuggestionSlider />
-
-
         <div className="recommandationSection">
           <p className="recommandationSection_title">
             Today's recommadation for you, Vaibhav
@@ -51,22 +61,21 @@ export default function Home() {
           <div className="recommandationSection_container">
             {Array.from({ length: 5 }).map((_, index) => (
               <Recommadation
+                imgURL={index & 1 ? underwaterImg : desertcity}
                 rank={index + 1}
                 name="Desert Walking"
                 subtext={"Tour on land of desert"}
                 date={new Date().toLocaleDateString()}
-                // {/* 10:00 AM - 7:00 PM */}   
+                // {/* 10:00 AM - 7:00 PM */}
                 time={`${10 + index}:00 AM - ${7 + index}:00 PM`}
               />
             ))}
           </div>
         </div>
-
-
-        
         <VisitedSlider />
         <MapWithPoints coordinates={coordinates} />;
       </div>
+
       <Footer />
     </>
   );
