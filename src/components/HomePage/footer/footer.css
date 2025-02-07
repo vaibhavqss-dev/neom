@@ -1,4 +1,5 @@
-.FooterContainer{
+.footer_container{
+    margin-top: 3%;
     background-color: #222222;
     color: white;
     padding: 0.4rem;
@@ -8,14 +9,15 @@
     justify-content: space-between;
     align-items: center;
 }
-.FooterContainer_left{
-    margin-left: 1.5rem;
+
+.footer_container_left {
+    margin-left: 2rem;
 }
 
-.FooterContainer_right {
+.footer_container_right {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 13rem;
-    margin-right: 2.3rem;
+    margin-right: 2rem;
 }

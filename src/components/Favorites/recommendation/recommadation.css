@@ -1,0 +1,60 @@
+.recommadation_container {
+  position: relative;
+  margin: 0.2rem;
+}
+
+#recommadation_img {
+  width: 43rem;
+  height: 25rem;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.recommadation_container_text_overlay {
+  margin: 0;
+  font-family: cursive;
+  color: white;
+  width: 37rem;
+  position: absolute;
+  top: 17rem;
+  left: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.recommadation_img_title {
+  margin: 1rem 0;
+  font-weight: bold;
+  font-size: 1.7rem;
+}
+.recommadation_img_type,
+.recommadation_img_time {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.recommadation_container_text_overlay_right {
+  display: flex;
+  width: 6rem;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.recommadation_container_text_overlay_right_text {
+  margin: 0;
+}
+
+#recommadation_container_text_overlay_right_smileface {
+  height: 0.8rem;
+  margin: 0;
+}
+
+.favorites_recommendation_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}

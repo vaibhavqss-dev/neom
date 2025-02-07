@@ -4,7 +4,7 @@ import "./recommadation.css";
 export default function Recommadation({ imgURL, rank, name, subtext, date, time }) {
   return (
     <>
-      <div className="recommationContainer">
+      <div className="recommation_container">
         <div className="recommationContainer_imgContainer">
           <div className="heart">
             <svg

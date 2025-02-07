@@ -4,6 +4,17 @@
     margin: 0.8rem;
 }
 
+.SuggestionImgandDescriptionContainer{
+    position: relative;
+}
+.emojiImg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 1rem;
+    height: 3rem;
+}
+
 .SuggestionTitle{
     font-size: 2rem;
     font-weight: 300;
@@ -60,3 +71,5 @@
     font-weight: 300;
     cursor: pointer;
 }
+
+

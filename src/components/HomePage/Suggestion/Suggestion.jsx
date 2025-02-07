@@ -1,18 +1,18 @@
 import "./Suggestion.css";
-import food from "../../../assets/food.jpg";
+
 
 export default function Suggestion({
   imgUrl,
   title,
   description,
   dateandTime,
-  food
+  food,
+  emoji_url
 }) {
   return (
     <div className="SuggestionContainer">
-      {/* <p className="SuggestionTitle">Charlie Hope, We Understand you better</p> */}
-
       <div className="SuggestionImgandDescriptionContainer">
+        <img src={emoji_url} alt="Emoji Face" className="emojiImg" />
         <img src={imgUrl} alt="food" className="SuggestionImg" />
         <div className="SuggestionImg_description">
           {title} <br />

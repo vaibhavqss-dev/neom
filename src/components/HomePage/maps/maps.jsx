@@ -66,7 +66,9 @@ const MapWithPoints = ({ coordinates }) => {
                 ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}
             </p>
                 
-            <p style="margin: 0;" className=${index<5 ? "onSchedule" : "onDelay" } > ${index<5 ? "On Time" : "Delayed" }</p>
+            <p style="margin: 0;" className=${
+              index < 5 ? "onSchedule" : "onDelay"
+            } > ${index < 5 ? "On Time" : "Delayed"}</p>
         </div>
     `);
     });
@@ -81,5 +83,4 @@ const MapWithPoints = ({ coordinates }) => {
     </div>
   );
 };
-
 export default MapWithPoints;

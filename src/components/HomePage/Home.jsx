@@ -9,7 +9,6 @@ import food from "../../assets/food.jpg";
 import city from "../../assets/city.jpg";
 import Recommadation from "./recommadation/recommadation";
 import Visited from "./visited/visited";
-import Map from "./map/map";
 import Footer from "./footer/footer";
 import MapWithPoints from "./maps/maps";
 import CarouselSlider from "./corousal/CorousalSlider";
@@ -75,8 +74,6 @@ export default function Home() {
         <VisitedSlider />
         <MapWithPoints coordinates={coordinates} />;
       </div>
-
-      <Footer />
     </>
   );
 }

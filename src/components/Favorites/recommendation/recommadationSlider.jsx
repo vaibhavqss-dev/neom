@@ -1,17 +1,18 @@
-import { useEffect, useRef } from "react";
-import Visited from "./visited";
-import city from "../../../assets/city.jpg";
+import React, { useEffect, useRef } from "react";
+import Recommadation from "./recommadation";
+import underwaterImg from "./../../../assets/neom-underwater.jpg";
+import desertcity from "./../../../assets/desertcity.jpg";
+import smileGreenFace from "./../../../assets/smileGreenFace.svg";
+
 import Buttons from "../../LeftandRightButtons/buttons";
 
-const VisitedSlider = () => {
+export default function RecommadationSlider() {
   const sliderRef = useRef(null);
-
   const scrollLeft = () => {
     if (sliderRef.current) {
       sliderRef.current.scrollLeft -= 300;
     }
   };
-
   const scrollRight = () => {
     if (sliderRef.current) {
       sliderRef.current.scrollLeft += 300;
@@ -41,28 +42,24 @@ const VisitedSlider = () => {
   }, []);
 
   return (
-    <div className="visitedSection">
-      <div className="visitedSection_title">
-        <p>Vaibhav, here is your master journey with us so far</p>
-      </div>
-      <div
-        ref={sliderRef}
-        className="visitedSectionSlider"
-        style={{ display: "flex", overflowX: "auto", scrollBehavior: "smooth" }}
-      >
+    <div className="favorites_recommendation">
+      <p className="favorites_recommendation_title">
+        Vaibhav, we've found some recommended for you
+      </p>
+      <div ref={sliderRef} className="favorites_recommendation_container">
         {Array.from({ length: 10 }).map((_, index) => (
-          <Visited
-            imgUrl={city}
-            title="Round of Golf"
-            attented={index + 1}
-            dateandTime={new Date().toDateString()}
-            rating={index + 1}
+          <Recommadation
+            imgURL={index & 1 ? underwaterImg : desertcity}
+            name={index & 1 ? "Underwater" : "Desert City"}
+            category={"Active and Adventurous"}
+            date={new Date().toLocaleDateString()}
+            time={`${10 + index}:00 AM - ${7 + index}:00 PM`}
+            face={smileGreenFace}
           />
         ))}
       </div>
+
       <Buttons scrollLeft={scrollLeft} scrollRight={scrollRight} />
     </div>
   );
-};
-
-export default VisitedSlider;
+}

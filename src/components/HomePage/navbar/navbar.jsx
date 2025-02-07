@@ -1,3 +1,5 @@
+import React from "react";
+import { NavLink } from "react-router-dom";
 import Neom from "../../../assets/neom.png";
 import bell from "../../../assets/bell.svg";
 import web from "../../../assets/web.svg";
@@ -6,52 +8,68 @@ import "./navbar.css";
 
 export default function Navbar() {
   function toggleHamburger(e) {
-    const hamburger = document.querySelector(".hamburger");
     const hamburger_model = document.querySelector(".hamburger_model");
-    hamburger.addEventListener("click", () => {
-      hamburger_model.classList.toggle("active");
-    });
+    hamburger_model.classList.toggle("active");
   }
-  function toggleOpenBtn(e) {
-    const notification = document.querySelector(".notification");
+
+
+  function toggleNotificationBtn() {
     const notification_model = document.querySelector(".notification_model");
-    notification.addEventListener("click", () => {
-      notification_model.classList.toggle("active");
-    });
-  }
-  function toggleCloseBtn(e) {
-    const notification_model = document.querySelector(".notification_model");
-    notification_model.addEventListener("click", () => {
-      notification_model.classList.toggle("active");
-    });
+    notification_model.classList.toggle("active");
   }
 
   return (
-    <div className="header">
-      <div className="neomLogoContainer">
-        <img id="neom-logo" src={Neom} alt="neomlogo" />
+    <div className="navbar">
+
+      <div className="neom">
+        <img id="neom_logo" src={Neom} alt="neomlogo" />
       </div>
-      <div className="dashboard">
-        <div className="links">
-          <a href="#">Dashboard </a>
-          <a href="#">My favorites</a>
-          <a href="#">Upcoming events</a>
+
+      <div className="links">
+        <div className="links_page">
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "isActive links_link" : "links_link"
+            }
+            to="/"
+          >
+            {" "}
+            Dashboard{" "}
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "isActive links_link" : "links_link"
+            }
+            to="/favorites"
+          >
+            {" "}
+            My favorites{" "}
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "isActive links_link" : "links_link"
+            }
+            to="/upcomingevents"
+          >
+            {" "}
+            Upcoming events{" "}
+          </NavLink>
         </div>
 
-        <div onClick={(e) => toggleOpenBtn(e)} className="notification">
+        <div onClick={(e) => toggleNotificationBtn(e)} className="notification">
           <img id="bell-logo" src={bell} alt="notification" />
         </div>
 
-        {/* Notification Model */}
         <div className="notification_model">
           <div className="notification_model_cancel">
             <button
               className="notification_model_cancelBtn"
-              onClick={(e) => toggleCloseBtn(e)}
+              onClick={(e) => toggleNotificationBtn(e)}
             >
               X
             </button>
           </div>
+
           <p className="notification_model_title">
             Hey Vaibhav{" "}
             <img
@@ -76,15 +94,14 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-        {/* Notification Model End*/}
 
-        <div className="hamburger">
-          <div className="hamburgerIcons">
+        <div className="links_hamburger">
+          <button onClick={()=> toggleHamburger()} className="links_hamburger_containerBtn">
             <div></div>
             <div></div>
             <div></div>
-          </div>
-          <div className="hamburger-character">C</div>
+          </button>
+          <div className="hamburger_name">C</div>
         </div>
 
         <div className="hamburger_model active">
@@ -95,10 +112,11 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="web">
-          <img id="web-logo" src={web} alt="web" />
+        <div className="links_web">
+          <img id="links_web_img" src={web} alt="web" />
         </div>
       </div>
+      
     </div>
   );
 }

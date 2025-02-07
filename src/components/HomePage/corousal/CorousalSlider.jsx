@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Corousal from "./Corousal";
 import underwaterImg from "../../../assets/neom-underwater.jpg";
 import Buttons from "../../LeftandRightButtons/buttons";
@@ -17,6 +17,25 @@ const CarouselSlider = () => {
       sliderRef.current.scrollLeft += 300;
     }
   };
+
+  useEffect(() => {
+    let direction = 'right';
+    const interval = setInterval(() => {
+      if (direction === 'right') {
+        scrollRight();
+        if (sliderRef.current.scrollLeft + sliderRef.current.clientWidth >= sliderRef.current.scrollWidth) {
+          direction = 'left';
+        }
+      } else {
+        scrollLeft();
+        if (sliderRef.current.scrollLeft <= 0) {
+          direction = 'right';
+        }
+      }
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div>
