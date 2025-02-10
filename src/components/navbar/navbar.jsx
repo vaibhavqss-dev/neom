@@ -1,9 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import Neom from "../../../assets/neom.png";
-import bell from "../../../assets/bell.svg";
-import web from "../../../assets/web.svg";
-import bellnofiy from "../../../assets/bell-notify.svg";
+import Neom from "../../assets/neom.png";
+import bell from "../../assets/bell.svg";
+import web from "../../assets/web.svg";
+import bellnofiy from "../../assets/bell-notify.svg";
 import "./navbar.css";
 
 export default function Navbar() {
@@ -49,7 +49,7 @@ export default function Navbar() {
             className={({ isActive }) =>
               isActive ? "isActive links_link" : "links_link"
             }
-            to="/upcomingevents"
+            to="/upcoming-events"
           >
             {" "}
             Upcoming events{" "}

@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.footer_container {
+  margin: 0;
+  margin-top: 3%;
+  background-color: #222222;
+  color: white;
+  padding: 0.4rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &_left {
+    margin-left: 2rem;
+  }
+
+  &_right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 13rem;
+    margin-right: 2rem;
+  }
+}

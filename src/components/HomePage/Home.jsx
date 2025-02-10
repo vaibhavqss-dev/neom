@@ -9,7 +9,7 @@ import food from "../../assets/food.jpg";
 import city from "../../assets/city.jpg";
 import Recommadation from "./recommadation/recommadation";
 import Visited from "./visited/visited";
-import Footer from "./footer/footer";
+import Footer from "../footer/footer";
 import MapWithPoints from "./maps/maps";
 import CarouselSlider from "./corousal/CorousalSlider";
 import SuggestionSlider from "./Suggestion/SuggestionSlider";

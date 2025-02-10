@@ -1,4 +1,4 @@
-.recommation_container{
+/* .recommation_container{
   margin-right: 1rem;
 }
 
@@ -60,9 +60,6 @@
   margin: 0.5rem 0 0 0;
 }
 
-/* /////////////////// */
-/* Heart CSS */
-
 .heart {
     cursor: pointer;
     position: relative;
@@ -74,9 +71,7 @@
 }
 
 .heart > svg {
-    /* background-color: red; */
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
   width: 2rem;
   height: 2rem;
   overflow: hidden;
-}
+} */

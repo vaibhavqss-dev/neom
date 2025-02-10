@@ -1,4 +1,4 @@
-.cancel_event_container {
+/* .cancel_event_container {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -31,7 +31,6 @@
   color: #333;
 }
 
-/* Suggestion Starts from here */
 .SuggestionSectionSlider {
   display: flex;
   justify-content: space-between;
@@ -48,7 +47,7 @@
 }
 
 .SuggestionSectionSlider::-webkit-scrollbar {
-  display: none; /* For Chrome, Safari, and Opera */
+  display: none;
 }
 .recommandationSection_title {
   font-family: cursive;
@@ -61,7 +60,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* margin: 0 1rem; */
   margin-right: 2rem;
 }
 
@@ -77,4 +75,4 @@
   align-items: center;
   overflow-x: auto;
   scrollbar-width: none;
-}
+} */

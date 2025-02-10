@@ -1,4 +1,4 @@
-/* .mapContainerIt{
+.mapContainerIt{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,13 +14,15 @@
 }
 
 .onSchedule{
+    /* font-size: 1.2rem; */
     font-weight: 200;
     color: #333;
     background-color: limegreen;
 }
 
 .onDelay{
+    /* font-size: 1.2rem; */
     font-weight: 200;
     color: white;
     background-color: red;
-} */
+}
