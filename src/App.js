@@ -7,6 +7,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Router from "./Router.jsx";
 import Error from "./Error.jsx";
 import UpcomingEventsPg from "./components/UpcomingEvents/UpcomingEventsPg.jsx";
+import EventDetails from "./components/Event-details/event-details.jsx";
+import CancelRecommendation from "./components/cancelRecommendation/cancelRecommendation.jsx";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +20,8 @@ const router = createBrowserRouter([
       { path: "/navbar", element: <Navbar /> },
       { path: "/favorites", element: <Favorites /> },
       { path: "/upcoming-events", element: <UpcomingEventsPg /> },
+      { path: "/event-details", element: <EventDetails /> },
+      { path: "/cancel-recommendation", element: <CancelRecommendation /> },
     ],
   },
 ]);

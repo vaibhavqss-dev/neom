@@ -1,5 +1,6 @@
 import React from "react";
 import desertcity from "../../assets/desertcity.jpg";
+import RecommendationCard from "../base/recommendationCards/recommendationCard";
 
 export default function UpcomingEventsPg() {
   return (
@@ -94,36 +95,7 @@ export default function UpcomingEventsPg() {
         </div>
       </div>
 
-      <div className="upcomingEventsPg_events_img_container">
-        {Array.from({ length: 20 }).map((_, index) => (
-          <div className="upcomingEventsPg_events_img_container_img">
-            <img
-              src={desertcity}
-              alt="Upcoming Events"
-              className="upcomingEventsPg_events_img_container_img"
-            />
-
-            <div className="upcomingEventsPg_events_img_container_img_text">
-              <div className="upcomingEventsPg_events_img_container_img_text_subtext">
-                <p className="upcomingEventsPg_events_img_container_img_text_subtext_name">
-                  Vibrant & Social
-                </p>
-                <p className="upcomingEventsPg_events_img_container_img_text_subtext_date">
-                  Nov 10 - 29
-                </p>
-              </div>
-
-              <p className="upcomingEventsPg_events_img_container_img_text_name">
-                Round of Golf
-              </p>
-
-              <p className="upcomingEventsPg_events_img_container_img_text_time">
-                7:00 AM - 9:00 AM
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
+      <RecommendationCard length={20} />
       
     </div>
   );
