@@ -1,0 +1,163 @@
+.eventDetailsPg {
+  margin-top: 2rem;
+  margin-left: 2rem;
+  &_heading {
+    font-size: 2rem;
+    font-family: cursive;
+    margin: 0;
+  }
+
+  &_details {
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+  }
+
+  &_images {
+    position: relative;
+    display: flex;
+    // gap: 0.5rem;
+    margin: 0;
+
+    &_left {
+      display: flex;
+      gap: 0.5rem;
+      width: 40.9rem;
+      flex-wrap: wrap;
+
+      &_img {
+        width: 20rem;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+      }
+    }
+
+    &_right {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      &_img {
+        height: 30.9rem;
+        width: 39rem;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover; // Ensures the image fills the div while maintaining aspect ratio
+        }
+      }
+    }
+
+    &_btn {
+      position: absolute;
+      top: 28rem;
+      right: 2rem;
+      border: none;
+      background: white;
+      border-radius: 0.4rem;
+      padding: 0.7rem 2rem;
+      cursor: pointer;
+
+      &:hover {
+        background: #f1f1f1;
+      }
+    }
+  }
+
+  &_description {
+    font-size: 0.9rem;
+    margin: 1rem 0;
+    display: flex;
+
+    &_left {
+      width: 51rem;
+      // margin-right: 1rem;
+
+      &_heading {
+        font-size: 2rem;
+        font-family: cursive;
+        margin: 0;
+      }
+
+      &_details {
+        font-size: 0.8rem;
+        // gap: 1rem;
+        // display: flex;
+        // align-items: center;
+
+        &_1,
+        &_2,
+        &_3 {
+          margin: 1rem 0 0 0;
+
+          & p {
+            margin: 0;
+            font-size: 0.8rem;
+          }
+          & p:first-child {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 500;
+          }
+        }
+      }
+
+      &_eventName {
+        margin-top: 4rem;
+        &_heading {
+          font-size: 2rem;
+          font-family: cursive;
+          margin: 0;
+        }
+
+        &_stars {
+          display: flex;
+          // justify-content: center;
+          font-size: 0.8rem;
+          align-items: center;
+          margin: 0.6rem 0 0 0;
+          & img {
+            margin: 0;
+            width: 1rem;
+            height: 1rem;
+          }
+
+          &_text {
+            display: block;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+
+  &_reviews {
+    display: flex;
+    align-items: center;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    overflow-x: auto;
+    gap: 1rem;
+  }
+
+
+  &_recommendations{
+
+    &_heading{
+      font-size: 1.7rem;
+      font-family: cursive;
+      margin: 3rem 0 0 0;
+    }
+
+  }
+}

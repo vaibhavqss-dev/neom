@@ -115,39 +115,5 @@ $margin-left: 2rem;
       font-size: 2rem;
       font-family: cursive;
     }
-
-    &_distance {
-      display: flex;
-      gap: 1rem;
-
-      &_walking,
-      &_driving,
-      &_noLimits {
-        margin: 0;
-        border: 1px solid black;
-        border-radius: 1rem;
-        overflow: hidden;
-
-        & button {
-          transition: all 0.5s;
-          margin: 0;
-          cursor: pointer;
-          border: none;
-          padding: 0.6rem 2rem;
-          background-color: transparent;
-          font-size: 0.9rem;
-
-          &:hover {
-            background-color: black;
-            color: white;
-          }
-        }
-      }
-
-      &_middleBtn {
-        background-color: red;
-        border-left: 14px solid black;
-      }
-    }
   }
 }

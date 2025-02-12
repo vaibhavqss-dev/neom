@@ -3,6 +3,7 @@ import underwater from "../../assets/neom-underwater.jpg";
 import city from "../../assets/city.jpg";
 import React, { useState, useEffect } from "react";
 import RecommendationCard from "../base/recommendationCards/recommendationCard";
+import SelectDistance from "../base/selectdistance/selectdistance";
 
 const calculateTimeLeft = () => {
   const now = new Date();
@@ -50,7 +51,7 @@ export default function CancelRecommendation() {
       <p className="canceleventPg_description">
         We have a few similar events for you against your today's cancelled
         event "Round of Golf" because of unfavourable conditions, and one of
-        them is just starting in an hour and 5 minutes drive away.
+        them is just starting in {timeLeft.hours} hour and {timeLeft.minutes} minutes drive away.
       </p>
 
       <div className="canceleventPg_event">
@@ -125,33 +126,9 @@ export default function CancelRecommendation() {
       </div>
 
       <div className="canceleventPg_similarRecommendation">
-        <p className="canceleventPg_similarRecommendation_heading">
-          Some Similar Recommendations for you, Vaibhav
-        </p>
+        <SelectDistance />
 
-        <div className="canceleventPg_similarRecommendation_distance">
-          <div className="canceleventPg_similarRecommendation_distance_walking">
-            <button>10 mins walking</button>
-            <button className="canceleventPg_similarRecommendation_distance_middleBtn   ">
-              20 mins walking
-            </button>
-            <button>30 mins walking</button>
-          </div>
-
-          <div className="canceleventPg_similarRecommendation_distance_driving">
-            <button>10 mins driving</button>
-            <button className="canceleventPg_similarRecommendation_distance_middleBtn">
-              20 mins driving
-            </button>
-            <button>30 mins driving</button>
-          </div>
-
-          <div className="canceleventPg_similarRecommendation_distance_noLimits">
-            <button>No Limits</button>
-          </div>
-        </div>
-
-        <RecommendationCard length={10} />
+        <RecommendationCard length={5} />
       </div>
     </div>
   );

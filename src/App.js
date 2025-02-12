@@ -7,7 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Router from "./Router.jsx";
 import Error from "./Error.jsx";
 import UpcomingEventsPg from "./components/UpcomingEvents/UpcomingEventsPg.jsx";
-import EventDetails from "./components/Event-details/event-details.jsx";
+import EventDetails from "./components/EventDetails/event-details.jsx";
 import CancelRecommendation from "./components/cancelRecommendation/cancelRecommendation.jsx";
 
 const router = createBrowserRouter([

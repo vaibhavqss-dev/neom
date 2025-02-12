@@ -20,8 +20,7 @@ body {
 }
 .upcomingEventsPg_date_and_distance {
   display: flex;
-  justify-content: space-between;
-  width: 80rem;
+  gap: 5rem;
 }
 .upcomingEventsPg_date_location_btns {
   display: flex;

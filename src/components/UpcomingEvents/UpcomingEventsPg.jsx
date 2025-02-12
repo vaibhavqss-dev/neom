@@ -1,11 +1,11 @@
 import React from "react";
 import desertcity from "../../assets/desertcity.jpg";
 import RecommendationCard from "../base/recommendationCards/recommendationCard";
+import SelectDistance from "../base/selectdistance/selectdistance";
 
 export default function UpcomingEventsPg() {
   return (
     <div className="upcomingEventsPg">
-      
       <h1 className="upcomingEventsPg_heading">Hey Vaibhav,</h1>
 
       <p className="upcomingEventsPg_text">
@@ -26,43 +26,7 @@ export default function UpcomingEventsPg() {
           </div>
         </div>
 
-        <div className="upcomingEventsPg_distance">
-          <p className="upcomingEventsPg_distance_text">
-            How far are you willing to go?
-          </p>
-
-          <div className="upcomingEventsPg_distance_btns">
-            <div className="upcomingEventsPg_distance_btns_walking">
-              <button className="upcomingEventsPg_distance_btn">
-                10 mins Walking
-              </button>
-              <button className="upcomingEventsPg_distance_btn">
-                20 mins Walking
-              </button>
-              <button className="upcomingEventsPg_distance_btn">
-                30 mins Walking
-              </button>
-            </div>
-
-            <div className="upcomingEventsPg_distance_btns_driving">
-              <button className="upcomingEventsPg_distance_btn">
-                10 mins Driving
-              </button>
-              <button className="upcomingEventsPg_distance_btn">
-                20 mins Driving
-              </button>
-              <button className="upcomingEventsPg_distance_btn">
-                30 mins Driving
-              </button>
-            </div>
-
-            <div className="upcomingEventsPg_distance_btns_no_limit">
-              <button className="upcomingEventsPg_distance_btn">
-                No limit
-              </button>
-            </div>
-          </div>
-        </div>
+        <SelectDistance />
       </div>
 
       <div className="upcomingEventsPg_eventsType">
@@ -96,7 +60,6 @@ export default function UpcomingEventsPg() {
       </div>
 
       <RecommendationCard length={20} />
-      
     </div>
   );
 }

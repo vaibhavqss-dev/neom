@@ -61,7 +61,7 @@ export default function Home() {
             {Array.from({ length: 5 }).map((_, index) => (
               <Recommadation
                 imgURL={index & 1 ? underwaterImg : desertcity}
-                rank={index + 1}
+                rank={index + 1}  
                 name="Desert Walking"
                 subtext={"Tour on land of desert"}
                 date={new Date().toLocaleDateString()}

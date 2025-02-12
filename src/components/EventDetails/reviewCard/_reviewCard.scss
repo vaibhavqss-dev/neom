@@ -1,0 +1,62 @@
+.reviewCard {
+  border: 1px solid black;
+  border-radius: 1rem;
+  display: flex;
+  max-width: 17rem;
+  max-height: 28rem;
+  padding: 1rem;
+  width: 17rem;
+  flex-direction: column;
+  gap: 0.7em;
+
+  &_user {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+    &_img {
+        width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      margin-right: 1rem;
+    }
+
+    &_text {
+      margin: 0;
+      &_name {
+        margin: 0;
+        font-size: 0.9rem;
+      }
+      &_date {
+        margin: 0;
+        font-size: 0.7rem;
+        color: grey;
+      }
+    }
+  }
+
+  &_text {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  &_rating {
+    display: flex;
+    align-items: center;
+    margin: 0.6rem 0 0 0;
+    & img {
+      margin: 0;
+      width: 0.8rem;
+      height: 0.8rem;
+    }
+  }
+
+  &_btn {
+    border: none;
+    background-color: transparent;
+    text-decoration: underline;
+    cursor: pointer;
+    // width: 5rem;
+    text-align: left;
+    padding: 0;
+  }
+}
