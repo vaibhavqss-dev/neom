@@ -5,8 +5,11 @@ import ReviewCard from "./reviewCard/reviewCard";
 import { useEffect, useRef } from "react";
 import Buttons from "../LeftandRightButtons/buttons";
 import RecommendationCard from "../base/recommendationCards/recommendationCard";
+import category from "../../assets/category.svg";
+import location from "../../assets/location.svg";
+import smileGreenFace from "../../assets/smileGreenFace.svg";
 
-export default function EventDetails() {
+export default function EventDetails({ starLen }) {
   const sliderRef = useRef(null);
 
   const scrollLeft = () => {
@@ -52,7 +55,7 @@ export default function EventDetails() {
           {Array(5)
             .fill()
             .map((_, i) => (
-              <span key={i}>*</span>
+              <img src={star} alt="star" key={i} />
             ))}
         </div>
         <p className="eventDetailsPg_details_stars_text">5.0</p>
@@ -90,37 +93,48 @@ export default function EventDetails() {
           </p>
           <div className="eventDetailsPg_description_left_details">
             <div className="eventDetailsPg_description_left_details_1">
-              <p>Golf</p>
-              <p>This is one of the many events come under golf category</p>
+              <img src={category} alt="category" />
+              <div className="eventDetailsPg_description_left_details_1_text">
+                <p>Golf</p>
+                <p>This is one of the many events come under golf category</p>
+              </div>
             </div>
             <div className="eventDetailsPg_description_left_details_2">
-              <p>Great Location</p>
-              <p>Every guest has given a five star rating to this location</p>
+              <img src={location} alt="location" />
+              <div className="eventDetailsPg_description_left_details_2_heading">
+                <p>Great Location</p>
+                <p>Every guest has given a five star rating to this location</p>
+              </div>
             </div>
             <div className="eventDetailsPg_description_left_details_3">
-              <p>Invigorating & uplifting experience</p>
-              <p>
-                This event has a rating of 5.0 that make this event overwhelmed
-              </p>
+              <img src={smileGreenFace} alt="smileGreenFace" />
+              <div className="eventDetailsPg_description_left_details_3_heading">
+                <p>Invigorating & uplifting experience</p>
+                <p>
+                  This event has a rating of 5.0 that make this event
+                  overwhelmed
+                </p>
+              </div>
             </div>
           </div>
           <hr />
-          <p className="eventDetailsPg_description_left_text_1">
-            tempora unde? Sapiente voluptate neque rerum est adipisci, saepe
-            quisquam quae? Placeat deserunt possimus in. Eligendi, ad deserunt
-            in tenetur impedit alias nesciunt magni, optio totam aspernatur
-            provident iste ipsam vel voluptate neque, consequuntur magnam odit
-            assumenda esse. Nam illo dolorum dolore animi.
-          </p>
-          <p className="eventDetailsPg_description_left_text_2">
-            tempora unde? Sapiente voluptate neque rerum est adipisci, saepe
-            quisquam quae? Placeat deserunt possimus in. Eligendi, ad deserunt
-            in tenetur impedit alias nesciunt magni, optio totam aspernatur
-            provident iste ipsam vel voluptate neque, consequuntur magnam odit
-            assumenda esse. Nam illo dolorum dolore animi.
-          </p>
+          <div className="eventDetailsPg_description_left_text">
+            <p className="eventDetailsPg_description_left_text_1">
+              tempora unde? Sapiente voluptate neque rerum est adipisci, saepe
+              quisquam quae? Placeat deserunt possimus in. Eligendi, ad deserunt
+              in tenetur impedit alias nesciunt magni, optio totam aspernatur
+              provident iste ipsam vel voluptate neque, consequuntur magnam odit
+              assumenda esse. Nam illo dolorum dolore animi.
+            </p>
+            <p className="eventDetailsPg_description_left_text_2">
+              tempora unde? Sapiente voluptate neque rerum est adipisci, saepe
+              quisquam quae? Placeat deserunt possimus in. Eligendi, ad deserunt
+              in tenetur impedit alias nesciunt magni, optio totam aspernatur
+              provident iste ipsam vel voluptate neque, consequuntur magnam odit
+              assumenda esse. Nam illo dolorum dolore animi.
+            </p>
+          </div>
           <hr />
-
           <div className="eventDetailsPg_description_left_eventName">
             <p className="eventDetailsPg_description_left_eventName_heading">
               Operator River Stone
@@ -146,9 +160,32 @@ export default function EventDetails() {
         </div>
 
         <div className="eventDetailsPg_description_right">
-          <div className="eventDetailsPg_description_right_reservations">
-            <p>Reservations</p>
-            <p>Available</p>
+          <div class="eventDetailsPg_description_right_form">
+            <div class="eventDetailsPg_description_right_form_time">
+              10:30 AM - 7:30 PM
+            </div>
+            <div class="eventDetailsPg_description_right_form_formGroup">
+              <div class="eventDetailsPg_description_right_form_formGroup_1">
+                <label>From</label>
+                <input type="date" value="2022-11-10" class="dropdown" />
+              </div>
+              <div class="eventDetailsPg_description_right_form_formGroup_1">
+                <label>To</label>
+                <input type="date" value="2022-11-29" class="dropdown" />
+              </div>
+            </div>
+            <div class="eventDetailsPg_description_right_form_formGroup">
+              <label>Guests</label>
+              <select class="eventDetailsPg_description_right_form_dropdown">
+                <option>1 adult</option>
+              </select>
+            </div>
+            <div class="eventDetailsPg_description_right_form_availability">
+              172 Seats still available
+            </div>
+            <button class="eventDetailsPg_description_right_form_btn">
+              Reserve my seats
+            </button>
           </div>
         </div>
       </div>
