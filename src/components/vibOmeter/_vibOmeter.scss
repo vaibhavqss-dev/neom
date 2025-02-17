@@ -1,0 +1,52 @@
+.vibometer__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vibometer {
+  border-radius: 0.4rem;
+  box-shadow: 0 0 20px 0 #00000024;
+  width: 45rem;
+  margin: 1.2rem 0;
+  padding: 2rem;
+
+  &_heading {
+    margin: 0;
+    font-family: cursive;
+    font-size: 2rem;
+  }
+
+  &_description {
+    font-size: 1rem;
+    margin: 1rem 0;
+  }
+
+  &_feedback {
+    &_textarea {
+      width: 95%;
+      border-radius: 0.3rem;
+      padding: 1rem;
+      height: 10rem;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  &_submitBtn {
+    background-color: #222222;
+    border: none;
+    color: white;
+    padding: 0.8rem 2rem;
+    margin: 1.2rem 0;
+    border-radius: 0.4rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+
+    &:hover {
+      background-color: #45a049;
+    }
+  }
+}
