@@ -9,7 +9,7 @@ import category from "../../assets/category.svg";
 import location from "../../assets/location.svg";
 import smileGreenFace from "../../assets/smileGreenFace.svg";
 
-export default function EventDetails({ starLen }) {
+export default function EventDetails({ starLen, eventCompleted }) {
   const sliderRef = useRef(null);
 
   const scrollLeft = () => {
@@ -165,27 +165,36 @@ export default function EventDetails({ starLen }) {
               10:30 AM - 7:30 PM
             </div>
             <div class="eventDetailsPg_description_right_form_formGroup">
-              <div class="eventDetailsPg_description_right_form_formGroup_1">
-                <label>From</label>
-                <input type="date" value="2022-11-10" class="dropdown" />
+              <div class="eventDetailsPg_description_right_form_formGroup1">
+                <div class="eventDetailsPg_description_right_form_formGroup1_1">
+                  <label>From</label>
+                  <p className="eventDetailsPg_description_right_form_formGroup1_date">
+                    Nov 22, 2025
+                  </p>
+                </div>
+                <div class="eventDetailsPg_description_right_form_formGroup1_1">
+                  <label>To</label>
+                  <p className="eventDetailsPg_description_right_form_formGroup1_date">
+                    Nov 29, 2025
+                  </p>
+                </div>
               </div>
-              <div class="eventDetailsPg_description_right_form_formGroup_1">
-                <label>To</label>
-                <input type="date" value="2022-11-29" class="dropdown" />
+              <div class="eventDetailsPg_description_right_form_formGroup2">
+                <div class="eventDetailsPg_description_right_form_formGroup2_2">
+                  <label>Guests</label>
+                  <input type="number" value="1" class="dropdown" />
+                </div>
               </div>
-            </div>
-            <div class="eventDetailsPg_description_right_form_formGroup">
-              <label>Guests</label>
-              <select class="eventDetailsPg_description_right_form_dropdown">
-                <option>1 adult</option>
-              </select>
             </div>
             <div class="eventDetailsPg_description_right_form_availability">
               172 Seats still available
             </div>
-            <button class="eventDetailsPg_description_right_form_btn">
-              Reserve my seats
-            </button>
+            {/* Reserve Events */}
+            {eventCompleted ? null : (
+              <button class="eventDetailsPg_description_right_form_btn">
+                Reserve Event
+              </button>
+            )}
           </div>
         </div>
       </div>

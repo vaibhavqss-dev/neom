@@ -1,0 +1,12 @@
+.reviewStar {
+  margin: 0;
+  &_star {
+    margin: 0;
+    width: 1.6rem;
+    display: inline-block;
+  }
+}
+
+.star_rated {
+  color: yellow;
+}

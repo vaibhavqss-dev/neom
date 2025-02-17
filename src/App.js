@@ -9,6 +9,8 @@ import Error from "./Error.jsx";
 import UpcomingEventsPg from "./components/UpcomingEvents/UpcomingEventsPg.jsx";
 import EventDetails from "./components/EventDetails/event-details.jsx";
 import CancelRecommendation from "./components/cancelRecommendation/cancelRecommendation.jsx";
+import CompletedEvents from "./components/completedEvents/completedEvents.jsx";
+import AddReview from "./components/addReview/addReview.jsx";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +24,8 @@ const router = createBrowserRouter([
       { path: "/upcoming-events", element: <UpcomingEventsPg /> },
       { path: "/event-details", element: <EventDetails /> },
       { path: "/cancel-recommendation", element: <CancelRecommendation /> },
+      { path: "/completed-events", element: <CompletedEvents /> },
+      { path: "/add-review", element: <AddReview /> },
     ],
   },
 ]);

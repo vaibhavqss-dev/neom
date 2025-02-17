@@ -11,8 +11,13 @@
 
 @import 'App';
 @import 'components/cancelRecommendation/cancelRecommendation';
+
 @import 'components/base/recommendationCards/_recommendationCard';
 @import 'components/base/selectdistance/_selectdistance';
+@import 'components/base/reviewStar/_reviewStar';
 
 @import 'components/EventDetails/_event_details';
 @import 'components/EventDetails/reviewCard/reviewCard';
+
+@import 'components/completedEvents/_completedEvents';
+@import 'components/addReview/_addReview';
