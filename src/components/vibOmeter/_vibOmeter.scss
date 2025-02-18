@@ -50,3 +50,68 @@
     }
   }
 }
+
+.gauge {
+  position: relative;
+  width: 200px;
+  height: 120px;
+  margin: 3rem auto;
+  margin-top: 13rem;
+}
+
+.arc {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-bottom: none;
+  border-top-left-radius: 200px;
+  border-top-right-radius: 200px;
+  box-sizing: border-box;
+}
+
+.brick {
+  position: absolute;
+  width: 15px;
+  height: 33px;
+}
+
+.needle-container {
+  position: relative;
+  height: 0rem;
+  top: 6rem;
+  left: 0rem;
+  background-color: red;
+}
+
+.needle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 147px solid black;
+  border-top: 23px solid transparent;
+  border-bottom: 13px solid transparent;
+  left: 1.4rem;
+  top: -6rem;
+  transform: rotate(-91deg);
+}
+
+.circle {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background-color: black;
+  border-radius: 50%;
+  right: 5.6rem;
+  top: 0rem;
+  transform: translateY(-50%);
+}
+
+.emoji {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+}

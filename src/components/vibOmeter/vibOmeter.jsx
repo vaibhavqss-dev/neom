@@ -1,3 +1,6 @@
+import React from "react";
+import VibometerIcon from "./vibometerIcon";
+
 export default function VibOmeter() {
   return (
     <div className="vibometer__container">
@@ -7,6 +10,8 @@ export default function VibOmeter() {
           Hi Vaibhav, we would love know the vibes you got from this event. It
           helps us to improve us and serve you best for the next time.{" "}
         </p>
+
+        <VibometerIcon />
 
         <div className="vibometer_feedback">
           <textarea
