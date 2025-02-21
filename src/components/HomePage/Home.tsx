@@ -15,7 +15,7 @@ import CarouselSlider from "./corousal/CorousalSlider";
 import SuggestionSlider from "./Suggestion/SuggestionSlider";
 import VisitedSlider from "./visited/VisitedSlider";
 
-const coordinates = [
+const coordinates: [number, number, string][] = [
   [21.7793, 72.589814, "swim"], // New Delhi
   [21.748583, 72.669192, "golf"], // Mumbai
   [21.697117, 72.607178, "location"], // Chennai
@@ -25,7 +25,7 @@ const coordinates = [
   [21.715555, 72.620407, "music"], // Bangalore
 ];
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
     <>
       <div className="cancel_event_container">
@@ -61,7 +61,7 @@ export default function Home() {
             {Array.from({ length: 5 }).map((_, index) => (
               <Recommadation
                 imgURL={index & 1 ? underwaterImg : desertcity}
-                rank={index + 1}  
+                rank={index + 1}
                 name="Desert Walking"
                 subtext={"Tour on land of desert"}
                 date={new Date().toLocaleDateString()}
@@ -76,4 +76,5 @@ export default function Home() {
       </div>
     </>
   );
-}
+};
+export default Home;

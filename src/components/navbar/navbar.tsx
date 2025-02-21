@@ -6,21 +6,19 @@ import web from "../../assets/web.svg";
 import bellnofiy from "../../assets/bell-notify.svg";
 import "./navbar.css";
 
-export default function Navbar() {
-  function toggleHamburger(e) {
+const Navbar: React.FC = () => {
+  function toggleHamburger() {
     const hamburger_model = document.querySelector(".hamburger_model");
-    hamburger_model.classList.toggle("active");
+    hamburger_model?.classList.toggle("active");
   }
-
 
   function toggleNotificationBtn() {
     const notification_model = document.querySelector(".notification_model");
-    notification_model.classList.toggle("active");
+    notification_model?.classList.toggle("active");
   }
 
   return (
     <div className="navbar">
-
       <div className="neom">
         <img id="neom_logo" src={Neom} alt="neomlogo" />
       </div>
@@ -56,7 +54,7 @@ export default function Navbar() {
           </NavLink>
         </div>
 
-        <div onClick={(e) => toggleNotificationBtn(e)} className="notification">
+        <div onClick={toggleNotificationBtn} className="notification">
           <img id="bell-logo" src={bell} alt="notification" />
         </div>
 
@@ -64,7 +62,7 @@ export default function Navbar() {
           <div className="notification_model_cancel">
             <button
               className="notification_model_cancelBtn"
-              onClick={(e) => toggleNotificationBtn(e)}
+              onClick={toggleNotificationBtn}
             >
               X
             </button>
@@ -96,7 +94,10 @@ export default function Navbar() {
         </div>
 
         <div className="links_hamburger">
-          <button onClick={()=> toggleHamburger()} className="links_hamburger_containerBtn">
+          <button
+            onClick={toggleHamburger}
+            className="links_hamburger_containerBtn"
+          >
             <div></div>
             <div></div>
             <div></div>
@@ -116,7 +117,8 @@ export default function Navbar() {
           <img id="links_web_img" src={web} alt="web" />
         </div>
       </div>
-      
     </div>
   );
-}
+};
+
+export default Navbar;

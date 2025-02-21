@@ -4,12 +4,29 @@ import location from "../../../assets/location.svg";
 import category from "../../../assets/category.svg";
 import "./Corousal.css";
 import smileGreenFace from "../../../assets/smileGreenFace.svg";
-import redstars from "../../../assets/star.svg"
+import redstars from "../../../assets/star.svg";
 
-export default function Corousal({ ImgUrl, title, description, stars, reviews, dateandTime, locationName, categoryName, Scheduled }) {
-
-
-  
+function Corousal({
+  ImgUrl,
+  title,
+  description,
+  stars,
+  reviews,
+  dateandTime,
+  locationName,
+  categoryName,
+  Scheduled,
+}: {
+  ImgUrl: string;
+  title: string;
+  description: string;
+  stars: number;
+  reviews: number;
+  dateandTime: string;
+  locationName: string;
+  categoryName: string;
+  Scheduled?: boolean;
+}) {
   return (
     <div className="corousalContainer">
       <div className="corousalContainer_imgContainer">
@@ -19,12 +36,14 @@ export default function Corousal({ ImgUrl, title, description, stars, reviews, d
       <div className="corousalContainer_textContainer">
         <p className="corousalContainer_textContainer_heading">{title}</p>
         <div className="stars">
-
           {Array.from({ length: stars }).map((_, index) => (
-            <span key={index}><img id="redstars" src={redstars} alt="redstars" /></span>
-            
+            <span key={index}>
+              <img id="redstars" src={redstars} alt="redstars" />
+            </span>
           ))}
-          <div className="stars-text">{stars} ({reviews} reviews)</div>
+          <div className="stars-text">
+            {stars} ({reviews} reviews)
+          </div>
         </div>
 
         <p className="corousalContainer_textContainer_description">
@@ -47,10 +66,21 @@ export default function Corousal({ ImgUrl, title, description, stars, reviews, d
         </div>
 
         <div className="corousalContainer_notifyContainer">
-            <div className="corousalContainer_notifyContainer_text1"><img id="smileGreenFace" src={smileGreenFace} alt="smileGreenFace" />Overwhelmed vibes are coming here </div>
-            <div className="corousalContainer_notifyContainer_text2">{Scheduled ? "Scheduled" : undefined}</div>
+          <div className="corousalContainer_notifyContainer_text1">
+            <img
+              id="smileGreenFace"
+              src={smileGreenFace}
+              alt="smileGreenFace"
+            />
+            Overwhelmed vibes are coming here{" "}
+          </div>
+          <div className="corousalContainer_notifyContainer_text2">
+            {Scheduled ? "Scheduled" : undefined}
+          </div>
         </div>
       </div>
     </div>
   );
 }
+
+export default Corousal;

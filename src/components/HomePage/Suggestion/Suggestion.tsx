@@ -1,5 +1,13 @@
 import "./Suggestion.css";
 
+interface SuggestionProps {
+  imgUrl: string;
+  title: string;
+  description: string;
+  dateandTime: string;
+  food?: boolean;
+  emoji_url: string;
+}
 
 export default function Suggestion({
   imgUrl,
@@ -7,8 +15,8 @@ export default function Suggestion({
   description,
   dateandTime,
   food,
-  emoji_url
-}) {
+  emoji_url,
+}: SuggestionProps) {
   return (
     <div className="SuggestionContainer">
       <div className="SuggestionImgandDescriptionContainer">
@@ -23,7 +31,7 @@ export default function Suggestion({
       </div>
 
       <div className="suggestion_text">
-      {description}
+        {description}
         <div className="suggestion_textButton">
           <button className="suggestion_textButton_button_yes">
             {food ? "Yes, I Accept" : "Yes, I would share"}
@@ -33,7 +41,6 @@ export default function Suggestion({
           </button>
         </div>
       </div>
-      
     </div>
   );
 }

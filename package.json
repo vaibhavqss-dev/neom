@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.13.4",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@types/react-router-dom": "^5.3.3",
     "cra-template": "1.2.0",
     "leaflet": "^1.9.4",
     "ol": "^10.4.0",
@@ -12,6 +17,7 @@
     "react-scripts": "5.0.1",
     "sass": "^1.84.0",
     "scss": "^0.2.4",
+    "typescript": "^5.7.3",
     "web-vitals": "^4.2.4"
   },
   "scripts": {

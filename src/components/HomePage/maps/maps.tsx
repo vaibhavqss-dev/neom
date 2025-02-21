@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import L, { icon } from "leaflet";
+import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./maps.css";
 
@@ -30,7 +30,11 @@ let IconUrl = [
   ],
 ];
 
-const MapWithPoints = ({ coordinates }) => {
+interface MapWithPointsProps {
+  coordinates: [number, number, string][];
+}
+
+const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates }) => {
   useEffect(() => {
     const map = L.map("map-container").setView([0, 0], 1);
     L.tileLayer(
@@ -44,9 +48,13 @@ const MapWithPoints = ({ coordinates }) => {
     const bounds = L.latLngBounds();
 
     coordinates.forEach(([lat, lon, type], index) => {
+      // Updated: safely find icon URL with a fallback
+      const iconUrl =
+        IconUrl.find((icon) => icon[1] === type)?.[0] ??
+        "https://via.placeholder.com/30";
       const marker = L.marker([lat, lon], {
         icon: L.icon({
-          iconUrl: IconUrl.find((icon) => icon[1] === type)[0],
+          iconUrl,
           iconSize: [30, 30],
         }),
       }).addTo(map);

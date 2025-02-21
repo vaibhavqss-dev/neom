@@ -1,13 +1,21 @@
 import React from "react";
 import "./visited.css";
 
+interface VisitedProps {
+  imgUrl: string;
+  title: string;
+  attented: string | number;
+  dateandTime: string;
+  rating: number;
+}
+
 export default function Visited({
   imgUrl,
   title,
   attented,
   dateandTime,
   rating,
-}) {
+}: VisitedProps) {
   return (
     <>
       <div className="visitedContainer">
@@ -27,7 +35,7 @@ export default function Visited({
         <p className="visitedContainer_rating_stars">
           You rated this event
           <span className="visitedContainer_rating_stars_black">
-            {Array.from({ length: parseInt(rating) }, (_, index) => (
+            {Array.from({ length: rating }, (_, index) => (
               <span key={index}>★</span>
             ))}
           </span>

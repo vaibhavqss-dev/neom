@@ -7,13 +7,18 @@ import SelectDistance from "../base/selectdistance/selectdistance";
 
 const calculateTimeLeft = () => {
   const now = new Date();
-  const eventTime = new Date();
+  const eventTime: Date = new Date();
   eventTime.setHours(18, 15, 0, 0);
   if (eventTime < now) {
     eventTime.setDate(eventTime.getDate() + 1);
   }
-  const diff = eventTime - now;
-  let timeLeft = {};
+  const diff = eventTime.getTime() - now.getTime();
+  let timeLeft = {} as {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  };
   if (diff > 0) {
     timeLeft = {
       days: Math.floor(diff / (1000 * 60 * 60 * 24)),
@@ -36,8 +41,8 @@ export default function CancelRecommendation() {
     return () => clearInterval(timer);
   }, []);
 
-  const getCircleStyle = (value, max, color = "white") => {
-    const degree = (value / max) * 360;
+  const getCircleStyle = (value: number, max: number, color = "white") => {
+    const degree: number = (value / max) * 360;
     return {
       borderRadius: "50%",
       border: "6px solid transparent",
@@ -51,7 +56,8 @@ export default function CancelRecommendation() {
       <p className="canceleventPg_description">
         We have a few similar events for you against your today's cancelled
         event "Round of Golf" because of unfavourable conditions, and one of
-        them is just starting in {timeLeft.hours} hour and {timeLeft.minutes} minutes drive away.
+        them is just starting in {timeLeft.hours} hour and {timeLeft.minutes}{" "}
+        minutes drive away.
       </p>
 
       <div className="canceleventPg_event">

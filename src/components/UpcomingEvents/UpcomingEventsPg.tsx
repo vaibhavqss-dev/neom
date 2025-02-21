@@ -3,7 +3,7 @@ import desertcity from "../../assets/desertcity.jpg";
 import RecommendationCard from "../base/recommendationCards/recommendationCard";
 import SelectDistance from "../base/selectdistance/selectdistance";
 
-export default function UpcomingEventsPg() {
+const UpcomingEventsPg: React.FC = () => {
   return (
     <div className="upcomingEventsPg">
       <h1 className="upcomingEventsPg_heading">Hey Vaibhav,</h1>
@@ -62,4 +62,6 @@ export default function UpcomingEventsPg() {
       <RecommendationCard length={20} />
     </div>
   );
-}
+};
+
+export default UpcomingEventsPg;

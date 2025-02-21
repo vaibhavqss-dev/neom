@@ -1,17 +1,17 @@
 import React from "react";
 import "./App.css";
-import Navbar from "./components/navbar/navbar.jsx";
-import Home from "./components/HomePage/Home.jsx";
-import Favorites from "./components/Favorites/Favorites.jsx";
+import Navbar from "./components/navbar/navbar";
+import Home from "./components/HomePage/Home";
+import Favorites from "./components/Favorites/Favorites";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Router from "./Router.jsx";
-import Error from "./Error.jsx";
-import UpcomingEventsPg from "./components/UpcomingEvents/UpcomingEventsPg.jsx";
-import EventDetails from "./components/EventDetails/event-details.jsx";
-import CancelRecommendation from "./components/cancelRecommendation/cancelRecommendation.jsx";
-import CompletedEvents from "./components/completedEvents/completedEvents.jsx";
-import AddReview from "./components/addReview/addReview.jsx";
-import VibOmeter from "./components/vibOmeter/vibOmeter.jsx";
+import Router from "./Router";
+import Error from "./Error";
+import UpcomingEventsPg from "./components/UpcomingEvents/UpcomingEventsPg";
+import EventDetails from "./components/EventDetails/event-details";
+import CancelRecommendation from "./components/cancelRecommendation/cancelRecommendation";
+import CompletedEvents from "./components/completedEvents/completedEvents";
+import AddReview from "./components/addReview/addReview";
+import VibOmeter from "./components/vibOmeter/vibOmeter";
 
 const router = createBrowserRouter([
   {
@@ -32,8 +32,8 @@ const router = createBrowserRouter([
   },
 ]);
 
-function App() {
+const App: React.FC = () => {
   return <RouterProvider router={router} />;
-}
+};
 
 export default App;

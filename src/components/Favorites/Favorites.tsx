@@ -8,7 +8,7 @@ import smileGreenFace from "./../../assets/smileGreenFace.svg";
 import RecommadationSlider from "./recommendation/recommadationSlider";
 import HomepageRecommadation from "../HomePage/recommadation/recommadation";
 
-export default function Favorites() {
+const Favorites: React.FC = () => {
   return (
     <>
       <div className="favoritesPg">
@@ -53,4 +53,6 @@ export default function Favorites() {
       </div>
     </>
   );
-}
+};
+
+export default Favorites;

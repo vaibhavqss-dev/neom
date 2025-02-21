@@ -8,6 +8,13 @@ export default function FavoritesImg({
   date,
   time,
   face,
+}: {
+  imgURL: string;
+  name: string;
+  category: string;
+  date: string;
+  time: string;
+  face: string;
 }) {
   return (
     <div className="favorites_img_container">

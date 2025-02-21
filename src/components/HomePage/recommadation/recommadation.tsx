@@ -1,7 +1,23 @@
 import React from "react";
 import "./recommadation.css";
 
-export default function Recommadation({ imgURL, rank, name, subtext, date, time }) {
+interface RecommadationProps {
+  imgURL: string;
+  rank: number;
+  name: string;
+  subtext?: string;
+  date: string;
+  time: string;
+}
+
+export default function Recommadation({
+  imgURL,
+  rank,
+  name,
+  subtext,
+  date,
+  time,
+}: RecommadationProps) {
   return (
     <>
       <div className="recommation_container">
@@ -24,11 +40,7 @@ export default function Recommadation({ imgURL, rank, name, subtext, date, time 
             </svg>
           </div>
 
-          <img
-            id="recommationContainer_img"
-            src={imgURL}
-            alt="desertcity"
-          />
+          <img id="recommationContainer_img" src={imgURL} alt="desertcity" />
 
           <div className="number">{rank}</div>
         </div>

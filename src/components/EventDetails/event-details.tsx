@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import golfcourt from "../../assets/golfcourt.jpg";
 import star from "../../assets/star.svg";
 import ReviewCard from "./reviewCard/reviewCard";
-import { useEffect, useRef } from "react";
 import Buttons from "../LeftandRightButtons/buttons";
 import RecommendationCard from "../base/recommendationCards/recommendationCard";
 import category from "../../assets/category.svg";
 import location from "../../assets/location.svg";
 import smileGreenFace from "../../assets/smileGreenFace.svg";
 
-export default function EventDetails({ starLen, eventCompleted }) {
-  const sliderRef = useRef(null);
+interface EventDetailsProps {
+  eventCompleted?: boolean;
+}
+
+const EventDetails: React.FC<EventDetailsProps> = ({
+  eventCompleted = false,
+}) => {
+  const sliderRef = useRef<HTMLDivElement>(null);
 
   const scrollLeft = () => {
     if (sliderRef.current) {
@@ -27,6 +32,7 @@ export default function EventDetails({ starLen, eventCompleted }) {
   useEffect(() => {
     let direction = 1;
     const interval = setInterval(() => {
+      if (!sliderRef.current) return;
       if (direction === 1) {
         scrollRight();
         if (
@@ -53,7 +59,7 @@ export default function EventDetails({ starLen, eventCompleted }) {
       <div className="eventDetailsPg_details">
         <div className="eventDetailsPg_details_stars">
           {Array(5)
-            .fill()
+            .fill(5)
             .map((_, i) => (
               <img src={star} alt="star" key={i} />
             ))}
@@ -69,7 +75,7 @@ export default function EventDetails({ starLen, eventCompleted }) {
       <div className="eventDetailsPg_images">
         <div className="eventDetailsPg_images_left">
           {Array(4)
-            .fill()
+            .fill(5)
             .map((_, i) => (
               <div className="eventDetailsPg_images_left_img">
                 <img src={golfcourt} alt="golf" />
@@ -140,8 +146,8 @@ export default function EventDetails({ starLen, eventCompleted }) {
               Operator River Stone
             </p>
             <div className="eventDetailsPg_description_left_eventName_stars">
-              {Array(parseInt(4.9))
-                .fill()
+              {Array(4)
+                .fill(4)
                 .map((_, i) => (
                   <img src={star} alt="star" key={i} />
                 ))}
@@ -160,38 +166,38 @@ export default function EventDetails({ starLen, eventCompleted }) {
         </div>
 
         <div className="eventDetailsPg_description_right">
-          <div class="eventDetailsPg_description_right_form">
-            <div class="eventDetailsPg_description_right_form_time">
+          <div className="eventDetailsPg_description_right_form">
+            <div className="eventDetailsPg_description_right_form_time">
               10:30 AM - 7:30 PM
             </div>
-            <div class="eventDetailsPg_description_right_form_formGroup">
-              <div class="eventDetailsPg_description_right_form_formGroup1">
-                <div class="eventDetailsPg_description_right_form_formGroup1_1">
+            <div className="eventDetailsPg_description_right_form_formGroup">
+              <div className="eventDetailsPg_description_right_form_formGroup1">
+                <div className="eventDetailsPg_description_right_form_formGroup1_1">
                   <label>From</label>
                   <p className="eventDetailsPg_description_right_form_formGroup1_date">
                     Nov 22, 2025
                   </p>
                 </div>
-                <div class="eventDetailsPg_description_right_form_formGroup1_1">
+                <div className="eventDetailsPg_description_right_form_formGroup1_1">
                   <label>To</label>
                   <p className="eventDetailsPg_description_right_form_formGroup1_date">
                     Nov 29, 2025
                   </p>
                 </div>
               </div>
-              <div class="eventDetailsPg_description_right_form_formGroup2">
-                <div class="eventDetailsPg_description_right_form_formGroup2_2">
+              <div className="eventDetailsPg_description_right_form_formGroup2">
+                <div className="eventDetailsPg_description_right_form_formGroup2_2">
                   <label>Guests</label>
-                  <input type="number" value="1" class="dropdown" />
+                  <input type="number" value="1" className="dropdown" />
                 </div>
               </div>
             </div>
-            <div class="eventDetailsPg_description_right_form_availability">
+            <div className="eventDetailsPg_description_right_form_availability">
               172 Seats still available
             </div>
             {/* Reserve Events */}
             {eventCompleted ? null : (
-              <button class="eventDetailsPg_description_right_form_btn">
+              <button className="eventDetailsPg_description_right_form_btn">
                 Reserve Event
               </button>
             )}
@@ -201,7 +207,7 @@ export default function EventDetails({ starLen, eventCompleted }) {
 
       <div ref={sliderRef} className="eventDetailsPg_reviews">
         {Array(10)
-          .fill()
+          .fill(10)
           .map((_, i) => (
             <div className="eventDetailsPg_reviewsCard" key={i}>
               <ReviewCard key={i} />
@@ -219,4 +225,6 @@ export default function EventDetails({ starLen, eventCompleted }) {
       </div>
     </div>
   );
-}
+};
+
+export default EventDetails;

@@ -1,8 +1,11 @@
-import { React, useEffect } from "react";
+import React, { useEffect } from "react";
 import needleimg from "./../../assets/needle.svg";
-export default function VibometerIcon() {
+
+const VibometerIcon: React.FC = () => {
   useEffect(() => {
     const gauge = document.querySelector(".gauge");
+    if (!gauge) return;
+
     const totalBricks = 30;
     const colors = [
       "#55BF3B",
@@ -30,36 +33,34 @@ export default function VibometerIcon() {
       brick.style.left = x + "px";
       brick.style.top = y + "px";
 
-      
       if (i % 5 === 0) {
         const emoji = document.createElement("div");
         const p = document.createElement("p");
         p.innerHTML = `x = ${x.toFixed(1)} y = ${y.toFixed(1)}`;
         p.style.fontSize = "10px";
         emoji.className = "emoji";
-        emoji.innerHTML = ["😀", "😊", "😐", "😕", "😟", "😢"][Math.floor(i / 5)];
+        emoji.innerHTML = ["😀", "😊", "😐", "😕", "😟", "😢"][
+          Math.floor(i / 5)
+        ];
         emoji.style.position = "absolute";
-        emoji.style.left = x + (-10 + i*4) + "px";
-        emoji.style.top = (i<15 ? y + -20 : y + -20 + i) + "px";
+        emoji.style.left = x + (-10 + i * 4) + "px";
+        emoji.style.top = (i < 15 ? y - 20 : y - 20 + i) + "px";
         emoji.style.transform = "translate(-50%, -50%)";
-
-        // emoji.style.transform += "rotate(" + -angle + "deg)";
         emoji.appendChild(p);
         gauge.appendChild(emoji);
-
       }
-
       gauge.appendChild(brick);
     }
 
+    const needle = document.getElementById("needle");
+    if (!needle) return;
+    needle.style.transition = "transform 2s ease";
     let i = 1;
-    document.getElementById("needle").style.transition = "transform 2s ease";
     setInterval(() => {
+      if (!needle) return;
       const brick = i;
-      const brickMiddle =
-        brick <= 15 ? -90 + 6 * (brick - 1) : -90 + 6 * (brick - 1);
-      document.getElementById("needle").style.transform =
-        "rotate(" + brickMiddle + "deg)";
+      const brickMiddle = -90 + 6 * (brick - 1);
+      needle.style.transform = "rotate(" + brickMiddle + "deg)";
       i++;
       if (i === 32) i = 1;
     }, 100);
@@ -67,13 +68,15 @@ export default function VibometerIcon() {
 
   return (
     <div className="vibometer_img">
-      <div class="gauge">
-        <div class="arc"></div>
-        <div class="needle-container" id="needle">
-          <div class="needle"></div>
-          <div class="circle"></div>
+      <div className="gauge">
+        <div className="arc"></div>
+        <div className="needle-container" id="needle">
+          <div className="needle"></div>
+          <div className="circle"></div>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default VibometerIcon;

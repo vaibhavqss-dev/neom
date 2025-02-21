@@ -7,7 +7,8 @@ import smileGreenFace from "./../../../assets/smileGreenFace.svg";
 import Buttons from "../../LeftandRightButtons/buttons";
 
 export default function RecommadationSlider() {
-  const sliderRef = useRef(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
+
   const scrollLeft = () => {
     if (sliderRef.current) {
       sliderRef.current.scrollLeft -= 300;
@@ -22,6 +23,7 @@ export default function RecommadationSlider() {
   useEffect(() => {
     let direction = 1;
     const interval = setInterval(() => {
+      if (!sliderRef.current) return;
       if (direction === 1) {
         scrollRight();
         if (
@@ -49,6 +51,7 @@ export default function RecommadationSlider() {
       <div ref={sliderRef} className="favorites_recommendation_container">
         {Array.from({ length: 10 }).map((_, index) => (
           <Recommadation
+            key={index}
             imgURL={index & 1 ? underwaterImg : desertcity}
             name={index & 1 ? "Underwater" : "Desert City"}
             category={"Active and Adventurous"}

@@ -1,10 +1,15 @@
 import { useEffect, useRef } from "react";
-import Visited from "./visited";
+import Suggestion from "./Suggestion";
+import food from "../../../assets/food.jpg";
 import city from "../../../assets/city.jpg";
+
+import emojiImg from "../../../assets/emoji-sad.svg";
+import emojiHappy from "../../../assets/emoji-happy.svg";
+
 import Buttons from "../../LeftandRightButtons/buttons";
 
-const VisitedSlider = () => {
-  const sliderRef = useRef(null);
+const SuggestionSlider: React.FC = () => {
+  const sliderRef = useRef<HTMLDivElement | null>(null);
 
   const scrollLeft = () => {
     if (sliderRef.current) {
@@ -21,6 +26,7 @@ const VisitedSlider = () => {
   useEffect(() => {
     let direction = 1;
     const interval = setInterval(() => {
+      if (!sliderRef.current) return;
       if (direction === 1) {
         scrollRight();
         if (
@@ -41,22 +47,23 @@ const VisitedSlider = () => {
   }, []);
 
   return (
-    <div className="visitedSection">
-      <div className="visitedSection_title">
-        <p>Vaibhav, here is your master journey with us so far</p>
+    <div className="SuggestionSection">
+      <div className="suggestionSection_title">
+        <p>Vaibhav Hope, We Understand You Better</p>
       </div>
       <div
         ref={sliderRef}
-        className="visitedSectionSlider"
+        className="SuggestionSectionSlider"
         style={{ display: "flex", overflowX: "auto", scrollBehavior: "smooth" }}
       >
         {Array.from({ length: 10 }).map((_, index) => (
-          <Visited
-            imgUrl={city}
-            title="Round of Golf"
-            attented={index + 1}
+          <Suggestion
+            imgUrl={food}
+            title="Shudh Bihari Restaurant"
+            description="just adfja dfafkjsalsdfasf asdfasfsdafsa afsafsafs afsafd afasa s sa fasfasdfa fdfk ajdfjasdfkasjf salkf jdsafklasjfasfjskfjasldkfjaslkdfjaslfkjasflkasjfslfj"
             dateandTime={new Date().toDateString()}
-            rating={index + 1}
+            food
+            emoji_url={emojiHappy}
           />
         ))}
       </div>
@@ -65,4 +72,4 @@ const VisitedSlider = () => {
   );
 };
 
-export default VisitedSlider;
+export default SuggestionSlider;

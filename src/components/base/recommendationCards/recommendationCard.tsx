@@ -1,6 +1,6 @@
 import desertcity from "../../../assets/desertcity.jpg";
 
-export default function RecommendationCard({ length }) {
+export default function RecommendationCard({ length }: { length: number }) {
   return (
     <div className="recommendationCards">
       {Array.from({ length }).map((_, index) => (

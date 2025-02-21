@@ -1,10 +1,16 @@
 import ReviewStar from "../base/reviewStar/reviewStar";
 
-export default function AddReview() {
+export default function AddReview({
+  starLen = 0,
+  eventCompleted = false,
+}: {
+  starLen?: number;
+  eventCompleted?: boolean;
+}) {
   return (
     <div className="addReview">
       <div className="addReviewPg">
-        <h className="addReviewPg_heading">Add a review</h>
+        <h1 className="addReviewPg_heading">Add a review</h1>
         <p className="addReviewPg_description">
           Hi Vaibhav, if you're here on this page, we bet you enjoy this event
           fully. Would you mind to share your valuable feedback review with us?

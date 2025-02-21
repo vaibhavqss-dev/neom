@@ -20,8 +20,8 @@ export default function ReviewCard() {
         Nullam nec ultricies nunc.
       </p>
       <p className="reviewCard_rating">
-        {Array(parseInt(4.9))
-          .fill()
+        {Array(4.9)
+          .fill(5)
           .map((_, i) => (
             <img src={star} alt="star" key={i} />
           ))}

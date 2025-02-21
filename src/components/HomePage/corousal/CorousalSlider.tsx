@@ -1,15 +1,10 @@
 import { useEffect, useRef } from "react";
-import Suggestion from "./Suggestion";
-import food from "../../../assets/food.jpg";
-import city from "../../../assets/city.jpg";
-
-import emojiImg from "../../../assets/emoji-sad.svg";
-import emojiHappy from "../../../assets/emoji-happy.svg";
-
+import Corousal from "./Corousal";
+import underwaterImg from "../../../assets/neom-underwater.jpg";
 import Buttons from "../../LeftandRightButtons/buttons";
 
-const SuggestionSlider = () => {
-  const sliderRef = useRef(null);
+const CarouselSlider: React.FC = () => {
+  const sliderRef = useRef<HTMLDivElement | null>(null);
 
   const scrollLeft = () => {
     if (sliderRef.current) {
@@ -24,20 +19,21 @@ const SuggestionSlider = () => {
   };
 
   useEffect(() => {
-    let direction = 1;
+    let direction = "right";
     const interval = setInterval(() => {
-      if (direction === 1) {
+      if (!sliderRef.current) return;
+      if (direction === "right") {
         scrollRight();
         if (
           sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
           sliderRef.current.scrollWidth
         ) {
-          direction = 0;
+          direction = "left";
         }
       } else {
         scrollLeft();
         if (sliderRef.current.scrollLeft <= 0) {
-          direction = 1;
+          direction = "right";
         }
       }
     }, 2000);
@@ -46,29 +42,33 @@ const SuggestionSlider = () => {
   }, []);
 
   return (
-    <div className="SuggestionSection">
-      <div className="suggestionSection_title">
-        <p>Vaibhav Hope, We Understand You Better</p>
-      </div>
+    <div>
+      {/* <button onClick={scrollLeft}>Left</button>
+      <button onClick={scrollRight}>Right</button> */}
       <div
         ref={sliderRef}
-        className="SuggestionSectionSlider"
+        className="CorousalSlider"
         style={{ display: "flex", overflowX: "auto", scrollBehavior: "smooth" }}
       >
-        {Array.from({ length: 10 }).map((_, index) => (
-          <Suggestion
-            imgUrl={food}
-            title="Shudh Bihari Restaurant"
-            description="just adfja dfafkjsalsdfasf asdfasfsdafsa afsafsafs afsafd afasa s sa fasfasdfa fdfk ajdfjasdfkasjf salkf jdsafklasjfasfjskfjasldkfjaslkdfjaslfkjasflkasjfslfj"
+        {[1, 2, 3, 4, 5].map((item, index) => (
+          <Corousal
+            key={index}
+            title="Round of Golf"
+            description="lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             dateandTime={new Date().toDateString()}
-            food
-            emoji_url={emojiHappy}
+            locationName="Chapra bihar"
+            categoryName="Golf"
+            ImgUrl={underwaterImg}
+            stars={index + 1}
+            reviews={index + 4}
+            Scheduled
           />
         ))}
       </div>
+
       <Buttons scrollLeft={scrollLeft} scrollRight={scrollRight} />
     </div>
   );
 };
 
-export default SuggestionSlider;
+export default CarouselSlider;
