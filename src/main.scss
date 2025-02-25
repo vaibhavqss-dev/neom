@@ -1,24 +1,34 @@
-@import 'App';
+@import "App";
 
-@import 'components/base/recommendationCards/_recommendationCard';
-@import 'components/base/selectdistance/_selectdistance';
-@import 'components/base/reviewStar/_reviewStar';
+@import "components/base/recommendationCards/_recommendationCard";
+@import "components/base/selectdistance/_selectdistance";
+@import "components/base/reviewStar/_reviewStar";
 
-@import 'components/HomePage/visited/visited';
-@import 'components/HomePage/recommadation/recommadation';
-@import 'components/HomePage/maps/maps';
-@import 'components/HomePage/Home';
+@import "components/HomePage/visited/visited";
+@import "components/HomePage/recommadation/recommadation";
+@import "components/HomePage/maps/maps";
+@import "components/HomePage/Home";
 
-@import 'components/Favorites/recommendation/_recommadation';
-@import 'components/Favorites/_favorites';
+@import "components/Favorites/recommendation/_recommadation";
+@import "components/Favorites/_favorites";
 
-@import 'components/EventDetails/_event_details';
-@import 'components/EventDetails/reviewCard/reviewCard';
+@import "components/EventDetails/_event_details";
+@import "components/EventDetails/reviewCard/reviewCard";
 
 @import "./components/UpcomingEvents/_upcomingEvents";
 @import "./components/footer/_footer";
-@import 'components/navbar/navbar';
-@import 'components/cancelRecommendation/cancelRecommendation';
-@import 'components/completedEvents/_completedEvents';
-@import 'components/addReview/_addReview';
-@import 'components/vibOmeter/_vibOmeter';
+@import "components/navbar/navbar";
+@import "components/cancelRecommendation/cancelRecommendation";
+@import "components/completedEvents/_completedEvents";
+@import "components/addReview/_addReview";
+@import "components/vibOmeter/_vibOmeter";
+@import "components/rescheduledEvents/_rescheduledEvent";
+@import "components/editProfile/_editProfile";
+@import "components/editSetting/editSetting";
+
+@import "components/utility/cancelConfirmation/_cancelConfirmation";
+@import "components/utility/confirmation/confirmationPop.scss";
+@import "components/utility/confirmSchedule/_confirmSchedule";
+
+
+

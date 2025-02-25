@@ -1,0 +1,43 @@
+.cancelConfirmationPopup {
+  box-shadow: 0px 0px 5px black;
+  width: 25rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  &_header {
+    font-family: cursive;
+    font-size: 1.3rem;
+    margin: 0;
+
+    & h3 {
+      margin: 0;
+    }
+  }
+
+  &_body {
+    margin: 0.7rem 0;
+    margin-bottom: 3.5rem;
+
+    & p {
+      margin: 0;
+    }
+  }
+
+  &_btn {
+    display: flex;
+    width: 16rem;
+    gap: 1rem;
+
+    & button {
+      border: none;
+      border-radius: 0.3rem;
+      width: 9rem;
+    }
+
+    &_yes {
+      background-color: #222222;
+      color: white;
+      text-align: center;
+      padding: 0.5rem;
+    }
+  }
+}

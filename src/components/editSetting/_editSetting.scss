@@ -1,0 +1,106 @@
+.editSetting {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &Pg {
+    &_headers {
+      margin: 1.2rem 0 3rem 0;
+      & h1 {
+        font-family: cursive;
+        font-weight: 500;
+        margin: 0;
+      }
+      & p {
+        margin: 1rem 0;
+        font-weight: 500;
+      }
+    }
+
+    &_form {
+      &_input {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        // background-color: red;
+        gap: 4rem;
+
+        &_text {
+          margin: 1rem 0;
+          & p:first-child {
+            margin: 0;
+          }
+
+          & p:last-child {
+            margin: 0.5rem 0;
+            font-weight: 500;
+            font-size: 0.8rem;
+          }
+        }
+
+        &_checkbox {
+          #toggle {
+            display: none;
+          }
+
+          /* Style the label as the slider track */
+          & label {
+            display: inline-block;
+            width: 42px;
+            height: 19px;
+            background: #fff;
+            border: 2px solid #ccc;
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s; /* Smooth transition for background */
+          }
+
+          /* Style the handle (the circular part) */
+          & label::after {
+            content: "";
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            left: 2px;
+            top: 2px;
+            background: #999;
+            border-radius: 50%;
+            transition: transform 0.3s; /* Smooth transition for movement */
+          }
+
+          /* When the checkbox is checked, move the handle to the right */
+          #toggle:checked + label::after {
+            transform: translateX(30px); /* Move the handle to the other side */
+          }
+
+          /* Optional: Change the track background when checked */
+          #toggle:checked + label {
+            background: #fff; /* You can change this to a different color if desired */
+            border-color: #999; /* Optional: Change border color when checked */
+          }
+        }
+
+        &_multiSelect {
+          ._multiSelect {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+          }
+
+          .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ._multiSelect {
+//   display: flex;
+//   gap: 1rem;
+//   font-size: 0.8rem;
+// }

@@ -12,6 +12,12 @@ import CancelRecommendation from "./components/cancelRecommendation/cancelRecomm
 import CompletedEvents from "./components/completedEvents/completedEvents";
 import AddReview from "./components/addReview/addReview";
 import VibOmeter from "./components/vibOmeter/vibOmeter";
+import CancelConfirmationPopup from "./components/utility/cancelConfirmation/cancelConfirmation";
+import ConfirmationPopup from "./components/utility/confirmation/confirmationPop";
+import ConfirmSchedule from "./components/utility/confirmSchedule/confirmSchedule";
+import RescheduledEvent from "./components/rescheduledEvents/rescheduledEvent";
+import EditProfile from "./components/editProfile/editProfile";
+import EditSetting from "./components/editSetting/editSetting";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +34,12 @@ const router = createBrowserRouter([
       { path: "/completed-events", element: <CompletedEvents /> },
       { path: "/add-review", element: <AddReview /> },
       { path: "/vib-o-meter", element: <VibOmeter /> },
+      // { path: "/checking", element: <CancelConfirmationPopup /> },
+      // { path: "/checking", element: <ConfirmationPopup /> },
+      { path: "/checking", element: <ConfirmSchedule /> },
+      { path: "/rescheduled-event", element: <RescheduledEvent /> },
+      { path: "/edit-profile", element: <EditProfile /> },
+      { path: "/edit-setting", element: <EditSetting /> },
     ],
   },
 ]);

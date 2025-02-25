@@ -1,0 +1,178 @@
+.editProfile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &Pg {
+    width: 60rem;
+    &_heading {
+      font-family: cursive;
+      font-size: 2rem;
+      font-weight: 500;
+      margin-bottom: 2rem;
+    }
+
+    &_container {
+      display: flex;
+      gap: 2rem;
+
+      &_left {
+        &_img {
+          overflow: hidden;
+          border-radius: 0.5rem;
+          height: 11rem;
+          width: 10rem;
+          position: relative;
+          cursor: pointer;
+          transition: all 0.3s;
+          &_profileImg {
+            position: absolute;
+            /* top: 50%; */
+            /* left: 50%; */
+            /* transform: translate(-50%, -50%); */
+            /* min-width: 100%; */
+            /* min-height: 100%; */
+            /* height: 100%; */
+            width: 100%;
+            object-fit: cover;
+            filter: brightness(0.5);
+            transition: all 0.3s;
+          }
+
+          &_pencilbtn {
+            position: absolute;
+            z-index: 5;
+            width: 3rem;
+            height: 5rem;
+            top: 42%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+
+          &:hover &_profileImg {
+            filter: brightness(0.3);
+          }
+        }
+      }
+
+      &_right {
+        &_inputs {
+          margin-bottom: 2rem;
+          display: block;
+          & label,
+          input {
+            display: block;
+          }
+
+          & input {
+            width: 23rem;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #ccc;
+            height: 2rem;
+
+            &:focus {
+              outline: none;
+              border: 1px solid rgb(32, 124, 32);
+            }
+          }
+
+          &_likes {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 0 2rem 0;
+
+            &_input {
+              position: relative;
+              margin: 0.5rem;
+              height: 10rem;
+              width: 7rem;
+              overflow: hidden;
+              border-radius: 0.5rem;
+              transition: all 0.3s;
+              cursor: pointer;
+
+              &_img {
+                cursor: pointer;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                height: 100%;
+                object-fit: cover;
+                transition: all 0.3s;
+              }
+
+              & p {
+                font-weight: bold;
+                position: absolute;
+                z-index: 1;
+                color: white;
+                top: 9rem;
+                margin: 0;
+                width: 100%;
+                text-align: center;
+                font-size: 0.8rem;
+                transform: translateY(-100%);
+                // opacity: 0;
+                transition: all 0.3s;
+              }
+
+              &:hover &_img {
+                filter: brightness(0.5);
+              }
+
+              &_thumb {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                height: 1.5rem;
+                width: 1.5rem;
+                opacity: 0;
+                transition: all 0.3s;
+              }
+
+              &:hover &_thumb {
+                opacity: 1;
+              }
+            }
+          }
+        }
+        &_btns {
+          & button {
+            padding: 0.9rem 2rem;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 0.5rem;
+            margin-right: 1rem;
+            cursor: pointer;
+          }
+
+          & button:first-child {
+            background-color: #ff385c;
+            color: white;
+          }
+          & button:last-child {
+            border: 1px solid black;
+            background-color: none;
+            color: black;
+          }
+        }
+      }
+    }
+  }
+}
+
+.like_active {
+  //   filter: brightness(0.5);
+  opacity: 1;
+}
+
+.like_opacity {
+  filter: brightness(0.5);
+}
+
+#interest{
+    width: 100%;
+}
