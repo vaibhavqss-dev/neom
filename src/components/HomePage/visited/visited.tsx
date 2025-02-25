@@ -1,5 +1,4 @@
 import React from "react";
-import "./visited.css";
 
 interface VisitedProps {
   imgUrl: string;
@@ -9,13 +8,13 @@ interface VisitedProps {
   rating: number;
 }
 
-export default function Visited({
+const Visited: React.FC<VisitedProps> = ({
   imgUrl,
   title,
   attented,
   dateandTime,
   rating,
-}: VisitedProps) {
+}) => {
   return (
     <>
       <div className="visitedContainer">
@@ -35,7 +34,7 @@ export default function Visited({
         <p className="visitedContainer_rating_stars">
           You rated this event
           <span className="visitedContainer_rating_stars_black">
-            {Array.from({ length: rating }, (_, index) => (
+            {Array.from({ length: (rating % 5) + 1 }, (_, index) => (
               <span key={index}>★</span>
             ))}
           </span>
@@ -43,4 +42,6 @@ export default function Visited({
       </div>
     </>
   );
-}
+};
+
+export default Visited;

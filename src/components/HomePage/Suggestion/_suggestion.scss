@@ -1,0 +1,87 @@
+.suggestionSection {
+  &_title p {
+    font-family: cursive;
+    font-size: 2rem;
+    font-weight: 200;
+    color: #222222;
+    margin: 3rem 0 0 0;
+  }
+}
+
+// tabs goes here...
+.SuggestionContainer {
+  margin: 0.8rem;
+}
+
+.SuggestionContainer_img {
+  position: relative;
+  width: 35rem;
+  height: 20rem;
+  overflow: hidden;
+  border-radius: 0.8rem;
+
+  &_emoji {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 1rem;
+    height: 3rem;
+    z-index: 1;
+  }
+
+  &IMG {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &_description {
+    margin: 1rem 0 0 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+
+    &_subtext {
+      color: gray;
+      font-size: 0.7rem;
+    }
+  }
+}
+
+.suggestion_text {
+  font-size: 0.8rem;
+//   font-weight: 300;
+  margin-top: 1rem; 
+
+  &_description{
+    color: #222222;
+    line-height: 1.6;
+
+  }
+}
+
+.suggestion_textButton {
+  margin: 1rem 0 0 0;
+  /* padding: 2rem; */
+}
+
+.suggestion_textButton_button_yes {
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: #222222;
+  color: #fff;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.suggestion_textButton_button_no {
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: #fff;
+  color: #222222;
+  font-size: 0.8rem;
+  font-weight: 300;
+  cursor: pointer;
+}

@@ -36,7 +36,7 @@ const router = createBrowserRouter([
       { path: "/vib-o-meter", element: <VibOmeter /> },
       // { path: "/checking", element: <CancelConfirmationPopup /> },
       // { path: "/checking", element: <ConfirmationPopup /> },
-      { path: "/checking", element: <ConfirmSchedule /> },
+      // { path: "/checking", element: <ConfirmSchedule /> },
       { path: "/rescheduled-event", element: <RescheduledEvent /> },
       { path: "/edit-profile", element: <EditProfile /> },
       { path: "/edit-setting", element: <EditSetting /> },

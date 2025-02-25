@@ -1,5 +1,4 @@
 import React from "react";
-import "./recommadation.css";
 import smileGreenFace from "./../../../assets/smileGreenFace.svg";
 
 interface RecommadationProps {

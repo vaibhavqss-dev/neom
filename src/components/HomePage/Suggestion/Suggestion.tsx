@@ -1,4 +1,4 @@
-import "./Suggestion.css";
+// import "./Suggestion.css";
 
 interface SuggestionProps {
   imgUrl: string;
@@ -19,19 +19,23 @@ export default function Suggestion({
 }: SuggestionProps) {
   return (
     <div className="SuggestionContainer">
-      <div className="SuggestionImgandDescriptionContainer">
-        <img src={emoji_url} alt="Emoji Face" className="emojiImg" />
-        <img src={imgUrl} alt="food" className="SuggestionImg" />
-        <div className="SuggestionImg_description">
-          {title} <br />
-          <span className="SuggestionImg_description_subtext">
-            {dateandTime}
-          </span>
-        </div>
+      <div className="SuggestionContainer_img">
+        <img
+          src=""
+          alt="Emoji Face"
+          className="SuggestionContainer_img_emoji"
+        />
+        <img src={imgUrl} alt="food" className="SuggestionContainer_imgIMG" />
       </div>
 
+      <div className="SuggestionContainer_img_description">
+        {title} <br />
+        <span className="SuggestionContainer_img_description_subtext">
+          {dateandTime}
+        </span>
+      </div>
       <div className="suggestion_text">
-        {description}
+        <p className="suggestion_text_description">{description}</p>
         <div className="suggestion_textButton">
           <button className="suggestion_textButton_button_yes">
             {food ? "Yes, I Accept" : "Yes, I would share"}

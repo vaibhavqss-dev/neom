@@ -23,6 +23,8 @@ const Navbar: React.FC = () => {
         <img id="neom_logo" src={Neom} alt="neomlogo" />
       </div>
 
+      
+
       <div className="links">
         <div className="links_page">
           <NavLink

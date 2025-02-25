@@ -23,33 +23,33 @@ const SuggestionSlider: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    let direction = 1;
-    const interval = setInterval(() => {
-      if (!sliderRef.current) return;
-      if (direction === 1) {
-        scrollRight();
-        if (
-          sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
-          sliderRef.current.scrollWidth
-        ) {
-          direction = 0;
-        }
-      } else {
-        scrollLeft();
-        if (sliderRef.current.scrollLeft <= 0) {
-          direction = 1;
-        }
-      }
-    }, 2000);
+  // useEffect(() => {
+  //   let direction = 1;
+  //   const interval = setInterval(() => {
+  //     if (!sliderRef.current) return;
+  //     if (direction === 1) {
+  //       scrollRight();
+  //       if (
+  //         sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
+  //         sliderRef.current.scrollWidth
+  //       ) {
+  //         direction = 0;
+  //       }
+  //     } else {
+  //       scrollLeft();
+  //       if (sliderRef.current.scrollLeft <= 0) {
+  //         direction = 1;
+  //       }
+  //     }
+  //   }, 2000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <div className="SuggestionSection">
       <div className="suggestionSection_title">
-        <p>Vaibhav Hope, We Understand You Better</p>
+        <p>Vaibhav, hope we understand you better</p>
       </div>
       <div
         ref={sliderRef}
@@ -60,7 +60,7 @@ const SuggestionSlider: React.FC = () => {
           <Suggestion
             imgUrl={food}
             title="Shudh Bihari Restaurant"
-            description="just adfja dfafkjsalsdfasf asdfasfsdafsa afsafsafs afsafd afasa s sa fasfasdfa fdfk ajdfjasdfkasjf salkf jdsafklasjfasfjskfjasldkfjaslkdfjaslfkjasflkasjfslfj"
+            description="Hi Vaibhav, we came to from our chef John that you didn't enjoyed the Epicurean cuisines yesterday. As a compensation we would like to offer you a free Italian cuisines as a goodwill gesture. Would you like to accept our request?"
             dateandTime={new Date().toDateString()}
             food
             emoji_url={emojiHappy}

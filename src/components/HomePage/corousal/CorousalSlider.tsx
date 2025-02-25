@@ -18,28 +18,28 @@ const CarouselSlider: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    let direction = "right";
-    const interval = setInterval(() => {
-      if (!sliderRef.current) return;
-      if (direction === "right") {
-        scrollRight();
-        if (
-          sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
-          sliderRef.current.scrollWidth
-        ) {
-          direction = "left";
-        }
-      } else {
-        scrollLeft();
-        if (sliderRef.current.scrollLeft <= 0) {
-          direction = "right";
-        }
-      }
-    }, 2000);
+  // useEffect(() => {
+  //   let direction = "right";
+  //   const interval = setInterval(() => {
+  //     if (!sliderRef.current) return;
+  //     if (direction === "right") {
+  //       scrollRight();
+  //       if (
+  //         sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
+  //         sliderRef.current.scrollWidth
+  //       ) {
+  //         direction = "left";
+  //       }
+  //     } else {
+  //       scrollLeft();
+  //       if (sliderRef.current.scrollLeft <= 0) {
+  //         direction = "right";
+  //       }
+  //     }
+  //   }, 2000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <div>
@@ -50,11 +50,11 @@ const CarouselSlider: React.FC = () => {
         className="CorousalSlider"
         style={{ display: "flex", overflowX: "auto", scrollBehavior: "smooth" }}
       >
-        {[1, 2, 3, 4, 5].map((item, index) => (
+        {Array.from({ length: 5 }).map((_, index) => (
           <Corousal
             key={index}
             title="Round of Golf"
-            description="lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            description="lorem kfjasfdk alkadsjd dfslkf j s fst amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             dateandTime={new Date().toDateString()}
             locationName="Chapra bihar"
             categoryName="Golf"

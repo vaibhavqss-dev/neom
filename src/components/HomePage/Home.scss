@@ -1,80 +1,73 @@
 .cancel_event_container {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1;
-  }
-  
-  .cancel_event {
-    position: absolute;
-    top: 3rem;
-    right: 11rem;
-    background-color: white;
-    border-radius: 0.7rem;
-    padding: 0.5rem;
-    width: 22rem;
-    font-family: cursive;
-  }
-  
-  .Home {
-    margin-left: 2rem;
-    font-family: sans-serif;
-  }
-  
-  .Home_title {
-    font-family: cursive;
-    font-size: 2rem;
-    font-weight: 200;
-    color: #333;
-  }
-  
-  /* Suggestion Starts from here */
-  .SuggestionSectionSlider {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  
-  .suggestionSection_title {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.cancel_event {
+  position: absolute;
+  top: 3rem;
+  right: 11rem;
+  background-color: white;
+  border-radius: 0.7rem;
+  padding: 0.5rem;
+  width: 22rem;
+  font-family: cursive;
+}
+
+.home {
+  margin-left: 2rem;
+  font-family: sans-serif;
+
+  &_title {
     font-family: cursive;
     font-size: 2rem;
     font-weight: 200;
     color: #333;
+    margin: 2rem 0 0 0;
   }
-  
-  .SuggestionSectionSlider::-webkit-scrollbar {
-    display: none; /* For Chrome, Safari, and Opera */
+
+  &_subtitle {
+    font-family: cursive;
+    font-size: 1rem;
+    font-weight: 200;
+    color: #333;
+    margin: 1.2rem 0 2rem 0;
   }
-  .recommandationSection_title {
+}
+
+/* Suggestion Starts from here */
+.SuggestionSectionSlider {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.SuggestionSectionSlider::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+
+.recommandationSection {
+  &_title {
     font-family: cursive;
     font-size: 2rem;
     font-weight: 200;
-    color: #333;
+    color: #222222;
+    margin: 2rem 0 0 0;
   }
-  
-  .recommandationSection_container {
+
+  &_container{
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-right: 2rem;
   }
-  
-  .visitedSection_title {
-    font-family: cursive;
-    font-size: 1.5rem;
-    font-weight: 200;
-    color: #333;
-  }
-  
-  .visitedSectionSlider {
-    display: flex;
-    align-items: center;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  
+}
+
+

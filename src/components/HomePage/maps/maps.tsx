@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import "./maps.css";
 
 let IconUrl = [
   [
@@ -48,7 +47,6 @@ const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates }) => {
     const bounds = L.latLngBounds();
 
     coordinates.forEach(([lat, lon, type], index) => {
-      // Updated: safely find icon URL with a fallback
       const iconUrl =
         IconUrl.find((icon) => icon[1] === type)?.[0] ??
         "https://via.placeholder.com/30";
@@ -87,7 +85,7 @@ const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates }) => {
   return (
     <div className="mapContainerIt">
       <p className="mapContainerIt_title">Find Events on Map</p>
-      <div id="map-container" style={{ width: "70rem", height: "30rem" }}></div>
+      <div id="map-container" style={{ width: "80rem", height: "30rem" }}></div>
     </div>
   );
 };

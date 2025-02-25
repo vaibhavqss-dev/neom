@@ -2,7 +2,6 @@ import React from "react";
 import calendar from "../../../assets/calendar.svg";
 import location from "../../../assets/location.svg";
 import category from "../../../assets/category.svg";
-import "./Corousal.css";
 import smileGreenFace from "../../../assets/smileGreenFace.svg";
 import redstars from "../../../assets/star.svg";
 
@@ -36,11 +35,13 @@ function Corousal({
       <div className="corousalContainer_textContainer">
         <p className="corousalContainer_textContainer_heading">{title}</p>
         <div className="stars">
-          {Array.from({ length: stars }).map((_, index) => (
-            <span key={index}>
-              <img id="redstars" src={redstars} alt="redstars" />
-            </span>
-          ))}
+          <div className="starsIcon">
+            {Array.from({ length: stars }).map((_, index) => (
+              <span key={index}>
+                <img id="redstars" src={redstars} alt="redstars" />
+              </span>
+            ))}
+          </div>
           <div className="stars-text">
             {stars} ({reviews} reviews)
           </div>

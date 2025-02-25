@@ -1,7 +1,6 @@
 import React from "react";
-import "./recommadation.css";
 
-interface RecommadationProps {
+interface RecommendationsProps {
   imgURL: string;
   rank: number;
   name: string;
@@ -10,17 +9,17 @@ interface RecommadationProps {
   time: string;
 }
 
-export default function Recommadation({
+const Recommendation: React.FC<RecommendationsProps> = ({
   imgURL,
   rank,
   name,
   subtext,
   date,
   time,
-}: RecommadationProps) {
+}) => {
   return (
     <>
-      <div className="recommation_container">
+      <div className="recommationContainer">
         <div className="recommationContainer_imgContainer">
           <div className="heart">
             <svg
@@ -40,7 +39,9 @@ export default function Recommadation({
             </svg>
           </div>
 
-          <img id="recommationContainer_img" src={imgURL} alt="desertcity" />
+          <div className="recommendationContainer_img">
+            <img src={imgURL} alt="desertcity" />
+          </div>
 
           <div className="number">{rank}</div>
         </div>
@@ -60,4 +61,6 @@ export default function Recommadation({
       </div>
     </>
   );
-}
+};
+
+export default Recommendation;
