@@ -20,28 +20,28 @@ export default function RecommadationSlider() {
     }
   };
 
-  useEffect(() => {
-    let direction = 1;
-    const interval = setInterval(() => {
-      if (!sliderRef.current) return;
-      if (direction === 1) {
-        scrollRight();
-        if (
-          sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
-          sliderRef.current.scrollWidth
-        ) {
-          direction = 0;
-        }
-      } else {
-        scrollLeft();
-        if (sliderRef.current.scrollLeft <= 0) {
-          direction = 1;
-        }
-      }
-    }, 2000);
+  // useEffect(() => {
+  //   let direction = 1;
+  //   const interval = setInterval(() => {
+  //     if (!sliderRef.current) return;
+  //     if (direction === 1) {
+  //       scrollRight();
+  //       if (
+  //         sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
+  //         sliderRef.current.scrollWidth
+  //       ) {
+  //         direction = 0;
+  //       }
+  //     } else {
+  //       scrollLeft();
+  //       if (sliderRef.current.scrollLeft <= 0) {
+  //         direction = 1;
+  //       }
+  //     }
+  //   }, 2000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <div className="favorites_recommendation">

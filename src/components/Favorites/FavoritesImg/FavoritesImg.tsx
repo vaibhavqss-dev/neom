@@ -1,25 +1,35 @@
 import React from "react";
-import "./FavoritesImg.css";
 
-export default function FavoritesImg({
-  imgURL,
-  name,
-  category,
-  date,
-  time,
-  face,
-}: {
+type FavoritesImgProps = {
   imgURL: string;
   name: string;
   category: string;
   date: string;
   time: string;
   face: string;
-}) {
+  index: number;
+  onFavoriteRemove?: (index: number) => void;
+};
+
+const FavoritesImg: React.FC<FavoritesImgProps> = ({
+  imgURL,
+  name,
+  category,
+  date,
+  time,
+  face,
+  index,
+  onFavoriteRemove,
+}) => {
   return (
     <div className="favorites_img_container">
       <div className="favorites_img_container">
-        <button className="favorites_img_remove_btn">Remove</button>
+        <button
+          onClick={() => onFavoriteRemove && onFavoriteRemove(parseInt(index.toString()))}
+          className="favorites_img_remove_btn"
+        >
+          Remove
+        </button>
         <img id="favorites_img" src={imgURL} alt="underwater" />
       </div>
 
@@ -35,4 +45,6 @@ export default function FavoritesImg({
       <p className="favorites_img_time">{time}</p>
     </div>
   );
-}
+};
+
+export default FavoritesImg;

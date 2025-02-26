@@ -1,47 +1,35 @@
 .favoritesPg {
   margin-left: 2rem;
-}
-.favoritesPg_greet {
-  font-size: 2rem;
-  font-family: cursive;
-  margin: 0;
-  padding: 0;
-  margin-top: 20px;
-}
+  color: #222222;
 
-.favoritesPg_description {
-  font-size: 1.2rem;
-  font-family: cursive;
-  margin: 0.7rem 0 0 0;
-}
+  &_greet{
+    font-size: 2rem;
+    font-family: cursive;
+    margin: 0;
+    padding: 0;
+    margin-top: 20px;
+  }
 
-.favoritesPg_container {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
+  &_description{
+    font-size: 1.2rem;
+    font-family: cursive;
+    margin: 0.7rem 0 0 0;
+  }
 
-.favoritesPg_recommendation_title {
-  font-size: 1.7rem;
-  font-family: cursive;
-  margin: 0;
-  margin-top: 20px;
-}
+  &_container{
+    display: flex;
+    flex-wrap: wrap;
+  }
 
-.favoritesPg_recommendation_container {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
+  &Recommandation_section{
+    &-title{
+      font-size: 2rem;
+      font-family: cursive;
+      margin: 3rem 0 1rem 0;
+    }
 
-.favoritesPg_recommandation_section-title {
-  font-size: 1.7rem;
-  font-family: cursive;
-  margin: 0;
-  margin-top: 20px;
-}
-
-.favoritesPg_recommandation_section-slider {
-  display: flex;
-  margin: 1rem 0 0 0;
+    &-slider{
+      display: flex;
+    }
+  }
 }

@@ -17,6 +17,7 @@
 }
 
 .links {
+  position: relative;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -70,7 +71,7 @@
   display: flex;
   justify-content: center;
 }
-.links_hamburger_containerBtn{
+.links_hamburger_containerBtn {
   border: none;
   cursor: pointer;
   background-color: transparent;
@@ -142,69 +143,85 @@
 
 .notification_model {
   position: absolute;
-  top: 3rem;
-  right: 11rem;
+  top: 3.5rem;
+  right: 8rem;
   background-color: #222222;
   border-radius: 0.7rem;
   padding: 0.5rem;
   width: 22rem;
+  box-shadow: 0 0 8px 0px black;
+  z-index: 1;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    right: 1.5rem;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #222222;
+  }
+
+  &_cancel {
+    text-align: right;
+
+    &Btn {
+      height: 1.5rem;
+      width: 1.5rem;
+      background-color: transparent;
+      color: white;
+      border: 1px solid white;
+      border-radius: 1rem;
+      padding: 0.2rem;
+      cursor: pointer;
+    }
+  }
+
+  &_title {
+    color: #eeff00;
+    font-size: 1.5rem;
+    font-family: cursive;
+    margin: 0rem 1rem;
+
+    & img {
+      height: 1.3rem;
+      padding: 0rem 0rem;
+      transform: rotate(335deg);
+    }
+  }
+
+  &_text {
+    color: white;
+    font-size: 0.8rem;
+    margin: 0.6rem 1rem;
+  }
+
+  &_btns {
+    display: flex;
+    margin: 1.6rem 1rem 0.7rem 1rem;
+
+    & button {
+      border: none;
+      border-radius: 0.3rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+
+    &_rescheduleBtn {
+      padding: 0.5rem 1rems;
+    }
+
+    &_cancelBtn {
+      text-decoration: underline;
+      text-underline-offset: 0.2rem;
+      background-color: transparent;
+      padding: 0.5rem 1rem;
+      color: white;
+      margin-left: 1rem;
+    }
+  }
 }
 
-.notification_model_cancel {
-  text-align: right;
-}
-
-.notification_model_cancelBtn {
-  height: 1.5rem;
-  width: 1.5rem;
-  background-color: transparent;
-  color: white;
-  border: 1px solid white;
-  border-radius: 1rem;
-  padding: 0.2rem;
-  cursor: pointer;
-}
-
-.notification_model_title {
-  color: #eeff00;
-  font-size: 1.5rem;
-  font-family: cursive;
-  margin: 0rem 1rem;
-}
-
-#notification_model_title_bell {
-  height: 1.3rem;
-  padding: 0rem 0rem;
-  /* color: #EEFF00; */
-  transform: rotate(335deg);
-}
-
-.notification_model_text {
-  color: white;
-  font-size: 0.8rem;
-  margin: 0.6rem 1rem;
-}
-
-.notification_model_btns {
-  display: flex;
-  margin: 1.6rem 1rem 0.7rem 1rem;
-}
-
-.notification_model_btns_rescheduleBtn {
-  border: none;
-  border-radius: 0.3rem;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-}
-
-.notification_model_btns_cancelBtn {
-  border: none;
-  text-decoration: underline;
-  text-underline-offset: 0.2rem;
-  border-radius: 0.3rem;
-  background-color: transparent;
-  padding: 0.5rem 1rem;
-  color: white;
-  margin-left: 1rem;
-  cursor: pointer;
+.NotificationNOTActive {
+  display: none;
 }

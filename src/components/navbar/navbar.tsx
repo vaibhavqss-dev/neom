@@ -4,9 +4,12 @@ import Neom from "../../assets/neom.png";
 import bell from "../../assets/bell.svg";
 import web from "../../assets/web.svg";
 import bellnofiy from "../../assets/bell-notify.svg";
-import "./navbar.css";
 
-const Navbar: React.FC = () => {
+type interfaceProps = {
+  isModelOpen?: (isOpen: boolean) => void;
+};
+
+const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
   function toggleHamburger() {
     const hamburger_model = document.querySelector(".hamburger_model");
     hamburger_model?.classList.toggle("active");
@@ -14,7 +17,13 @@ const Navbar: React.FC = () => {
 
   function toggleNotificationBtn() {
     const notification_model = document.querySelector(".notification_model");
-    notification_model?.classList.toggle("active");
+    notification_model?.classList.toggle("NotificationNOTActive");
+
+    if (!notification_model?.classList.contains("NotificationNOTActive")) {
+      isModelOpen?.(true);
+    } else {
+      isModelOpen?.(false);
+    }
   }
 
   return (
@@ -22,8 +31,6 @@ const Navbar: React.FC = () => {
       <div className="neom">
         <img id="neom_logo" src={Neom} alt="neomlogo" />
       </div>
-
-      
 
       <div className="links">
         <div className="links_page">
@@ -60,7 +67,7 @@ const Navbar: React.FC = () => {
           <img id="bell-logo" src={bell} alt="notification" />
         </div>
 
-        <div className="notification_model">
+        <div className="notification_model NotificationNOTActive">
           <div className="notification_model_cancel">
             <button
               className="notification_model_cancelBtn"
@@ -71,12 +78,7 @@ const Navbar: React.FC = () => {
           </div>
 
           <p className="notification_model_title">
-            Hey Vaibhav{" "}
-            <img
-              id="notification_model_title_bell"
-              src={bellnofiy}
-              alt="bellnotify"
-            />
+            Hey Vaibhav <img src={bellnofiy} alt="bellImg" />
           </p>
 
           <p className="notification_model_text">

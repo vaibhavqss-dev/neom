@@ -41,7 +41,7 @@ const RescheduledEvent: React.FC<RescheduledEventProps> = ({}) => {
           Some similar recommendation for you, Vaibhav.
         </p>
         <SelectDistance />
-        <RecommendationCard length={10} />
+        {/* <RecommendationCard length={10} /> */}
       </div>
     </div>
   );

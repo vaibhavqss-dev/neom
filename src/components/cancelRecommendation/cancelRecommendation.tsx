@@ -134,7 +134,7 @@ export default function CancelRecommendation() {
       <div className="canceleventPg_similarRecommendation">
         <SelectDistance />
 
-        <RecommendationCard length={5} />
+        {/* <RecommendationCard length={5} /> */}
       </div>
     </div>
   );

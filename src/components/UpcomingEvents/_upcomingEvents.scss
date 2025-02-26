@@ -1,4 +1,5 @@
 $heading_font_family: cursive;
+$primaryColor: #222222;
 
 body {
   padding: 0;
@@ -9,8 +10,10 @@ body {
 .upcomingEventsPg {
   font-family: $heading_font_family;
   margin: 3rem 0 0 2rem;
+  color: $primaryColor;
 
   &_heading {
+    color: $primaryColor;
     font-size: 2rem;
     margin: 0;
   }
@@ -18,7 +21,7 @@ body {
   &_text {
     margin: 0;
     font-size: 1.5rem;
-    padding-top: 1rem;
+    padding-top: 0.7rem;
   }
 
   &_date_and_distance {
@@ -26,24 +29,47 @@ body {
     gap: 5rem;
   }
 
-  &_date_location_btns {
+  &_dateLocation_btns {
     display: flex;
     justify-content: space-between;
     width: 18rem;
+    gap: 1rem;
 
-    & button {
-      border: 1px solid black;
+    & input[type="date"] {
+      border: 1px solid $primaryColor;
       border-radius: 1rem;
-      padding: 0.6rem;
-      cursor: pointer;
+      padding: 0.4rem;
       background-color: transparent;
-      transition: all 0.5s;
 
-      &:hover {
-        background-color: black;
-        color: white;
+      :focus {
+        outline: none;
       }
     }
+
+    & input[type="text"] {
+      border: 1px solid $primaryColor;
+      border-radius: 1rem;
+      padding: 0.5rem;
+      background-color: transparent;
+      :focus {
+        outline: none;
+      }
+    }
+
+    // & button {
+    //   border: 1px solid $primaryColor;
+    //   border-radius: 1rem;
+    //   padding: 0.6rem;
+    //   cursor: pointer;
+    //   background-color: transparent;
+    //   transition: all 0.5s;
+    //   width: 8rem;
+
+    //   &:hover {
+    //     background-color: $primaryColor;
+    //     color: white;
+    //   }
+    // }
   }
 
   &_location_btn {
@@ -57,7 +83,7 @@ body {
       display: flex;
       & button {
         margin-right: 1rem;
-        border: 1px solid black;
+        border: 1px solid $primaryColor;
         border-radius: 1.5rem;
         padding: 0.6rem 1rem;
         cursor: pointer;
@@ -65,10 +91,24 @@ body {
         transition: all 0.5s;
 
         &:hover {
-          background-color: black;
+          background-color: $primaryColor;
           color: white;
         }
       }
     }
   }
+
+  &_recommendation {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    width: 80.5rem;
+    gap: 0.8rem;
+  }
+}
+
+.ColorRed {
+  color: red;
+  font-weight: 500;
+  font-size: 1.5rem;
 }

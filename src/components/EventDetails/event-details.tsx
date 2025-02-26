@@ -221,7 +221,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
           Some more recommendations for you, Vaibhav!
         </p>
 
-        <RecommendationCard length={10} />
+        {/* <RecommendationCard length={10} /> */}
       </div>
     </div>
   );
