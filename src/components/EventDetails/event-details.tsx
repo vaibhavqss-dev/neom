@@ -4,18 +4,68 @@ import star from "../../assets/star.svg";
 import ReviewCard from "./reviewCard/reviewCard";
 import Buttons from "../LeftandRightButtons/buttons";
 import RecommendationCard from "../base/recommendationCards/recommendationCard";
-import category from "../../assets/category.svg";
-import location from "../../assets/location.svg";
+import category_Img from "../../assets/category.svg";
+import location_Img from "../../assets/location.svg";
 import smileGreenFace from "../../assets/smileGreenFace.svg";
+import RecommendationCardContainer from "../base/recommendationCards/RecommendationCardContainer";
+import ReviewCardContainer from "./reviewCard/ReviewCardContainer";
 
 interface EventDetailsProps {
   eventCompleted?: boolean;
+  name?: string;
+  date?: string;
+  time?: string;
+  location?: string;
+  locationImg?: string;
+  imgURL1?: [];
+  index?: number;
+  starRating?: number;
+  reviews?: number;
+  category?: string;
+  categoryImg?: string;
+  subtextName?: string;
+  subtextDateFrom?: string;
+  subtextDateTo?: string;
+  timeRange?: string;
+  eventDescription1?: string;
+  eventDescription2?: string;
+  seatsAvailable?: number;
+  operatorName?: string;
+  operatorRating?: number;
+  operatorDescription?: string;
+  operatorReviews?: number;
+  operatorCategory?: string;
+  operatorLocation?: string;
+  operatorImgURL?: string;
+  operatorIndex?: number;
+  operatorStarRating?: number;
 }
 
 const EventDetails: React.FC<EventDetailsProps> = ({
   eventCompleted = false,
+  name = "Round of Golf",
+  time = "10:30 AM - 7:30 PM",
+  locationImg = location_Img,
+  location = "Sindalah City, Dubai",
+  imgURL1 = [golfcourt, golfcourt, golfcourt, golfcourt, golfcourt],
+  starRating = 5.0,
+  reviews = 23,
+  category = "Invigorating & uplifting experience",
+  categoryImg = category_Img,
+  subtextName = "Golf",
+  subtextDateFrom = "Nov 22, 2025",
+  subtextDateTo = "Nov 22, 2025",
+  seatsAvailable = 120,
+  timeRange = "10:30 AM - 7:30 PM",
+  eventDescription1 = "This is one of the many events come under golf category",
+  eventDescription2 = "This is one of the many events come under golf category",
+  operatorName = "Operator River Stone",
+  operatorDescription = "This is one of the many events come under golf category",
+  operatorRating = 4.9,
 }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
+
+  // const []
 
   const scrollLeft = () => {
     if (sliderRef.current) {
@@ -29,63 +79,68 @@ const EventDetails: React.FC<EventDetailsProps> = ({
     }
   };
 
-  useEffect(() => {
-    let direction = 1;
-    const interval = setInterval(() => {
-      if (!sliderRef.current) return;
-      if (direction === 1) {
-        scrollRight();
-        if (
-          sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
-          sliderRef.current.scrollWidth
-        ) {
-          direction = 0;
-        }
-      } else {
-        scrollLeft();
-        if (sliderRef.current.scrollLeft <= 0) {
-          direction = 1;
-        }
-      }
-    }, 2000);
+  // useEffect(() => {
+  //   let direction = 1;
+  //   const interval = setInterval(() => {
+  //     if (!sliderRef.current) return;
+  //     if (direction === 1) {
+  //       scrollRight();
+  //       if (
+  //         sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
+  //         sliderRef.current.scrollWidth
+  //       ) {
+  //         direction = 0;
+  //       }
+  //     } else {
+  //       scrollLeft();
+  //       if (sliderRef.current.scrollLeft <= 0) {
+  //         direction = 1;
+  //       }
+  //     }
+  //   }, 2000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <div className="eventDetailsPg">
-      <p className="eventDetailsPg_heading">Round of Golf</p>
+      <p className="eventDetailsPg_heading">{name}</p>
 
       <div className="eventDetailsPg_details">
         <div className="eventDetailsPg_details_stars">
-          {Array(5)
+          {Array(starRating)
             .fill(5)
             .map((_, i) => (
               <img src={star} alt="star" key={i} />
             ))}
         </div>
-        <p className="eventDetailsPg_details_stars_text">5.0</p>
+        <p className="eventDetailsPg_details_stars_text">{starRating}</p>
         <div className="eventDetailsPg_details_reviews">
-          <p>23 Reviews</p>
+          <p>{reviews} Reviews</p>
         </div>
 
-        <p className="eventDetailsPg_details_location">Sindalah City, Dubai</p>
+        <p className="eventDetailsPg_details_location">{location}</p>
       </div>
 
       <div className="eventDetailsPg_images">
         <div className="eventDetailsPg_images_left">
-          {Array(4)
-            .fill(5)
-            .map((_, i) => (
-              <div className="eventDetailsPg_images_left_img">
-                <img src={golfcourt} alt="golf" />
-              </div>
-            ))}
+          <div className="eventDetailsPg_images_left_img">
+            <img src={imgURL1[0]} alt="golf" />
+          </div>
+          <div className="eventDetailsPg_images_left_img">
+            <img src={imgURL1[1]} alt="golf" />
+          </div>
+          <div className="eventDetailsPg_images_left_img">
+            <img src={imgURL1[2]} alt="golf" />
+          </div>
+          <div className="eventDetailsPg_images_left_img">
+            <img src={imgURL1[3]} alt="golf" />
+          </div>
         </div>
 
         <div className="eventDetailsPg_images_right">
           <div className="eventDetailsPg_images_right_img">
-            <img src={golfcourt} alt="golf" />
+            <img src={imgURL1[4]} alt="golf" />
           </div>
         </div>
 
@@ -99,14 +154,14 @@ const EventDetails: React.FC<EventDetailsProps> = ({
           </p>
           <div className="eventDetailsPg_description_left_details">
             <div className="eventDetailsPg_description_left_details_1">
-              <img src={category} alt="category" />
+              <img src={categoryImg} alt="category" />
               <div className="eventDetailsPg_description_left_details_1_text">
-                <p>Golf</p>
+                <p>{subtextName}</p>
                 <p>This is one of the many events come under golf category</p>
               </div>
             </div>
             <div className="eventDetailsPg_description_left_details_2">
-              <img src={location} alt="location" />
+              <img src={locationImg} alt="location" />
               <div className="eventDetailsPg_description_left_details_2_heading">
                 <p>Great Location</p>
                 <p>Every guest has given a five star rating to this location</p>
@@ -115,7 +170,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
             <div className="eventDetailsPg_description_left_details_3">
               <img src={smileGreenFace} alt="smileGreenFace" />
               <div className="eventDetailsPg_description_left_details_3_heading">
-                <p>Invigorating & uplifting experience</p>
+                <p>{category}</p>
                 <p>
                   This event has a rating of 5.0 that make this event
                   overwhelmed
@@ -123,44 +178,29 @@ const EventDetails: React.FC<EventDetailsProps> = ({
               </div>
             </div>
           </div>
-          <hr />
           <div className="eventDetailsPg_description_left_text">
             <p className="eventDetailsPg_description_left_text_1">
-              tempora unde? Sapiente voluptate neque rerum est adipisci, saepe
-              quisquam quae? Placeat deserunt possimus in. Eligendi, ad deserunt
-              in tenetur impedit alias nesciunt magni, optio totam aspernatur
-              provident iste ipsam vel voluptate neque, consequuntur magnam odit
-              assumenda esse. Nam illo dolorum dolore animi.
+              {eventDescription1}
             </p>
             <p className="eventDetailsPg_description_left_text_2">
-              tempora unde? Sapiente voluptate neque rerum est adipisci, saepe
-              quisquam quae? Placeat deserunt possimus in. Eligendi, ad deserunt
-              in tenetur impedit alias nesciunt magni, optio totam aspernatur
-              provident iste ipsam vel voluptate neque, consequuntur magnam odit
-              assumenda esse. Nam illo dolorum dolore animi.
+              {eventDescription2}
             </p>
           </div>
           <hr />
           <div className="eventDetailsPg_description_left_eventName">
             <p className="eventDetailsPg_description_left_eventName_heading">
-              Operator River Stone
+              {operatorName}
             </p>
             <div className="eventDetailsPg_description_left_eventName_stars">
-              {Array(4)
-                .fill(4)
-                .map((_, i) => (
-                  <img src={star} alt="star" key={i} />
-                ))}
+              {Array(Math.floor(operatorRating)).fill(
+                <img src={star} alt="star" />
+              )}
               <span className="eventDetailsPg_description_left_eventName_stars_text">
-                4.9
+                {operatorRating}
               </span>
             </div>
             <p className="eventDetailsPg_description_left_eventName_text_1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-              tincidunt, erat eget tincidunt varius, ex ex bibendum elit, nec
-              ultricies tortor odio eget nunc. Nulla tincidunt, erat eget
-              tincidunt varius, ex ex bibendum elit, nec ultricies tortor odio
-              eget nunc.
+              {operatorDescription}
             </p>
           </div>
         </div>
@@ -168,32 +208,33 @@ const EventDetails: React.FC<EventDetailsProps> = ({
         <div className="eventDetailsPg_description_right">
           <div className="eventDetailsPg_description_right_form">
             <div className="eventDetailsPg_description_right_form_time">
-              10:30 AM - 7:30 PM
+              {timeRange}
             </div>
             <div className="eventDetailsPg_description_right_form_formGroup">
               <div className="eventDetailsPg_description_right_form_formGroup1">
                 <div className="eventDetailsPg_description_right_form_formGroup1_1">
                   <label>From</label>
                   <p className="eventDetailsPg_description_right_form_formGroup1_date">
-                    Nov 22, 2025
+                    {subtextDateFrom}
                   </p>
                 </div>
                 <div className="eventDetailsPg_description_right_form_formGroup1_1">
                   <label>To</label>
                   <p className="eventDetailsPg_description_right_form_formGroup1_date">
-                    Nov 29, 2025
+                    {subtextDateTo}
                   </p>
                 </div>
               </div>
+              <hr />
               <div className="eventDetailsPg_description_right_form_formGroup2">
                 <div className="eventDetailsPg_description_right_form_formGroup2_2">
                   <label>Guests</label>
-                  <input type="number" value="1" className="dropdown" />
+                  <input type="number" placeholder="1" />
                 </div>
               </div>
             </div>
             <div className="eventDetailsPg_description_right_form_availability">
-              172 Seats still available
+              {seatsAvailable} Seats still available
             </div>
             {/* Reserve Events */}
             {eventCompleted ? null : (
@@ -206,13 +247,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
       </div>
 
       <div ref={sliderRef} className="eventDetailsPg_reviews">
-        {Array(10)
-          .fill(10)
-          .map((_, i) => (
-            <div className="eventDetailsPg_reviewsCard" key={i}>
-              <ReviewCard key={i} />
-            </div>
-          ))}
+        <ReviewCardContainer id={1} />
       </div>
       <Buttons scrollLeft={scrollLeft} scrollRight={scrollRight} />
 
@@ -221,7 +256,9 @@ const EventDetails: React.FC<EventDetailsProps> = ({
           Some more recommendations for you, Vaibhav!
         </p>
 
-        {/* <RecommendationCard length={10} /> */}
+        <div className="eventDetailsPg_recommendations_cards">
+          <RecommendationCardContainer number={10} />
+        </div>
       </div>
     </div>
   );

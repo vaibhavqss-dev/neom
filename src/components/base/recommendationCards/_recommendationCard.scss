@@ -1,4 +1,7 @@
+$primaryColor: #222222;
+
 .recommendationCards {
+  color: $primaryColor;
   &_card {
     position: relative;
     width: 15rem;
@@ -29,19 +32,23 @@
     }
 
     &_text {
+      color: $primaryColor;
       margin: 0.5rem 0.5rem;
 
       &_subtext {
+        color: $primaryColor;
         display: flex;
         font-size: 0.7rem;
         justify-content: space-between;
         width: 14.5rem;
 
         &_name {
+          color: $primaryColor;
           margin: 0;
         }
 
         &_date {
+          color: $primaryColor;
           margin: 0;
         }
       }
@@ -61,33 +68,58 @@
     &_heart {
       cursor: pointer;
       position: absolute;
-      top: -1rem;
-      left: 9rem;
+      top: 1.5rem;
+      right: 1.6rem;
       width: 18px;
-      height: 14px;
-      background-color: #222222;
+      height: 16px;
+      background: #222222;
       transform: rotate(-45deg);
-      margin: 50px;
+      border-bottom: 2px solid #222222;
+      border-left: 2px solid #222222;
+      // transition: background-color 0.2s ease;
 
       &::before,
       &::after {
         content: "";
         position: absolute;
-        width: 17px;
-        height: 16px;
-        background-color: #222222;
+        background: #222222;
+        border: 2px solid #222222;
         border-radius: 50%;
       }
 
       &::before {
-        top: -10px;
-        left: 0px;
+        width: 16px;
+        height: 16px;
+        top: -13px;
+        left: -2px;
       }
 
       &::after {
+        width: 16px;
+        height: 16px;
         top: -2px;
         left: 9px;
       }
+
+      &:hover {
+        background-color: rgb(238, 18, 92);
+        border: 2px solid rgb(238, 18, 92);
+        &::before,
+        &::after {
+          border: 2px solid rgb(238, 18, 92);
+          background-color: rgb(238, 18, 92);
+        }
+      }
     }
+  }
+}
+
+.isLiked {
+  background-color: rgb(238, 18, 92);
+  border: 2px solid rgb(238, 18, 92);
+  &::before,
+  &::after {
+    border: 2px solid rgb(238, 18, 92);
+    background-color: rgb(238, 18, 92);
   }
 }

@@ -25,10 +25,10 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     element: <Router />,
     children: [
+      { path: "/event-details", element: <EventDetails /> },
       { path: "/", element: <Home /> },
       { path: "/favorites", element: <Favorites /> },
       { path: "/upcoming-events", element: <UpcomingEventsPg /> },
-      // { path: "/event-details", element: <EventDetails /> },
       // { path: "/cancel-recommendation", element: <CancelRecommendation /> },
       // { path: "/completed-events", element: <CompletedEvents /> },
       { path: "/add-review", element: <AddReview /> },

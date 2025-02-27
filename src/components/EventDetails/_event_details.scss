@@ -1,8 +1,11 @@
+$primaryColor: #222222;
+
 .eventDetailsPg {
   margin-top: 2rem;
   margin-left: 2rem;
-
+  color: $primaryColor;
   &_heading {
+    color: $primaryColor;
     font-size: 2rem;
     font-family: cursive;
     margin: 0;
@@ -152,6 +155,10 @@
             margin-left: 0.5rem;
           }
         }
+
+        &_text_1 {
+          line-height: 2;
+        }
       }
 
       &_text {
@@ -187,6 +194,10 @@
             justify-content: space-around;
 
             &_1 {
+              & label {
+                display: block;
+                font-size: 0.8rem;
+              }
               & p {
                 margin: 0;
               }
@@ -199,14 +210,17 @@
             justify-content: space-around;
             margin-top: 10px;
 
+            display: flex;
             &_2 {
               width: 14rem;
               & label {
                 display: block;
+                font-size: 0.8rem;
               }
               & input {
                 display: block;
                 border: none;
+                font-size: 1rem;
 
                 &:focus {
                   outline: none;
@@ -255,6 +269,13 @@
       font-size: 1.7rem;
       font-family: cursive;
       margin: 3rem 0 0 0;
+    }
+
+    &_cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
     }
   }
 }

@@ -25,14 +25,7 @@ body {
 .upcomingEventsPg_date_location_btns {
   display: flex;
   justify-content: space-between;
-  width: 18rem;
-}
-.upcomingEventsPg_date_location_btns button {
-  border: 1px solid black;
-  border-radius: 1rem;
-  padding: 0.6rem;
-  cursor: pointer;
-  background-color: transparent;
+  width: 18rem;  
 }
 .upcomingEventsPg_location_btn {
   width: 12rem;
@@ -65,7 +58,6 @@ body {
   border-radius: 1.5rem;
   padding: 0.6rem 1rem;
   cursor: pointer;
-  background-color: transparent;
 }
 .upcomingEventsPg_events_img_container {
   display: flex;

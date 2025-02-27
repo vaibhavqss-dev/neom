@@ -1,27 +1,41 @@
 import star from "../../../assets/star.svg";
 import desertcity from "../../../assets/desertcity.jpg";
 
-export default function ReviewCard() {
+type ReviewCardProps = {
+  id: number;
+  name: string;
+  date: string;
+  text: string;
+  rating: number;
+  profileURL: string;
+};
+
+const ReviewCard: React.FC<ReviewCardProps> = ({
+  id,
+  name,
+  date,
+  text,
+  rating,
+  profileURL,
+}) => {
   return (
     <div className="reviewCard">
       <div className="reviewCard_user">
-        <img className="reviewCard_user_img" src={desertcity} alt="user" />
+        <img
+          className="reviewCard_user_img"
+          src={profileURL}
+          alt="user"
+        />
         <div className="reviewCard_user_text">
-          <p className="reviewCard_user_text_name">John Doe</p>
-          <p className="reviewCard_user_text_date">Nov 2022</p>
+          <p className="reviewCard_user_text_name">{name}</p>
+          <p className="reviewCard_user_text_date">{date}</p>
         </div>
       </div>
 
-      <p className="reviewCard_text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-        vestibulum, mauris sed tincidunt auctor, nunc odio ultricies velit, nec
-        luctus dui sem ac dolor. Suspendisse potenti. Sed nec elit vel turpis
-        ultricies tempus. Nullam nec ultricies nunc. Nullam nec ultricies nunc.
-        Nullam nec ultricies nunc.
-      </p>
+      <p className="reviewCard_text">{text}</p>
       <p className="reviewCard_rating">
-        {Array(4.9)
-          .fill(5)
+        {Array(rating)
+          .fill(rating)
           .map((_, i) => (
             <img src={star} alt="star" key={i} />
           ))}
@@ -30,4 +44,6 @@ export default function ReviewCard() {
       <button className="reviewCard_btn">Read More</button>
     </div>
   );
-}
+};
+
+export default ReviewCard;

@@ -31,14 +31,6 @@ body {
   width: 18rem;
 }
 
-.upcomingEventsPg_date_location_btns button {
-  border: 1px solid black;
-  border-radius: 1rem;
-  padding: 0.6rem;
-  cursor: pointer;
-  background-color: transparent;
-}
-
 .upcomingEventsPg_location_btn {
   width: 12rem;
 }
@@ -76,7 +68,6 @@ body {
   border-radius: 1.5rem;
   padding: 0.6rem 1rem;
   cursor: pointer;
-  background-color: transparent;
 }
 
 .upcomingEventsPg_events_img_container {
@@ -159,6 +150,9 @@ body {
 }
 
 
+.recommendationCards {
+  color: #222222;
+}
 .recommendationCards_card {
   position: relative;
   width: 15rem;
@@ -186,18 +180,22 @@ body {
   object-position: center; /* Centers the image */
 }
 .recommendationCards_card_text {
+  color: #222222;
   margin: 0.5rem 0.5rem;
 }
 .recommendationCards_card_text_subtext {
+  color: #222222;
   display: flex;
   font-size: 0.7rem;
   justify-content: space-between;
   width: 14.5rem;
 }
 .recommendationCards_card_text_subtext_name {
+  color: #222222;
   margin: 0;
 }
 .recommendationCards_card_text_subtext_date {
+  color: #222222;
   margin: 0;
 }
 .recommendationCards_card_text_name {
@@ -212,29 +210,50 @@ body {
 .recommendationCards_card_heart {
   cursor: pointer;
   position: absolute;
-  top: -1rem;
-  left: 9rem;
+  top: 1.5rem;
+  right: 1.6rem;
   width: 18px;
-  height: 14px;
-  background-color: #222222;
+  height: 16px;
+  background: #222222;
   transform: rotate(-45deg);
-  margin: 50px;
+  border-bottom: 2px solid #222222;
+  border-left: 2px solid #222222;
 }
 .recommendationCards_card_heart::before, .recommendationCards_card_heart::after {
   content: "";
   position: absolute;
-  width: 17px;
-  height: 16px;
-  background-color: #222222;
+  background: #222222;
+  border: 2px solid #222222;
   border-radius: 50%;
 }
 .recommendationCards_card_heart::before {
-  top: -10px;
-  left: 0px;
+  width: 16px;
+  height: 16px;
+  top: -13px;
+  left: -2px;
 }
 .recommendationCards_card_heart::after {
+  width: 16px;
+  height: 16px;
   top: -2px;
   left: 9px;
+}
+.recommendationCards_card_heart:hover {
+  background-color: rgb(238, 18, 92);
+  border: 2px solid rgb(238, 18, 92);
+}
+.recommendationCards_card_heart:hover::before, .recommendationCards_card_heart:hover::after {
+  border: 2px solid rgb(238, 18, 92);
+  background-color: rgb(238, 18, 92);
+}
+
+.isLiked {
+  background-color: rgb(238, 18, 92);
+  border: 2px solid rgb(238, 18, 92);
+}
+.isLiked::before, .isLiked::after {
+  border: 2px solid rgb(238, 18, 92);
+  background-color: rgb(238, 18, 92);
 }
 
 .selectDistance_btns {
@@ -253,11 +272,14 @@ body {
   cursor: pointer;
   border: none;
   padding: 0.6rem 1rem;
-  background-color: transparent;
   font-size: 0.8rem;
 }
 .selectDistance_btns_walking button:hover, .selectDistance_btns_driving button:hover, .selectDistance_btns_noLimits button:hover {
-  background-color: black;
+  background-color: #222222;
+  color: white;
+}
+.selectDistance_btns_btn_active {
+  background-color: #222222;
   color: white;
 }
 
@@ -831,8 +853,10 @@ body {
 .eventDetailsPg {
   margin-top: 2rem;
   margin-left: 2rem;
+  color: #222222;
 }
 .eventDetailsPg_heading {
+  color: #222222;
   font-size: 2rem;
   font-family: cursive;
   margin: 0;
@@ -965,6 +989,9 @@ body {
   font-size: 0.8rem;
   margin-left: 0.5rem;
 }
+.eventDetailsPg_description_left_eventName_text_1 {
+  line-height: 2;
+}
 .eventDetailsPg_description_left_text p {
   margin: 2rem 0 2rem 0;
   font-size: 0.8rem;
@@ -991,6 +1018,10 @@ body {
   display: flex;
   justify-content: space-around;
 }
+.eventDetailsPg_description_right_form_formGroup1_1 label {
+  display: block;
+  font-size: 0.8rem;
+}
 .eventDetailsPg_description_right_form_formGroup1_1 p {
   margin: 0;
 }
@@ -998,16 +1029,19 @@ body {
   display: flex;
   justify-content: space-around;
   margin-top: 10px;
+  display: flex;
 }
 .eventDetailsPg_description_right_form_formGroup2_2 {
   width: 14rem;
 }
 .eventDetailsPg_description_right_form_formGroup2_2 label {
   display: block;
+  font-size: 0.8rem;
 }
 .eventDetailsPg_description_right_form_formGroup2_2 input {
   display: block;
   border: none;
+  font-size: 1rem;
 }
 .eventDetailsPg_description_right_form_formGroup2_2 input:focus {
   outline: none;
@@ -1046,13 +1080,19 @@ body {
   font-family: cursive;
   margin: 3rem 0 0 0;
 }
+.eventDetailsPg_recommendations_cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
 
 .reviewCard {
   border: 1px solid black;
   border-radius: 1rem;
   display: flex;
   max-width: 17rem;
-  max-height: 28rem;
+  height: 16rem;
   padding: 1rem;
   width: 17rem;
   flex-direction: column;
@@ -1061,7 +1101,7 @@ body {
 .reviewCard_user {
   display: flex;
   align-items: center;
-  margin: 1rem 0;
+  margin: 0;
 }
 .reviewCard_user_img {
   width: 3rem;
@@ -1082,6 +1122,12 @@ body {
   color: grey;
 }
 .reviewCard_text {
+  width: 100%;
+  height: 8rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
   margin: 0;
   font-size: 0.9rem;
 }
@@ -1168,10 +1214,12 @@ body {
   border-radius: 1.5rem;
   padding: 0.6rem 1rem;
   cursor: pointer;
-  background-color: transparent;
   transition: all 0.5s;
 }
 .upcomingEventsPg_eventsType_btns button:hover {
+  color: white;
+}
+.upcomingEventsPg_eventsType_btn_active {
   background-color: #222222;
   color: white;
 }

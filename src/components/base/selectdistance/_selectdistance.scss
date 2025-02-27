@@ -1,3 +1,4 @@
+$primaryColor: #222222;
 .selectDistance {
   &_btns {
     display: flex;
@@ -17,14 +18,18 @@
         cursor: pointer;
         border: none;
         padding: 0.6rem 1rem;
-        background-color: transparent;
         font-size: 0.8rem;
 
         &:hover {
-          background-color: black;
+          background-color: $primaryColor;
           color: white;
         }
       }
+    }
+
+    &_btn_active {
+      background-color: $primaryColor;
+      color: white;
     }
 
     // &_middleBtn {
