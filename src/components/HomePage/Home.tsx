@@ -1,18 +1,9 @@
-import Corousal from "./corousal/Corousal";
 import React from "react";
-import Buttons from "../LeftandRightButtons/buttons";
-import underwaterImg from "../../assets/neom-underwater.jpg";
-import desertcity from "../../assets/desertcity.jpg";
-import Suggestion from "./Suggestion/Suggestion";
-import food from "../../assets/food.jpg";
-import city from "../../assets/city.jpg";
-import Recommendation from "./recommadation/recommadation";
-import Visited from "./visited/visited";
-import Footer from "../footer/footer";
 import MapWithPoints from "./maps/maps";
 import CarouselSlider from "./corousal/CorousalSlider";
 import SuggestionSlider from "./Suggestion/SuggestionSlider";
 import VisitedSlider from "./visited/VisitedSlider";
+import RecommendationCardContainer from "../base/recommendationCards/RecommendationCardContainer";
 
 const coordinates: [number, number, string][] = [
   [21.7793, 72.589814, "swim"], // New Delhi
@@ -42,17 +33,7 @@ const Home: React.FC = () => {
         </p>
 
         <div className="recommandationSection_container">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <Recommendation
-              imgURL={index & 1 ? underwaterImg : desertcity}
-              rank={index + 1}
-              name="Desert Walking"
-              subtext={"Tour on land of desert"}
-              date={new Date().toLocaleDateString()}
-              // {/* 10:00 AM - 7:00 PM */}
-              time={`${10 + index}:00 AM - ${7 + index}:00 PM`}
-            />
-          ))}
+          <RecommendationCardContainer number={5} />
         </div>
       </div>
       <VisitedSlider />

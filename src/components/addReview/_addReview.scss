@@ -1,18 +1,38 @@
+$primaryColor: #222222;
 .addReview {
-    margin-top: 3rem;
+  margin-top: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: $primaryColor;
+
   &Pg {
     max-width: 45rem;
     padding: 2rem;
-    box-shadow: 2px 1px 14px 0px black;
+    box-shadow: 0px 0px 100px$primaryColor;
     border-radius: 0.6rem;
 
+    &_clsBtn {
+      display: flex;
+      justify-content: flex-end;
+      & button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        height: 0.5rem;
+        width: 0.5rem;
+        padding: 1rem;
+        border: 1px solid gray;
+        border-radius: 2rem;
+      }
+    }
+
     &_heading {
-      font-size: 1.7rem;
-      font-family: cursive;
       margin: 0;
+      font-size: 2rem;
+      font-weight: 500;
+      font-family: cursive;
     }
 
     &_description {
@@ -58,16 +78,17 @@
       font-size: 1.1rem;
 
       &_textArea {
-        width: 98%;
+        background-color: transparent;
+        width: 93%;
         height: 10rem;
         margin: 0.5rem 0;
-        padding: 0.5rem;
+        padding: 1.5rem;
         border-radius: 0.5rem;
-        border: 1px solid gray;
+        border: 1px solid #dddddd;
 
         &:focus {
           outline: none;
-          border: 1px solid #222222;
+          border: 1px solid #dddddd;
         }
       }
     }

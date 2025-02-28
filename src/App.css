@@ -256,6 +256,19 @@ body {
   background-color: rgb(238, 18, 92);
 }
 
+.numberOnRecommendationCard {
+  font-size: 84px;
+  font-weight: bolder;
+  color: transparent;
+  background-color: transparent;
+  text-shadow: none;
+  position: absolute;
+  z-index: 1;
+  top: 14.1rem;
+  left: 11.1rem;
+  -webkit-text-stroke: 2px white;
+}
+
 .selectDistance_btns {
   display: flex;
   gap: 1rem;
@@ -285,11 +298,13 @@ body {
 
 .reviewStar {
   margin: 0;
+  display: flex;
+  gap: 0.1rem;
 }
 .reviewStar_star {
+  cursor: pointer;
   margin: 0;
   width: 1.6rem;
-  display: inline-block;
 }
 
 .star_rated {
@@ -545,6 +560,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 1rem;
   margin-right: 2rem;
 }
 
@@ -1299,7 +1315,9 @@ body {
 }
 
 .isActive {
-  color: red;
+  color: #FF385C;
+  text-decoration: underline;
+  text-underline-offset: 0.7rem;
 }
 
 .links_page {
@@ -1319,7 +1337,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 3rem;
+  width: 3.5rem;
   background-color: white;
   border-radius: 1rem;
   padding: 0.5rem;
@@ -1585,8 +1603,8 @@ body {
   justify-content: space-around;
   border-radius: 0.5rem;
   margin: 2rem;
-  margin-left: 2rem;
-  margin-right: 3rem;
+  margin-left: 6rem;
+  margin-right: 10rem;
 }
 .completedEventsPg_addReview_text {
   margin: 0;
@@ -1615,17 +1633,34 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #222222;
 }
 .addReviewPg {
   max-width: 45rem;
   padding: 2rem;
-  box-shadow: 2px 1px 14px 0px black;
+  box-shadow: 0px 0px 100px #222222;
   border-radius: 0.6rem;
 }
+.addReviewPg_clsBtn {
+  display: flex;
+  justify-content: flex-end;
+}
+.addReviewPg_clsBtn button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  height: 0.5rem;
+  width: 0.5rem;
+  padding: 1rem;
+  border: 1px solid gray;
+  border-radius: 2rem;
+}
 .addReviewPg_heading {
-  font-size: 1.7rem;
-  font-family: cursive;
   margin: 0;
+  font-size: 2rem;
+  font-weight: 500;
+  font-family: cursive;
 }
 .addReviewPg_description {
   margin: 1rem 0;
@@ -1665,16 +1700,17 @@ body {
   font-size: 1.1rem;
 }
 .addReviewPg_feedback_textArea {
-  width: 98%;
+  background-color: transparent;
+  width: 93%;
   height: 10rem;
   margin: 0.5rem 0;
-  padding: 0.5rem;
+  padding: 1.5rem;
   border-radius: 0.5rem;
-  border: 1px solid gray;
+  border: 1px solid #dddddd;
 }
 .addReviewPg_feedback_textArea:focus {
   outline: none;
-  border: 1px solid #222222;
+  border: 1px solid #dddddd;
 }
 .addReviewPg_submitBtn {
   width: 8rem;
@@ -1714,6 +1750,7 @@ body {
   border-radius: 0.3rem;
   padding: 1rem;
   height: 10rem;
+  border: 1px solid #dddddd;
 }
 .vibometer_feedback_textarea:focus {
   outline: none;
@@ -1727,6 +1764,7 @@ body {
   border-radius: 0.4rem;
   font-weight: bold;
   font-size: 0.9rem;
+  cursor: pointer;
 }
 .vibometer_submitBtn:hover {
   background-color: #45a049;

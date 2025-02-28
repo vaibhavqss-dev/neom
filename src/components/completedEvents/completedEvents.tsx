@@ -4,13 +4,21 @@
 import React from "react";
 import EventDetails from "../EventDetails/event-details";
 
-export default function CompletedEvents() {
+type CompletedEventsProps = {
+  eventCompleted?: boolean;
+  userName?: string;
+};
+
+const CompletedEvents: React.FC<CompletedEventsProps> = ({
+  userName = "Vaibhav",
+  eventCompleted = true,
+}) => {
   return (
     <div className="completedEventsPg">
       <div className="completedEventsPg_addReview">
         <div className="completedEventsPg_addReview_text">
           <p className="completedEventsPg_addReview_text_heading">
-            Hey Vaibhav,    
+            Hey {userName},
           </p>
           <p className="completedEventsPg_addReview_text_description">
             We are sure that you have enjoyed this event a lot. Would you like
@@ -23,7 +31,9 @@ export default function CompletedEvents() {
         </button>
       </div>
 
-      <EventDetails eventCompleted/>
+      <EventDetails eventCompleted={eventCompleted} />
     </div>
   );
-}
+};
+
+export default CompletedEvents;

@@ -64,7 +64,9 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
               ? "recommendationCards_card_heart isLiked"
               : "recommendationCards_card_heart"
           }
-        ></div>
+        >
+          <div className="number">{index}</div>
+        </div>
       </div>
     </div>
   );

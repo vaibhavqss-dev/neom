@@ -7,6 +7,7 @@ import smileGreenFace from "./../../assets/smileGreenFace.svg";
 
 import RecommadationSlider from "./recommendation/recommadationSlider";
 import HomepageRecommadation from "../HomePage/recommadation/recommadation";
+import RecommendationCardContainer from "../base/recommendationCards/RecommendationCardContainer";
 
 type FavoriteItem = JSX.Element;
 const Favorites: React.FC = () => {
@@ -36,7 +37,7 @@ const Favorites: React.FC = () => {
 
     setIsFavorite(favoritesArray);
   }, []);
-  
+
   return (
     <>
       <div className="favoritesPg">
@@ -55,16 +56,7 @@ const Favorites: React.FC = () => {
           </p>
 
           <div className="favoritesPgRecommandation_section-slider">
-            {Array.from({ length: 5 }).map((_, index) => (
-              <HomepageRecommadation
-                imgURL={index & 1 ? underwaterImg : desertcity}
-                rank={index + 1}
-                name="Desert Walking"
-                subtext={"Tour on land of desert"}
-                date={new Date().toLocaleDateString()}
-                time={`${10 + index}:00 AM - ${7 + index}:00 PM`}
-              />
-            ))}
+            <RecommendationCardContainer number={5} />
           </div>
         </div>
       </div>

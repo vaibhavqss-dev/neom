@@ -1,7 +1,20 @@
 import React from "react";
 import VibometerIcon from "./vibometerIcon";
 
-export default function VibOmeter() {
+const VibOmeter: React.FC = () => {
+  const [experience, setExperience] = React.useState<string>("");
+
+  function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    setExperience(e.target.value);
+  }
+
+  // Effect
+  // React.useEffect(() => {
+
+  //   // Send the API Request to the server
+  //   console.log(experience);
+  // }, []);
+
   return (
     <div className="vibometer__container">
       <div className="vibometer">
@@ -15,6 +28,8 @@ export default function VibOmeter() {
 
         <div className="vibometer_feedback">
           <textarea
+            value={experience}
+            onChange={(e) => handleChange(e)}
             className="vibometer_feedback_textarea"
             placeholder="Share your experience with us..."
           ></textarea>
@@ -23,4 +38,6 @@ export default function VibOmeter() {
       </div>
     </div>
   );
-}
+};
+
+export default VibOmeter;

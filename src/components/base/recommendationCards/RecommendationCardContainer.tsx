@@ -30,8 +30,14 @@ const RecommendationCardContainer: React.FC<
   const [liked, setLiked] = useState<RecommendationLiked[]>([]);
 
   function handleLike(id: number, name: string) {
-    console.log("Liked", id, name);
-    setLiked([...liked, { id, name }]);
+    // console.log("Liked", id, name);
+    setLiked((prev) => {
+      if (prev.map((ele) => ele.id).includes(id)) {
+        return prev.filter((ele) => ele.id !== id);
+      } else {
+        return [...prev, { id, name }];
+      }
+    });
   }
 
   const [recommendations, setRecommendations] = useState<RecommendationItem[]>(
@@ -59,10 +65,11 @@ const RecommendationCardContainer: React.FC<
 
   return (
     <>
-      {recommendations.map((ele) => (
+      {recommendations.map((ele: RecommendationItem, i: number) => (
         <RecommendationCard
+          key={ele.id}
           handleLike={handleLike}
-          isLiked={liked.map((ele) => ele.id).includes(ele.id)}
+          isLiked={liked.map((item) => item.id).includes(ele.id)}
           id={ele.id}
           index={ele.id}
           imgURL={ele.imgURL}
