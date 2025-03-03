@@ -3,6 +3,7 @@ import calendar from "../../../assets/calendar.svg";
 import location from "../../../assets/location.svg";
 import category from "../../../assets/category.svg";
 import smileGreenFace from "../../../assets/smileGreenFace.svg";
+import weather from "../../../assets/weather.svg";
 import redstars from "../../../assets/star.svg";
 
 function Corousal({
@@ -30,6 +31,10 @@ function Corousal({
     <div className="corousalContainer">
       <div className="corousalContainer_imgContainer">
         <img src={ImgUrl} alt="underwater" />
+        <div className="corousalContainer_imgContainer_weather--svg">
+          <img src={weather} alt="weather" />
+          <p>25°C</p>
+        </div>
       </div>
 
       <div className="corousalContainer_textContainer">

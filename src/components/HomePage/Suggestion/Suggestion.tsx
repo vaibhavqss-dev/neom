@@ -21,7 +21,7 @@ export default function Suggestion({
     <div className="SuggestionContainer">
       <div className="SuggestionContainer_img">
         <img
-          src=""
+          src={emoji_url}
           alt="Emoji Face"
           className="SuggestionContainer_img_emoji"
         />

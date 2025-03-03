@@ -33,7 +33,7 @@ const Home: React.FC = () => {
         </p>
 
         <div className="recommandationSection_container">
-          <RecommendationCardContainer number={5} />
+          <RecommendationCardContainer IsRank number={5} />
         </div>
       </div>
       <VisitedSlider />

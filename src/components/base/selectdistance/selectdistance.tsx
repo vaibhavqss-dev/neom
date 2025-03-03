@@ -1,7 +1,10 @@
 import React from "react";
 
 type SelectDistanceProps = {
-  setDistance?: (e?: any, filterType?: any) => void;
+  setDistance?: (
+    distance: { type: string; value: number },
+    filterType: string
+  ) => void;
   Filter?: any;
 };
 
@@ -16,13 +19,13 @@ const SelectDistance: React.FC<SelectDistanceProps> = ({
       <div className="selectDistance_btns">
         <div className="selectDistance_btns_walking">
           <button
-            onClick={(e) =>
-              setDistance?.(e, { distance: { type: "walking", value: 10 } })
+            onClick={() =>
+              setDistance?.({ type: "walking", value: 10 }, "distance")
             }
             value="10"
             className={
-              Filter.distance?.type === "walking" &&
-              Filter.distance?.value === 10
+              Filter?.distance?.type === "walking" &&
+              Filter?.distance?.value === 10
                 ? "selectDistance_btns_btn_active"
                 : ""
             }
@@ -30,13 +33,13 @@ const SelectDistance: React.FC<SelectDistanceProps> = ({
             10 mins Walking
           </button>
           <button
-            onClick={(e) =>
-              setDistance?.(e, { distance: { type: "walking", value: 20 } })
+            onClick={() =>
+              setDistance?.({ type: "walking", value: 20 }, "distance")
             }
             value="20"
             className={
-              Filter.distance?.type === "walking" &&
-              Filter.distance?.value === 20
+              Filter?.distance?.type === "walking" &&
+              Filter?.distance?.value === 20
                 ? "selectDistance_btns_btn_active"
                 : ""
             }
@@ -44,13 +47,13 @@ const SelectDistance: React.FC<SelectDistanceProps> = ({
             20 mins Walking
           </button>
           <button
-            onClick={(e) =>
-              setDistance?.(e, { distance: { type: "walking", value: 30 } })
+            onClick={() =>
+              setDistance?.({ type: "walking", value: 30 }, "distance")
             }
             value="30"
             className={
-              Filter.distance?.type === "walking" &&
-              Filter.distance?.value === 30
+              Filter?.distance?.type === "walking" &&
+              Filter?.distance?.value === 30
                 ? "selectDistance_btns_btn_active"
                 : ""
             }
@@ -61,13 +64,13 @@ const SelectDistance: React.FC<SelectDistanceProps> = ({
 
         <div className="selectDistance_btns_driving">
           <button
-            onClick={(e) =>
-              setDistance?.(e, { distance: { type: "driving", value: 10 } })
+            onClick={() =>
+              setDistance?.({ type: "driving", value: 10 }, "distance")
             }
             value="10"
             className={
-              Filter.distance?.type === "driving" &&
-              Filter.distance?.value === 10
+              Filter?.distance?.type === "driving" &&
+              Filter?.distance?.value === 10
                 ? "selectDistance_btns_btn_active"
                 : ""
             }
@@ -75,13 +78,13 @@ const SelectDistance: React.FC<SelectDistanceProps> = ({
             10 mins drive
           </button>
           <button
-            onClick={(e) =>
-              setDistance?.(e, { distance: { type: "driving", value: 20 } })
+            onClick={() =>
+              setDistance?.({ type: "driving", value: 20 }, "distance")
             }
             value="20"
             className={
-              Filter.distance?.type === "driving" &&
-              Filter.distance?.value === 20
+              Filter?.distance?.type === "driving" &&
+              Filter?.distance?.value === 20
                 ? "selectDistance_btns_btn_active"
                 : ""
             }
@@ -89,13 +92,13 @@ const SelectDistance: React.FC<SelectDistanceProps> = ({
             20 mins drive
           </button>
           <button
-            onClick={(e) =>
-              setDistance?.(e, { distance: { type: "driving", value: 30 } })
+            onClick={() =>
+              setDistance?.({ type: "driving", value: 30 }, "distance")
             }
             value="30"
             className={
-              Filter.distance?.type === "driving" &&
-              Filter.distance?.value === 30
+              Filter?.distance?.type === "driving" &&
+              Filter?.distance?.value === 30
                 ? "selectDistance_btns_btn_active"
                 : ""
             }
@@ -107,12 +110,12 @@ const SelectDistance: React.FC<SelectDistanceProps> = ({
         <div className="selectDistance_btns_noLimits">
           <button
             className={
-              Filter.distance?.type === "noLimits"
+              Filter?.distance?.type === "noLimits"
                 ? "selectDistance_btns_btn_active"
                 : ""
             }
-            onClick={(e) =>
-              setDistance?.(e, { distance: { type: "noLimits", value: 0 } })
+            onClick={() =>
+              setDistance?.({ type: "noLimits", value: 0 }, "distance")
             }
           >
             No limits

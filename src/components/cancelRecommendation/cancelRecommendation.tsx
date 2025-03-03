@@ -2,7 +2,7 @@ import desertcity from "../../assets/desertcity.jpg";
 import underwater from "../../assets/neom-underwater.jpg";
 import city from "../../assets/city.jpg";
 import React, { useState, useEffect } from "react";
-import RecommendationCard from "../base/recommendationCards/recommendationCard";
+import RecommendationCard from "../base/card/card";
 import SelectDistance from "../base/selectdistance/selectdistance";
 
 const calculateTimeLeft = () => {

@@ -18,6 +18,7 @@ import ConfirmSchedule from "./components/utility/confirmSchedule/confirmSchedul
 import RescheduledEvent from "./components/rescheduledEvents/rescheduledEvent";
 import EditProfile from "./components/editProfile/editProfile";
 import EditSetting from "./components/editSetting/editSetting";
+import RescheduledEventPopUp from "./components/popups/reschedulepopup/reschedule";
 
 const router = createBrowserRouter([
   {
@@ -36,9 +37,10 @@ const router = createBrowserRouter([
       // { path: "/checking", element: <CancelConfirmationPopup /> },
       // { path: "/checking", element: <ConfirmationPopup /> },
       // { path: "/checking", element: <ConfirmSchedule /> },
-      // { path: "/rescheduled-event", element: <RescheduledEvent /> },
+      { path: "/rescheduled-event", element: <RescheduledEvent /> },
       { path: "/edit-profile", element: <EditProfile /> },
       { path: "/edit-setting", element: <EditSetting /> },
+      { path: "/checking", element: <RescheduledEventPopUp /> },
     ],
   },
 ]);

@@ -1,6 +1,6 @@
 import React from "react";
 
-type RecommendationCardProps = {
+type CardProps = {
   id?: number;
   index: number;
   category: string;
@@ -14,9 +14,10 @@ type RecommendationCardProps = {
   imgURL: string;
   isLiked?: boolean;
   handleLike?: (id: number, name: string) => void;
+  IsRank?: boolean;
 };
 
-const RecommendationCard: React.FC<RecommendationCardProps> = ({
+const Card: React.FC<CardProps> = ({
   index,
   id,
   imgURL,
@@ -30,7 +31,14 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
   time,
   isLiked,
   handleLike,
+  IsRank,
 }) => {
+  const onLikedHandle = () => {
+    if (id === undefined) return;
+    console.log("Liked Event: ", id, name);
+    handleLike && handleLike(id, name);
+  };
+
   return (
     <div className="recommendationCards">
       <div className="recommendationCards_card" key={index}>
@@ -41,7 +49,6 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
             className="recommendationCards_card_img"
           />
         </div>
-
         <div className="recommendationCards_card_text">
           <div className="recommendationCards_card_text_subtext">
             <p className="recommendationCards_card_text_subtext_name">
@@ -56,20 +63,18 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
 
           <p className="recommendationCards_card_text_time">{timeRange}</p>
         </div>
-        {/* isLiked */}
         <div
-          onClick={() => handleLike && id !== undefined && handleLike(id, name)}
+          onClick={() => onLikedHandle()}
           className={
             isLiked
               ? "recommendationCards_card_heart isLiked"
               : "recommendationCards_card_heart"
           }
-        >
-          <div className="number">{index}</div>
-        </div>
+        ></div>
+        {IsRank && <div className="recommendationCards_cardRank">{index}</div>}
       </div>
     </div>
   );
 };
 
-export default RecommendationCard;
+export default Card;

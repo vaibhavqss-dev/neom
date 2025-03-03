@@ -1,9 +1,10 @@
 import React, { JSX } from "react";
 import desertcity from "../../assets/desertcity.jpg";
-import RecommendationCard from "../base/recommendationCards/recommendationCard";
+import Card from "../base/card/card";
 import SelectDistance from "../base/selectdistance/selectdistance";
+import location from "../../assets/location.svg";
+import calender from "../../assets/calendar.svg";
 
-// Added type definition for filter state
 type FilterState = {
   date: string;
   location: string;
@@ -11,6 +12,11 @@ type FilterState = {
   category: string;
   isDistanceApplied: boolean;
   isCategoryApplied: boolean;
+};
+
+type likedEvents = {
+  id: number;
+  name: string;
 };
 
 const UpcomingEventsPg: React.FC = () => {
@@ -24,26 +30,47 @@ const UpcomingEventsPg: React.FC = () => {
     isCategoryApplied: false,
   });
 
-  function onFilterChange(e: any, filterType: keyof FilterState) {
-    let value = typeof e === "string" ? e : e.target.value;
-    setFilter((prev) => {
-      let updated: any = { ...prev };
-      if (Object.keys(filterType)[0] === "distance") {
-        updated.distance = Object.values(filterType)[0];
-        updated.isDistanceApplied = true;
-      } else if (filterType === "category") {
-        updated.category = value as string;
-        updated.isCategoryApplied = true;
+  const [likedEvents, setLikedEvents] = React.useState<likedEvents[]>([]);
+  function handleLike(id: number, name: string) {
+    console.log("Liked Event: ", id, name);
+    setLikedEvents((prev) => {
+      if (prev.map((ele) => ele.id).includes(id)) {
+        return prev.filter((ele) => ele.id !== id);
       } else {
-        updated[filterType] = value as string;
+        return [...prev, { id, name }];
       }
-      return updated;
     });
   }
 
+  function onFilterChange(e: any, filterType: string | "distance") {
+    if (filterType === "distance" && typeof e === "object") {
+      setFilter((prev) => ({
+        ...prev,
+        distance: e,
+        isDistanceApplied: true,
+      }));
+    } else if (filterType === "category") {
+      const categoryValue = e;
+      setFilter((prev) => ({
+        ...prev,
+        category: categoryValue,
+        isCategoryApplied: true,
+      }));
+    } else {
+      const value = e.target.value;
+      setFilter((prev) => ({
+        ...prev,
+        [filterType]: value,
+      }));
+    }
+  }
+
   React.useEffect(() => {
-    const AllEvents = Array.from({ length: 20 }).map((_, index) => ({
+    // API call to get all events list according to POST request
+    // like Filter useState
+    const AllEvents = Array.from({ length: 10 }).map((_, index) => ({
       index: index,
+      id: index,
       imgURL: "https://picsum.photos/800/600",
       subtextDate: "Nov 10 - 29",
       subtextName: "Vibrant & Social",
@@ -68,7 +95,11 @@ const UpcomingEventsPg: React.FC = () => {
 
     const filteredEvents = AllEvents.filter((event) => {
       if (Filter.date && Filter.date !== event.date) return false;
-      if (Filter.location && Filter.location !== event.location) return false;
+      if (
+        Filter.location &&
+        !event.location.toLowerCase().includes(Filter.location.toLowerCase())
+      )
+        return false;
       if (Filter.category && Filter.category !== event.category) return false;
       if (Filter.isDistanceApplied) {
         if (Filter.distance.type === "walking") {
@@ -79,14 +110,16 @@ const UpcomingEventsPg: React.FC = () => {
           return false;
         }
       }
-
       return true;
     });
 
     setEvents(
-      filteredEvents.map((event) => (
-        <RecommendationCard
-          key={event.index} // added key prop to fix list key error
+      filteredEvents.map((event, index) => (
+        <Card
+          isLiked={likedEvents.map((item) => item.id).includes(event.id)}
+          id={event.id}
+          handleLike={handleLike}
+          key={event.index}
           index={event.index}
           imgURL={event.imgURL}
           subtextDate={event.subtextDate}
@@ -100,13 +133,13 @@ const UpcomingEventsPg: React.FC = () => {
         />
       ))
     );
-  }, [Filter]);
+  }, [Filter, likedEvents]);
 
   return (
     <div className="upcomingEventsPg">
       <h1 className="upcomingEventsPg_heading">Hey Vaibhav,</h1>
 
-      <p className="upcomingEventsPg_text">
+      <p className="upcomingEventsPg_subtext">
         Let's find something exciting for you.
       </p>
 
@@ -117,22 +150,29 @@ const UpcomingEventsPg: React.FC = () => {
           </p>
 
           <div className="upcomingEventsPg_dateLocation_btns">
-            <input
-              type="date"
-              onChange={(e) => onFilterChange(e, "date")}
-              className="upcomingEventsPg_dateLocation_btns_date"
-              placeholder="Pick a date"
-            />
-            <input
-              type="text"
-              onChange={(e) => onFilterChange(e, "location")}
-              className="upcomingEventsPg_dateLocation_btns_text"
-              placeholder="Pick a location"
-            />
+            <div className="upcomingEventsPg_dateLocation_btns_date">
+              <img src={calender} alt="calendersvg" />
+              <input
+                type="date"
+                onChange={(e) => onFilterChange(e, "date")}
+                className="upcomingEventsPg_dateLocation_btns_dateBtn"
+                placeholder="Pick a date"
+              />
+            </div>
+
+            <div className="upcomingEventsPg_dateLocation_btns_location">
+              <img src={location} alt="location" />
+              <input
+                type="text"
+                onChange={(e) => onFilterChange(e, "location")}
+                className="upcomingEventsPg_dateLocation_btns_text"
+                placeholder="Pick a location"
+              />
+            </div>
           </div>
         </div>
 
-        <SelectDistance setDistance={onFilterChange} />
+        <SelectDistance Filter={Filter} setDistance={onFilterChange} />
       </div>
 
       <div className="upcomingEventsPg_eventsType">
@@ -143,55 +183,91 @@ const UpcomingEventsPg: React.FC = () => {
         <div className="upcomingEventsPg_eventsType_btns">
           <button
             onClick={(e) => onFilterChange("Stand Up Comedy", "category")}
-            className="upcomingEventsPg_eventsType_btn"
+            className={
+              Filter.category === "Stand Up Comedy"
+                ? "upcomingEventsPg_eventsType_btn_active"
+                : "upcomingEventsPg_eventsType_btn"
+            }
           >
             Stand Up Comedy
           </button>
           <button
             onClick={(e) => onFilterChange("RAMP Walk", "category")}
-            className="upcomingEventsPg_eventsType_btn"
+            className={
+              Filter.category === "RAMP Walk"
+                ? "upcomingEventsPg_eventsType_btn_active"
+                : "upcomingEventsPg_eventsType_btn"
+            }
           >
             RAMP Walk
           </button>
           <button
             onClick={(e) => onFilterChange("Box Cricket", "category")}
-            className="upcomingEventsPg_eventsType_btn"
+            className={
+              Filter.category === "Box Cricket"
+                ? "upcomingEventsPg_eventsType_btn_active"
+                : "upcomingEventsPg_eventsType_btn"
+            }
           >
             Box Cricket
           </button>
           <button
             onClick={(e) => onFilterChange("Swimming", "category")}
-            className="upcomingEventsPg_eventsType_btn"
+            className={
+              Filter.category === "Swimming"
+                ? "upcomingEventsPg_eventsType_btn_active"
+                : "upcomingEventsPg_eventsType_btn"
+            }
           >
             Swimming
           </button>
           <button
             onClick={(e) => onFilterChange("Golf Tournament", "category")}
-            className="upcomingEventsPg_eventsType_btn"
+            className={
+              Filter.category === "Golf Tournament"
+                ? "upcomingEventsPg_eventsType_btn_active"
+                : "upcomingEventsPg_eventsType_btn"
+            }
           >
             Golf Tournament
           </button>
           <button
             onClick={(e) => onFilterChange("Singing", "category")}
-            className="upcomingEventsPg_eventsType_btn"
+            className={
+              Filter.category === "Singing"
+                ? "upcomingEventsPg_eventsType_btn_active"
+                : "upcomingEventsPg_eventsType_btn"
+            }
           >
             Singing
           </button>
           <button
             onClick={(e) => onFilterChange("Talks Shows", "category")}
-            className="upcomingEventsPg_eventsType_btn"
+            className={
+              Filter.category === "Talks Shows"
+                ? "upcomingEventsPg_eventsType_btn_active"
+                : "upcomingEventsPg_eventsType_btn"
+            }
           >
             Talks Shows
           </button>
           <button
             onClick={(e) => onFilterChange("Kite Surfing", "category")}
-            className="upcomingEventsPg_eventsType_btn"
+            className={
+              Filter.category === "Kite Surfing"
+                ? "upcomingEventsPg_eventsType_btn_active"
+                : "upcomingEventsPg_eventsType_btn"
+            }
           >
             Kite Surfing
           </button>
           <button
             onClick={(e) => onFilterChange("Book Exhibitions", "category")}
-            className="upcomingEventsPg_eventsType_btn"
+            className={
+              Filter.category === "Book Exhibitions"
+                ? "upcomingEventsPg_eventsType_btn_active"
+                : "upcomingEventsPg_eventsType_btn"
+            }
           >
             Book Exhibitions
           </button>

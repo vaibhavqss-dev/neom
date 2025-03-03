@@ -5,6 +5,7 @@ import city from "../../../assets/city.jpg";
 
 import emojiImg from "../../../assets/emoji-sad.svg";
 import emojiHappy from "../../../assets/emoji-happy.svg";
+import smileGreenFace from "../../../assets/smileGreenFace.svg";
 
 import Buttons from "../../LeftandRightButtons/buttons";
 
@@ -63,7 +64,7 @@ const SuggestionSlider: React.FC = () => {
             description="Hi Vaibhav, we came to from our chef John that you didn't enjoyed the Epicurean cuisines yesterday. As a compensation we would like to offer you a free Italian cuisines as a goodwill gesture. Would you like to accept our request?"
             dateandTime={new Date().toDateString()}
             food
-            emoji_url={emojiHappy}
+            emoji_url={smileGreenFace}
           />
         ))}
       </div>

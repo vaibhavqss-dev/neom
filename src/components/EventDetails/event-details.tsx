@@ -3,7 +3,7 @@ import golfcourt from "../../assets/golfcourt.jpg";
 import star from "../../assets/star.svg";
 import ReviewCard from "./reviewCard/reviewCard";
 import Buttons from "../LeftandRightButtons/buttons";
-import RecommendationCard from "../base/recommendationCards/recommendationCard";
+import RecommendationCard from "../base/card/card";
 import category_Img from "../../assets/category.svg";
 import location_Img from "../../assets/location.svg";
 import smileGreenFace from "../../assets/smileGreenFace.svg";

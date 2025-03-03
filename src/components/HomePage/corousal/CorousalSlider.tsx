@@ -3,6 +3,7 @@ import Corousal from "./Corousal";
 import underwaterImg from "../../../assets/neom-underwater.jpg";
 import Buttons from "../../LeftandRightButtons/buttons";
 
+
 const CarouselSlider: React.FC = () => {
   const sliderRef = useRef<HTMLDivElement | null>(null);
 

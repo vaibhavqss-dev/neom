@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import RecommendationCard from "./recommendationCard";
+import Card from "../card/card";
 
 type RecommendationItem = {
   id: number;
@@ -17,6 +17,7 @@ type RecommendationItem = {
 
 type RecommendationCardContainerProps = {
   number: number;
+  IsRank?: boolean;
 };
 
 type RecommendationLiked = {
@@ -26,11 +27,10 @@ type RecommendationLiked = {
 
 const RecommendationCardContainer: React.FC<
   RecommendationCardContainerProps
-> = ({ number }) => {
+> = ({ number, IsRank }) => {
   const [liked, setLiked] = useState<RecommendationLiked[]>([]);
 
   function handleLike(id: number, name: string) {
-    // console.log("Liked", id, name);
     setLiked((prev) => {
       if (prev.map((ele) => ele.id).includes(id)) {
         return prev.filter((ele) => ele.id !== id);
@@ -64,9 +64,10 @@ const RecommendationCardContainer: React.FC<
   }, [number]);
 
   return (
-    <>
+    <div className="recommendationCardContainer">
       {recommendations.map((ele: RecommendationItem, i: number) => (
-        <RecommendationCard
+        <Card
+          IsRank={IsRank}
           key={ele.id}
           handleLike={handleLike}
           isLiked={liked.map((item) => item.id).includes(ele.id)}
@@ -83,7 +84,7 @@ const RecommendationCardContainer: React.FC<
           time={ele.time}
         />
       ))}
-    </>
+    </div>
   );
 };
 

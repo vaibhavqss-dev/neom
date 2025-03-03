@@ -18,7 +18,7 @@ body {
     margin: 0;
   }
 
-  &_text {
+  &_subtext {
     margin: 0;
     font-size: 1.5rem;
     padding-top: 0.7rem;
@@ -35,24 +35,71 @@ body {
     width: 18rem;
     gap: 1rem;
 
-    & input[type="date"] {
-      border: 1px solid $primaryColor;
-      border-radius: 1rem;
-      padding: 0.4rem;
-      background-color: transparent;
+    &_date {
+      position: relative;
 
-      :focus {
+      & img {
+        position: absolute;
+        top: 50%;
+        left: 0.8rem;
+        width: 1.2rem;
+        transform: translateY(-50%);
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      input[type="date"] {
+        border: 1px solid #222222;
+        border-radius: 1rem;
+        padding: 0.5rem;
+        padding-left: 2.5rem;
+        width: 7rem;
+        height: 1rem;
+        background-color: transparent;
+        position: relative;
+      }
+
+      input[type="date"]::-webkit-datetime-edit {
+        color: transparent; /* Hides default text until a date is picked */
+      }
+
+      input[type="date"]:placeholder-shown::-webkit-datetime-edit {
+        color: #888; /* Adjust color as needed */
+      }
+
+      input[type="date"]:focus {
         outline: none;
+      }
+
+      input[type="date"]:invalid {
+        color: #888;
       }
     }
 
-    & input[type="text"] {
-      border: 1px solid $primaryColor;
-      border-radius: 1rem;
-      padding: 0.5rem;
-      background-color: transparent;
-      :focus {
-        outline: none;
+    &_location {
+      position: relative;
+
+      & img {
+        position: absolute;
+        top: 50%;
+        left: 0.8rem;
+        width: 1.2rem;
+        transform: translateY(-50%);
+        z-index: 1;
+        pointer-events: none;
+      }
+      & input[type="text"] {
+        position: relative;
+        border: 1px solid $primaryColor;
+        border-radius: 1rem;
+        padding: 0.5rem;
+        padding-left: 2.5rem;
+        width: 100%;
+        background-color: transparent;
+
+        &:focus {
+          outline: none;
+        }
       }
     }
 
@@ -79,7 +126,7 @@ body {
   &_eventsType {
     font-size: 1rem;
 
-    &_btns { 
+    &_btns {
       display: flex;
       & button {
         margin-right: 1rem;

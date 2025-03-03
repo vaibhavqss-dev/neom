@@ -56,7 +56,7 @@ const Favorites: React.FC = () => {
           </p>
 
           <div className="favoritesPgRecommandation_section-slider">
-            <RecommendationCardContainer number={5} />
+            <RecommendationCardContainer IsRank number={5} />
           </div>
         </div>
       </div>
