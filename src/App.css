@@ -181,7 +181,7 @@ body {
   color: white;
 }
 .selectDistance_btns_btn_active {
-  background-color: #222222;
+  background-color: #222222 !important;
   color: white;
 }
 
@@ -318,6 +318,143 @@ body {
 .isLiked::before, .isLiked::after {
   border: 2px solid rgb(238, 18, 92);
   background-color: rgb(238, 18, 92);
+}
+
+.events {
+  position: relative;
+  margin-top: 2rem;
+  margin-left: 2rem;
+}
+.events_messageBox {
+  border: 1px solid black;
+  width: 90vw;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+.events_messageBox_para {
+  font-weight: 500;
+  font-size: 1.9rem;
+  font-family: cursive;
+  margin: 0;
+}
+.events_messageBox_subPara {
+  font-size: 1.2rem;
+  font-family: cursive;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+}
+.events_main {
+  position: relative;
+  height: 30rem;
+  width: 98%;
+  margin-bottom: 2rem;
+}
+.events_img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.events_img img {
+  -webkit-backdrop-filter: brightness(0.1);
+  backdrop-filter: brightness(0.1);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.events_details {
+  text-align: center;
+  font-family: cursive;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  z-index: 10;
+}
+.events_details_title {
+  margin: 0;
+  font-size: 3rem;
+}
+.events_details_location, .events_details_time {
+  margin: 0.5rem 0;
+}
+.events_details_btn {
+  margin: 3rem 0 0 0;
+}
+.events_details_btn button {
+  cursor: pointer;
+  margin: 0 auto;
+  padding: 0.6rem 2rem;
+  border-radius: 0.4rem;
+  background-color: white;
+  font-size: 0.9rem;
+  border: none;
+}
+.events_details_countdown {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.events_details_countdown_circle {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  position: relative;
+}
+.events_details_countdown_circle::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 5px solid rgba(133, 130, 130, 0.5);
+  box-sizing: border-box;
+  z-index: -2;
+}
+.events_details_countdown_circle::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(var(--progress-color, white) 0deg, var(--progress-color, white) var(--progress-angle, 0deg), transparent var(--progress-angle, 0deg));
+  -webkit-mask: radial-gradient(transparent 0, transparent calc(50% - 5px), #000 calc(50% - 5px), #000 calc(50% - 0px), transparent calc(50% - 0px));
+  mask: radial-gradient(transparent 0, transparent calc(50% - 5px), #000 calc(50% - 5px), #000 calc(50% - 0px), transparent calc(50% - 0px));
+  z-index: -1;
+}
+.events_details_countdown_circle_value {
+  font-size: 1.7rem;
+}
+.events_details_countdown_circle_type {
+  font-size: 1rem;
+}
+.events_similarRecommendation_card {
+  margin: 2rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .visitedSection_title p {
@@ -1563,9 +1700,6 @@ body {
   display: none;
 }
 
-.canceleventPg {
-  margin-left: 2rem;
-}
 .canceleventPg_greet {
   margin: 2rem 0 0 0;
   font-size: 2rem;
@@ -1577,99 +1711,17 @@ body {
   font-size: 1.2rem;
   width: 81rem;
 }
-.canceleventPg_event {
-  position: relative;
-  margin-top: 2rem;
-}
-.canceleventPg_event_img {
-  overflow: hidden;
-  height: 30rem;
-  width: 98%;
-  border-radius: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.canceleventPg_event_img img {
-  -webkit-backdrop-filter: brightness(0.1);
-  backdrop-filter: brightness(0.1);
-  max-width: none;
-  max-height: none;
-  width: 100%; /* Ensures it fills the div */
-  height: 100%;
-  object-fit: cover; /* Ensures no distortion and fills the div */
-  object-position: center; /* Centers the image */
-}
-.canceleventPg_event_details {
-  text-align: center;
-  font-family: cursive;
-  color: white;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.canceleventPg_event_details_title {
-  margin: 0;
-  font-size: 3rem;
-}
-.canceleventPg_event_details_btn {
-  margin: 3rem 0 0 0;
-}
-.canceleventPg_event_details_btn button {
-  cursor: pointer;
-  margin: 0 auto;
-  padding: 0.6rem 2rem;
-  border-radius: 0.4rem;
-  background-color: white;
-  font-size: 0.9rem;
-  border: none;
-}
-.canceleventPg_event_details_countdown {
-  display: flex;
-  gap: 20px;
-}
-.canceleventPg_event_details_countdown_circle {
-  width: 7rem;
-  height: 7rem;
-  border: 5px solid rgba(133, 130, 130, 0.5);
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: 20px;
-  font-weight: bold;
-  position: relative;
-}
-.canceleventPg_event_details_countdown_circle_value {
-  font-size: 1.7rem;
-}
-.canceleventPg_event_details_countdown_circle_type {
-  font-size: 1rem;
-}
-.canceleventPg_similarRecommendation {
-  margin: 2rem 0;
-}
-.canceleventPg_similarRecommendation_heading {
-  font-size: 2rem;
-  font-family: cursive;
-}
 
 .completedEventsPg_addReview {
   border: 1px solid black;
-  padding: 1rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-around;
   border-radius: 0.5rem;
   margin: 2rem;
-  margin-left: 6rem;
-  margin-right: 10rem;
 }
 .completedEventsPg_addReview_text {
-  margin: 0;
+  margin: 1rem;
 }
 .completedEventsPg_addReview_text_heading {
   margin: 0.7rem 0;
@@ -2343,8 +2395,50 @@ body {
   color: gray;
 }
 
+.myFeedback {
+  color: #222222;
+}
+.myFeedback_firstSection {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.myFeedback_firstSection_left {
+  width: 33rem;
+}
+.myFeedback_firstSection_left img {
+  width: 4rem;
+}
+.myFeedback_firstSection_left_category {
+  font-size: 1.8rem;
+  font-weight: 500;
+  font-family: cursive;
+  margin: 0.5rem 0;
+}
+.myFeedback_firstSection_left_text {
+  font-size: 1.8rem;
+  font-family: cursive;
+  margin: 0;
+}
+.myFeedback_firstSection_left_subtext {
+  margin: 0;
+}
+.myFeedback_firstSection_right {
+  width: 40%;
+}
+
+.cancelConfirmationPopup_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  width: 100vw;
+  position: absolute;
+  z-index: 100;
+}
+
 .cancelConfirmationPopup {
-  box-shadow: 0px 0px 5px black;
+  box-shadow: 0px 0px 15px rgb(170, 168, 168);
   width: 25rem;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -2358,8 +2452,8 @@ body {
   margin: 0;
 }
 .cancelConfirmationPopup_body {
-  margin: 0.7rem 0;
-  margin-bottom: 3.5rem;
+  margin: 0.5rem 0;
+  margin-bottom: 2.5rem;
 }
 .cancelConfirmationPopup_body p {
   margin: 0;
@@ -2373,6 +2467,7 @@ body {
   border: none;
   border-radius: 0.3rem;
   width: 9rem;
+  cursor: pointer;
 }
 .cancelConfirmationPopup_btn_yes {
   background-color: #222222;

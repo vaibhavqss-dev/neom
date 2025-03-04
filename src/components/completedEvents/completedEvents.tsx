@@ -3,6 +3,7 @@
 // give feed back
 import React from "react";
 import EventDetails from "../EventDetails/event-details";
+import { NavLink } from "react-router-dom";
 
 type CompletedEventsProps = {
   eventCompleted?: boolean;
@@ -26,9 +27,11 @@ const CompletedEvents: React.FC<CompletedEventsProps> = ({
             It helps us to improve and serve you better.
           </p>
         </div>
-        <button className="completedEventsPg_addReview_btn">
-          Add a review
-        </button>
+        <NavLink to={`/add-review?eventId=${1}`}>
+          <button className="completedEventsPg_addReview_btn">
+            Add a review
+          </button>
+        </NavLink>
       </div>
 
       <EventDetails eventCompleted={eventCompleted} />

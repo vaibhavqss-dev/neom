@@ -1,17 +1,14 @@
 .completedEventsPg {
   &_addReview {
     border: 1px solid black;
-    padding: 1rem 1rem;
     display: flex;
     align-items: center;
     justify-content: space-around;
     border-radius: 0.5rem;
     margin: 2rem;
-    margin-left: 6rem;
-    margin-right: 10rem;
 
     &_text {
-      margin: 0;
+      margin: 1rem;
       &_heading {
         margin: 0.7rem 0;
         font-family: cursive;

@@ -1,0 +1,35 @@
+$primaryColor: #222222;
+
+.myFeedback {
+  color: $primaryColor;
+  &_firstSection {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    &_left {
+      width: 33rem;
+      & img {
+        width: 4rem;
+      }
+
+      &_category {
+        font-size: 1.8rem;
+        font-weight: 500;
+        font-family: cursive;
+        margin: 0.5rem 0;
+      }
+
+      &_text {
+        font-size: 1.8rem;
+        font-family: cursive;
+        margin: 0;
+      }
+      &_subtext {
+        margin: 0;
+      }
+    }
+    &_right {
+      width: 40%;
+    }
+  }
+}

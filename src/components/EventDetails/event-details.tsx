@@ -1,14 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef, useState } from "react";
 import golfcourt from "../../assets/golfcourt.jpg";
 import star from "../../assets/star.svg";
-import ReviewCard from "./reviewCard/reviewCard";
 import Buttons from "../LeftandRightButtons/buttons";
-import RecommendationCard from "../base/card/card";
 import category_Img from "../../assets/category.svg";
 import location_Img from "../../assets/location.svg";
 import smileGreenFace from "../../assets/smileGreenFace.svg";
 import RecommendationCardContainer from "../base/recommendationCards/RecommendationCardContainer";
 import ReviewCardContainer from "./reviewCard/ReviewCardContainer";
+import ImageGallery from "./ImageGallery";
+import { NavLink, useNavigate } from "react-router-dom";
 
 interface EventDetailsProps {
   eventCompleted?: boolean;
@@ -63,9 +63,9 @@ const EventDetails: React.FC<EventDetailsProps> = ({
   operatorDescription = "This is one of the many events come under golf category",
   operatorRating = 4.9,
 }) => {
+  const navigate = useNavigate();
   const sliderRef = useRef<HTMLDivElement>(null);
-
-  // const []
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
 
   const scrollLeft = () => {
     if (sliderRef.current) {
@@ -79,28 +79,13 @@ const EventDetails: React.FC<EventDetailsProps> = ({
     }
   };
 
-  // useEffect(() => {
-  //   let direction = 1;
-  //   const interval = setInterval(() => {
-  //     if (!sliderRef.current) return;
-  //     if (direction === 1) {
-  //       scrollRight();
-  //       if (
-  //         sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
-  //         sliderRef.current.scrollWidth
-  //       ) {
-  //         direction = 0;
-  //       }
-  //     } else {
-  //       scrollLeft();
-  //       if (sliderRef.current.scrollLeft <= 0) {
-  //         direction = 1;
-  //       }
-  //     }
-  //   }, 2000);
+  const openGallery = () => {
+    setIsGalleryOpen(true);
+  };
 
-  //   return () => clearInterval(interval);
-  // }, []);
+  const closeGallery = () => {
+    setIsGalleryOpen(false);
+  };
 
   return (
     <div className="eventDetailsPg">
@@ -144,8 +129,16 @@ const EventDetails: React.FC<EventDetailsProps> = ({
           </div>
         </div>
 
-        <button className="eventDetailsPg_images_btn">Show all</button>
+        <button className="eventDetailsPg_images_btn" onClick={openGallery}>
+          Show all
+        </button>
       </div>
+
+      <ImageGallery
+        images={imgURL1 as string[]}
+        isOpen={isGalleryOpen}
+        onClose={closeGallery}
+      />
 
       <div className="eventDetailsPg_description">
         <div className="eventDetailsPg_description_left">
@@ -236,11 +229,15 @@ const EventDetails: React.FC<EventDetailsProps> = ({
             <div className="eventDetailsPg_description_right_form_availability">
               {seatsAvailable} Seats still available
             </div>
-            {/* Reserve Events */}
             {eventCompleted ? null : (
-              <button className="eventDetailsPg_description_right_form_btn">
-                Reserve Event
-              </button>
+              <NavLink
+                to="/checkout"
+                className="eventDetailsPg_description_right_form_btn"
+              >
+                <button className="eventDetailsPg_description_right_form_btn">
+                  Reserve Event
+                </button>
+              </NavLink>
             )}
           </div>
         </div>

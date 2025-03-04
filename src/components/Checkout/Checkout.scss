@@ -1,0 +1,237 @@
+// Neom-themed colors
+$neom-primary: #0a7d8c; // Deep teal/blue
+$neom-secondary: #4ecdc4; // Light teal
+$neom-accent: #00bfb2; // Vibrant turquoise
+$neom-highlight: #8ecddd; // Light blue
+$neom-dark: #102a43; // Deep blue-black
+$neom-light: #f0f4f8; // Off-white
+$neom-success: #3ee0d0; // Bright turquoise
+
+// Background gradient
+@mixin neom-gradient {
+  background: linear-gradient(135deg, $neom-dark 0%, $neom-primary 100%);
+}
+
+.checkout-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 85vh;
+  padding: 2rem;
+  background-color: $neom-light;
+  background-image: radial-gradient(
+      circle at 25% 10%,
+      rgba(78, 205, 196, 0.1) 0%,
+      rgba(10, 125, 140, 0) 50%
+    ),
+    radial-gradient(
+      circle at 75% 90%,
+      rgba(78, 205, 196, 0.1) 0%,
+      rgba(10, 125, 140, 0) 50%
+    );
+}
+
+.checkout-card {
+  background-color: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 30px rgba(10, 125, 140, 0.15);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 550px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba($neom-primary, 0.1);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0.3rem;
+    background: linear-gradient(
+      90deg,
+      $neom-primary,
+      $neom-secondary,
+      $neom-accent
+    );
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.neom-logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: $neom-primary;
+  letter-spacing: 2px;
+}
+
+.security-badge {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: $neom-dark;
+  gap: 0.5rem;
+
+  .security-icon {
+    color: $neom-primary;
+  }
+}
+
+.checkout-title {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+  color: $neom-dark;
+  font-weight: 700;
+}
+
+.transaction-details {
+  margin-bottom: 2rem;
+  text-align: left;
+  background-color: rgba($neom-light, 0.7);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.7rem 0;
+  font-size: 1.1rem;
+  color: $neom-dark;
+}
+
+.total {
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: $neom-dark;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid rgba($neom-dark, 0.1);
+  margin: 1rem 0;
+}
+
+.payment-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pay-button {
+  background: linear-gradient(90deg, $neom-primary, $neom-accent);
+  color: white;
+  border: none;
+  border-radius: 2rem;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba($neom-primary, 0.3);
+  width: 100%;
+  max-width: 300px;
+  margin: 1rem auto;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba($neom-primary, 0.4);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+.secure-note {
+  color: lighten($neom-dark, 30%);
+  font-size: 0.8rem;
+  margin-top: 1rem;
+}
+
+.confirmation {
+  padding: 1.5rem;
+  text-align: center;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.confirmation-icon {
+  background: linear-gradient(45deg, $neom-primary, $neom-success);
+  color: white;
+  font-size: 2.5rem;
+  width: 5rem;
+  height: 5rem;
+  line-height: 5rem;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 5px 15px rgba($neom-success, 0.4);
+}
+
+.confirmation-title {
+  font-size: 2rem;
+  color: $neom-dark;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.confirmation-message {
+  font-size: 1.3rem;
+  color: $neom-primary;
+  margin-bottom: 1.5rem;
+}
+
+.confirmation-details {
+  background-color: rgba($neom-light, 0.7);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  font-size: 1rem;
+  color: lighten($neom-dark, 20%);
+
+  p {
+    margin: 0.5rem 0;
+  }
+}
+
+.back-home {
+  background: linear-gradient(90deg, $neom-primary, $neom-accent);
+  color: white;
+  border: none;
+  border-radius: 2rem;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba($neom-primary, 0.3);
+  width: 100%;
+  max-width: 300px;
+  margin: 1rem auto;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba($neom-primary, 0.4);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}

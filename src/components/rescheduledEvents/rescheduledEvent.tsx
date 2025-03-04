@@ -46,12 +46,12 @@ const RescheduledEvent: React.FC<RescheduledEventProps> = ({}) => {
             <p className="rescheduledEventPg_imgContainer_overlay_text_timeSlots">
               <p>{EventDummyDate.date}</p>
               {EventDummyDate.timeSlots.map((timeSlot, index) => (
-                <React.Fragment key={index}>
+                <div key={index}>
                   <span>{timeSlot}</span>
                   {index < EventDummyDate.timeSlots.length - 1 && (
                     <span> | </span>
                   )}
-                </React.Fragment>
+                </div>
               ))}
             </p>
           </div>
@@ -59,10 +59,6 @@ const RescheduledEvent: React.FC<RescheduledEventProps> = ({}) => {
           <button
             className="rescheduledEventPg_imgContainer_overlay_btn"
             onClick={() => {
-              // Redirect to event details page
-              // Add this at the top of your component
-
-              // Then replace the placeholder with:
               navigate(
                 `/checking?eventId=${
                   EventDummyDate.eventId || ""

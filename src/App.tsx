@@ -5,7 +5,7 @@ import Home from "./components/HomePage/Home";
 import Favorites from "./components/Favorites/Favorites";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Router from "./Router";
-import Error from "./Error";
+import Error from "./Error/Error";
 import UpcomingEventsPg from "./components/UpcomingEvents/UpcomingEventsPg";
 import EventDetails from "./components/EventDetails/event-details";
 import CancelRecommendation from "./components/cancelRecommendation/cancelRecommendation";
@@ -19,6 +19,8 @@ import RescheduledEvent from "./components/rescheduledEvents/rescheduledEvent";
 import EditProfile from "./components/editProfile/editProfile";
 import EditSetting from "./components/editSetting/editSetting";
 import RescheduledEventPopUp from "./components/popups/reschedulepopup/reschedule";
+import Checkout from "./components/Checkout/Checkout";
+import MyFeedback from "./components/MyFeedback/MyFeedback";
 
 const router = createBrowserRouter([
   {
@@ -27,11 +29,10 @@ const router = createBrowserRouter([
     element: <Router />,
     children: [
       { path: "/", element: <Home /> },
-      { path: "/event-details", element: <EventDetails /> },
       { path: "/favorites", element: <Favorites /> },
       { path: "/upcoming-events", element: <UpcomingEventsPg /> },
+      { path: "/event-details", element: <EventDetails /> },
       { path: "/completed-events", element: <CompletedEvents /> },
-      { path: "/add-review", element: <AddReview /> },
       { path: "/vib-o-meter", element: <VibOmeter /> },
       { path: "/cancel-recommendation", element: <CancelRecommendation /> },
       // { path: "/checking", element: <CancelConfirmationPopup /> },
@@ -41,6 +42,9 @@ const router = createBrowserRouter([
       { path: "/edit-profile", element: <EditProfile /> },
       { path: "/edit-setting", element: <EditSetting /> },
       { path: "/checking", element: <RescheduledEventPopUp /> },
+      { path: "/checkout", element: <Checkout /> },
+      { path: "/add-review", element: <AddReview /> },
+      { path: "/myfeedback", element: <MyFeedback /> },
     ],
   },
 ]);

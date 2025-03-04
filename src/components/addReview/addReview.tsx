@@ -3,16 +3,10 @@ import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 type AddReviewProps = {
-  starLen?: number;
-  eventCompleted?: boolean;
   name?: string;
 };
 
-const AddReview: React.FC<AddReviewProps> = ({
-  starLen = 0,
-  eventCompleted = false,
-  name = "Vaibhav",
-}) => {
+const AddReview: React.FC<AddReviewProps> = ({ name = "Vaibhav" }) => {
   const [star, setStar] = React.useState({
     qualityOfEvent: 0,
     serviceAtEvent: 0,
@@ -32,6 +26,16 @@ const AddReview: React.FC<AddReviewProps> = ({
 
   function handleFeedbackChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setFeedback(e.target.value);
+  }
+
+  const queryParams = new URLSearchParams(window.location.search);
+  const eventId = queryParams.get("eventId");
+  console.log("EventId from query parameters:", eventId);
+
+  function onSubmit() {
+    // fetch api to submit the review
+
+    console.log(star, feedback);
   }
 
   return (
@@ -124,7 +128,9 @@ const AddReview: React.FC<AddReviewProps> = ({
           ></textarea>
         </div>
 
-        <button className="addReviewPg_submitBtn">Submit</button>
+        <button onClick={onSubmit} className="addReviewPg_submitBtn">
+          Submit
+        </button>
       </div>
     </div>
   );

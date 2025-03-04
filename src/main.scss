@@ -4,7 +4,7 @@
 @import "components/base/selectdistance/_selectdistance";
 @import "components/base/reviewStar/_reviewStar";
 @import "components/base/card/_card";
-
+@import "components/base/modifiedEvents/_modifiedEvents";
 
 @import "components/HomePage/visited/visited";
 @import "components/HomePage/recommadation/recommadation";
@@ -31,10 +31,10 @@
 @import "components/editSetting/editSetting";
 @import "components/editProfile/selectInterest/interest";
 @import "components/Favorites/FavoritesImg/_favoritesImg.scss";
+@import "components/MyFeedback/_myfeedback";
 
 @import "components/utility/cancelConfirmation/_cancelConfirmation";
 @import "components/utility/confirmation/confirmationPop.scss";
 @import "components/utility/confirmSchedule/_confirmSchedule";
-
 
 @import "components/popups/reschedulepopup/_reschedule";

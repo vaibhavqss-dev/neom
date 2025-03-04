@@ -1,5 +1,14 @@
+.cancelConfirmationPopup_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  width: 100vw;
+  position: absolute;
+  z-index: 100;
+}
 .cancelConfirmationPopup {
-  box-shadow: 0px 0px 5px black;
+  box-shadow: 0px 0px 15px rgb(170, 168, 168);
   width: 25rem;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -14,8 +23,8 @@
   }
 
   &_body {
-    margin: 0.7rem 0;
-    margin-bottom: 3.5rem;
+    margin: 0.5rem 0;
+    margin-bottom: 2.5rem;
 
     & p {
       margin: 0;
@@ -31,6 +40,7 @@
       border: none;
       border-radius: 0.3rem;
       width: 9rem;
+      cursor: pointer;
     }
 
     &_yes {
