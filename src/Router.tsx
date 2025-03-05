@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "./components/navbar/navbar";
 import { Outlet } from "react-router-dom";
 import Footer from "./components/footer/footer";
 
 const Router: React.FC = () => {
-  const [isNotificationOpen, setIsNotificationOpen] =
-    React.useState<boolean>(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   const handleNotificationToggle = (isOpen: boolean) => {
     setIsNotificationOpen(isOpen);
@@ -15,8 +14,8 @@ const Router: React.FC = () => {
     opacity: isNotificationOpen ? 0.7 : 1,
     transition: "opacity 0.3s ease-in-out",
     filter: isNotificationOpen ? "blur(2px)" : "none",
-    pointerEvents: isNotificationOpen ? ("none" as const) : ("auto" as const),
-  };
+    pointerEvents: isNotificationOpen ? "none" : "auto",
+  } as const;
 
   return (
     <>

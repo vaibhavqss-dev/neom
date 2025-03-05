@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import Neom from "../../assets/neom.png";
 import bell from "../../assets/bell.svg";
@@ -10,21 +10,26 @@ type interfaceProps = {
 };
 
 const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
-  function toggleHamburger() {
-    const hamburger_model = document.querySelector(".hamburger_model");
-    hamburger_model?.classList.toggle("active");
-  }
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
 
-  function toggleNotificationBtn() {
-    const notification_model = document.querySelector(".notification_model");
-    notification_model?.classList.toggle("NotificationNOTActive");
+  const toggleMenu = (selector: string) => {
+    const element = document.querySelector(`.${selector}`);
+    element?.classList.toggle(
+      selector === "notification_model" ? "NotificationNOTActive" : "active"
+    );
 
-    if (!notification_model?.classList.contains("NotificationNOTActive")) {
-      isModelOpen?.(true);
-    } else {
-      isModelOpen?.(false);
-    }
-  }
+    const isHidden =
+      selector === "notification_model"
+        ? element?.classList.contains("NotificationNOTActive")
+        : element?.classList.contains("active");
+
+    isModelOpen?.(!isHidden);
+  };
+
+  const handleLanguageSelect = (language: string) => {
+    setSelectedLanguage(language);
+    toggleMenu("language_model");
+  };
 
   return (
     <div className="navbar">
@@ -40,8 +45,7 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
             }
             to="/"
           >
-            {" "}
-            Dashboard{" "}
+            Dashboard
           </NavLink>
           <NavLink
             className={({ isActive }) =>
@@ -49,8 +53,7 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
             }
             to="/favorites"
           >
-            {" "}
-            My favorites{" "}
+            My favorites
           </NavLink>
           <NavLink
             className={({ isActive }) =>
@@ -58,12 +61,14 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
             }
             to="/upcoming-events"
           >
-            {" "}
-            Upcoming events{" "}
+            Upcoming events
           </NavLink>
         </div>
 
-        <div onClick={toggleNotificationBtn} className="notification">
+        <div
+          onClick={() => toggleMenu("notification_model")}
+          className="notification"
+        >
           <img id="bell-logo" src={bell} alt="notification" />
         </div>
 
@@ -71,7 +76,7 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
           <div className="notification_model_cancel">
             <button
               className="notification_model_cancelBtn"
-              onClick={toggleNotificationBtn}
+              onClick={() => toggleMenu("notification_model")}
             >
               X
             </button>
@@ -99,7 +104,7 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
 
         <div className="links_hamburger">
           <button
-            onClick={toggleHamburger}
+            onClick={() => toggleMenu("hamburger_model")}
             className="links_hamburger_containerBtn"
           >
             <div></div>
@@ -111,14 +116,67 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
 
         <div className="hamburger_model active">
           <div className="hamburger_model_links">
-            <a href="#">Edit Profile </a>
-            <a href="#">Feedback</a>
-            <a href="#">Settings</a>
+            <NavLink
+              onClick={() => toggleMenu("hamburger_model")}
+              className={({ isActive }) =>
+                isActive ? "isActive links_link" : "links_link"
+              }
+              to="/edit-profile"
+            >
+              Edit Profile
+            </NavLink>
+            <NavLink
+              onClick={() => toggleMenu("hamburger_model")}
+              className={({ isActive }) =>
+                isActive ? "isActive links_link" : "links_link"
+              }
+              to="/myfeedback"
+            >
+              Feedback
+            </NavLink>
+
+            <NavLink
+              onClick={() => toggleMenu("hamburger_model")}
+              className={({ isActive }) =>
+                isActive ? "isActive links_link" : "links_link"
+              }
+              to="/edit-setting"
+            >
+              Settings
+            </NavLink>
           </div>
         </div>
 
         <div className="links_web">
-          <img id="links_web_img" src={web} alt="web" />
+          <img
+            onClick={() => toggleMenu("language_model")}
+            id="links_web_img"
+            src={web}
+            alt="web"
+          />
+        </div>
+
+        <div className="language_model active">
+          <div className="language_model_links">
+            <a href="#" onClick={() => handleLanguageSelect("English")}>
+              English{" "}
+              {selectedLanguage === "English" && (
+                <span className="language-tick">✓</span>
+              )}
+            </a>
+            <a href="#" onClick={() => handleLanguageSelect("French")}>
+              French{" "}
+              {selectedLanguage === "French" && (
+                <span className="language-tick">✓</span>
+              )}
+            </a>
+            <a href="#" onClick={() => handleLanguageSelect("Arabic")}>
+              Arabic{" "}
+              {selectedLanguage === "Arabic" && (
+                <span className="language-tick">✓</span>
+              )}
+            </a>
+          </div>
         </div>
       </div>
     </div>

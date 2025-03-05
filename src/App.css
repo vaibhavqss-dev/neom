@@ -1487,13 +1487,11 @@ body {
 
 .neom {
   display: flex;
-  justify-content: start;
   align-items: center;
   margin-left: 2rem;
   width: 60vw;
 }
-
-#neom_logo {
+.neom #neom_logo {
   width: 40px;
   height: 50px;
 }
@@ -1503,22 +1501,13 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  text-decoration: none;
   width: 40vw;
   margin-right: 2rem;
 }
-
 .links_link {
   text-decoration: none;
   color: black;
 }
-
-.isActive {
-  color: #FF385C;
-  text-decoration: underline;
-  text-underline-offset: 0.7rem;
-}
-
 .links_page {
   font-size: 12px;
   display: flex;
@@ -1526,12 +1515,6 @@ body {
   align-items: center;
   width: 19rem;
 }
-
-.links_page > Navlink {
-  text-decoration: none;
-  color: black;
-}
-
 .links_hamburger {
   display: flex;
   justify-content: space-between;
@@ -1542,32 +1525,45 @@ body {
   padding: 0.5rem;
   cursor: pointer;
 }
-
-.hamburger_name {
-  background-color: #b79535;
-  padding: 0.3rem;
-  height: 1rem;
-  width: 1rem;
-  border-radius: 1rem 1rem;
-  color: white;
-  margin: -2px;
-  display: flex;
-  justify-content: center;
-}
-
 .links_hamburger_containerBtn {
   border: none;
   cursor: pointer;
   background-color: transparent;
 }
-
 .links_hamburger_containerBtn div {
   width: 15px;
   height: 2px;
   background-color: black;
   margin: 3px 0;
 }
+.links_web #links_web_img {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
 
+.isActive {
+  color: #ff385c;
+  text-decoration: underline;
+  text-underline-offset: 0.7rem;
+}
+
+.active,
+.NotificationNOTActive {
+  display: none;
+}
+
+.hamburger_name {
+  background-color: #b79535;
+  padding: 0.3rem;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 1rem;
+  color: white;
+  margin: -2px;
+  display: flex;
+  justify-content: center;
+}
 .hamburger_model {
   position: absolute;
   top: 3rem;
@@ -1576,22 +1572,15 @@ body {
   border-radius: 0.7rem;
   padding: 0.5rem;
   width: 10rem;
+  box-shadow: 0 0 8px 0px rgb(129, 129, 129);
 }
-
-.active {
-  display: none;
-}
-
 .hamburger_model_links {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: start;
   margin: 0.5rem;
   font-size: 0.9rem;
   transition: 0.2s all;
 }
-
 .hamburger_model_links > a {
   text-decoration: none;
   margin: 0.2rem;
@@ -1601,7 +1590,6 @@ body {
 .notification {
   cursor: pointer;
 }
-
 .notification::after {
   content: "";
   position: relative;
@@ -1611,30 +1599,55 @@ body {
   height: 10px;
   background-color: #b79535;
   border-radius: 50%;
-  font-size: 10px;
   display: inline-block;
 }
-
-#bell-logo {
+.notification #bell-logo {
   width: 20px;
   height: 20px;
 }
 
-#links_web_img {
-  width: 15px;
-  height: 15px;
+.language_model,
+.notification_model {
+  position: absolute;
+  border-radius: 0.7rem;
+  padding: 0.5rem;
+  z-index: 1;
+}
+
+.language_model {
+  top: 2.3rem;
+  right: 0;
+  background-color: white;
+  width: 5rem;
+  height: 5rem;
+  box-shadow: 0 0 8px 0px rgb(129, 129, 129);
+}
+.language_model_links {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem;
+  gap: 0.5rem;
+}
+.language_model_links a {
+  color: black;
+  font-size: 0.8rem;
+  display: block;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.language_model_links a .language-tick {
+  color: #b79535;
+  margin-left: 4px;
 }
 
 .notification_model {
-  position: absolute;
   top: 3.5rem;
   right: 8rem;
   background-color: #222222;
-  border-radius: 0.7rem;
-  padding: 0.5rem;
   width: 22rem;
   box-shadow: 0 0 8px 0px black;
-  z-index: 1;
 }
 .notification_model::before {
   content: "";
@@ -1662,11 +1675,10 @@ body {
   color: #eeff00;
   font-size: 1.5rem;
   font-family: cursive;
-  margin: 0rem 1rem;
+  margin: 0 1rem;
 }
 .notification_model_title img {
   height: 1.3rem;
-  padding: 0rem 0rem;
   transform: rotate(335deg);
 }
 .notification_model_text {
@@ -1676,7 +1688,7 @@ body {
 }
 .notification_model_btns {
   display: flex;
-  margin: 1.6rem 1rem 0.7rem 1rem;
+  margin: 1.6rem 1rem 0.7rem;
 }
 .notification_model_btns button {
   border: none;
@@ -1684,20 +1696,12 @@ body {
   padding: 0.5rem 1rem;
   cursor: pointer;
 }
-.notification_model_btns_rescheduleBtn {
-  padding: 0.5rem 1rems;
-}
 .notification_model_btns_cancelBtn {
   text-decoration: underline;
   text-underline-offset: 0.2rem;
   background-color: transparent;
-  padding: 0.5rem 1rem;
   color: white;
   margin-left: 1rem;
-}
-
-.NotificationNOTActive {
-  display: none;
 }
 
 .canceleventPg_greet {
@@ -2142,43 +2146,53 @@ body {
   font-weight: 500;
   font-size: 0.8rem;
 }
-.editSettingPg_form_input_checkbox {
+.editSettingPg_form_input_toggle {
+  /* Hide the default checkbox input */
   /* Style the label as the slider track */
   /* Style the handle (the circular part) */
-  /* When the checkbox is checked, move the handle to the right */
-  /* Optional: Change the track background when checked */
+  /* When the checkbox is checked */
+  /* Move the handle to the right when checked */
 }
-.editSettingPg_form_input_checkbox #toggle {
+.editSettingPg_form_input_toggle input[type=checkbox] {
   display: none;
 }
-.editSettingPg_form_input_checkbox label {
+.editSettingPg_form_input_toggle label {
   display: inline-block;
-  width: 42px;
-  height: 19px;
-  background: #fff;
-  border: 2px solid #ccc;
+  width: 50px;
+  height: 24px;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
   border-radius: 15px;
   position: relative;
   cursor: pointer;
-  transition: background 0.3s; /* Smooth transition for background */
+  transition: background-color 0.3s;
 }
-.editSettingPg_form_input_checkbox label::after {
+.editSettingPg_form_input_toggle label::after {
   content: "";
   position: absolute;
-  width: 15px;
-  height: 15px;
-  left: 2px;
+  width: 18px;
+  height: 18px;
+  left: 3px;
   top: 2px;
   background: #999;
   border-radius: 50%;
-  transition: transform 0.3s; /* Smooth transition for movement */
+  transition: transform 0.3s, background-color 0.3s;
 }
-.editSettingPg_form_input_checkbox #toggle:checked + label::after {
-  transform: translateX(30px); /* Move the handle to the other side */
+.editSettingPg_form_input_toggle input[type=checkbox]:checked + label {
+  background-color: #e0f0ff;
+  border-color: #3498db;
 }
-.editSettingPg_form_input_checkbox #toggle:checked + label {
-  background: #fff; /* You can change this to a different color if desired */
-  border-color: #999; /* Optional: Change border color when checked */
+.editSettingPg_form_input_toggle input[type=checkbox]:checked + label::after {
+  transform: translateX(26px);
+  background-color: #3498db;
+}
+.editSettingPg_form_input_checkbox input[type=checkbox] {
+  margin-right: 5px;
+}
+.editSettingPg_form_input_checkbox._multiSelect {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.8rem;
 }
 .editSettingPg_form_input_multiSelect ._multiSelect {
   display: flex;
@@ -2189,6 +2203,24 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+.editSettingPg_form_submit {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+.editSettingPg_form_submit .submit-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.editSettingPg_form_submit .submit-btn:hover {
+  background-color: #2980b9;
 }
 
 .selectInterest_likes {
@@ -2399,6 +2431,7 @@ body {
   color: #222222;
 }
 .myFeedback_firstSection {
+  background: linear-gradient(to bottom right, #eebe76, rgb(235, 235, 160), #bfa0ee);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -2421,10 +2454,33 @@ body {
   margin: 0;
 }
 .myFeedback_firstSection_left_subtext {
-  margin: 0;
+  margin: 0.7rem 0;
 }
 .myFeedback_firstSection_right {
   width: 40%;
+}
+.myFeedback_secondSection {
+  margin-top: 3rem;
+  color: #222222;
+}
+.myFeedback_secondSectionAlign {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.myFeedback_secondSection_heading {
+  color: #222222;
+  font-size: 1.8rem;
+  font-weight: 500;
+  font-family: cursive;
+  margin: 1rem 0;
+  margin: 0;
+}
+.myFeedback_secondSection_text {
+  font-size: 1.8rem;
+  font-weight: 500;
+  font-family: cursive;
+  margin: 0 0 2rem 0;
 }
 
 .cancelConfirmationPopup_container {
@@ -2635,6 +2691,58 @@ body {
 
 .cancel-button:hover {
   background-color: #f5f5f5;
+}
+
+.feedback {
+  display: flex;
+  gap: 1.5rem;
+}
+.feedback_image {
+  width: 16rem;
+  overflow: hidden;
+  height: 20rem;
+  border-radius: 1rem;
+  position: relative;
+}
+.feedback_image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.feedback_image_overlay {
+  color: white;
+  position: absolute;
+  top: 16rem;
+  left: 1rem;
+  margin: 0;
+}
+.feedback_image_overlay p:first-child {
+  font-size: 1.2rem;
+  font-weight: 500;
+  font-family: cursive;
+  margin: 0;
+}
+.feedback_image_overlay p {
+  margin: 0.1rem;
+  font-size: 0.8rem;
+}
+.feedback_text {
+  width: 30rem;
+}
+.feedback_text_date {
+  font-size: 0.8rem;
+  margin: 2rem 0;
+}
+.feedback_text_heading {
+  font-size: 1.4rem;
+  font-weight: 500;
+  font-family: cursive;
+  margin: 0;
+}
+.feedback_text_subheading {
+  line-height: 1.5;
+  font-size: 0.8rem;
+  margin: 0.4rem 0;
 }
 
 /*# sourceMappingURL=App.css.map */

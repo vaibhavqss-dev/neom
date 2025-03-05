@@ -22,7 +22,6 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        // background-color: red;
         gap: 4rem;
 
         &_text {
@@ -38,46 +37,60 @@
           }
         }
 
-        &_checkbox {
-          #toggle {
+        &_toggle {
+          /* Hide the default checkbox input */
+          input[type="checkbox"] {
             display: none;
           }
 
           /* Style the label as the slider track */
-          & label {
+          label {
             display: inline-block;
-            width: 42px;
-            height: 19px;
-            background: #fff;
-            border: 2px solid #ccc;
+            width: 50px;
+            height: 24px;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
             border-radius: 15px;
             position: relative;
             cursor: pointer;
-            transition: background 0.3s; /* Smooth transition for background */
+            transition: background-color 0.3s;
           }
 
           /* Style the handle (the circular part) */
-          & label::after {
+          label::after {
             content: "";
             position: absolute;
-            width: 15px;
-            height: 15px;
-            left: 2px;
+            width: 18px;
+            height: 18px;
+            left: 3px;
             top: 2px;
             background: #999;
             border-radius: 50%;
-            transition: transform 0.3s; /* Smooth transition for movement */
+            transition: transform 0.3s, background-color 0.3s;
           }
 
-          /* When the checkbox is checked, move the handle to the right */
-          #toggle:checked + label::after {
-            transform: translateX(30px); /* Move the handle to the other side */
+          /* When the checkbox is checked */
+          input[type="checkbox"]:checked + label {
+            background-color: #e0f0ff;
+            border-color: #3498db;
           }
 
-          /* Optional: Change the track background when checked */
-          #toggle:checked + label {
-            background: #fff; /* You can change this to a different color if desired */
-            border-color: #999; /* Optional: Change border color when checked */
+          /* Move the handle to the right when checked */
+          input[type="checkbox"]:checked + label::after {
+            transform: translateX(26px);
+            background-color: #3498db;
+          }
+        }
+
+        &_checkbox {
+          input[type="checkbox"] {
+            margin-right: 5px;
+          }
+
+          &._multiSelect {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
           }
         }
 
@@ -95,12 +108,27 @@
           }
         }
       }
+
+      &_submit {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: center;
+
+        .submit-btn {
+          background-color: #3498db;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 5px;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: #2980b9;
+          }
+        }
+      }
     }
   }
 }
-
-// ._multiSelect {
-//   display: flex;
-//   gap: 1rem;
-//   font-size: 0.8rem;
-// }
