@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Card from "../card/card";
+import yogoImg from "./../../../assets/img/yoga.jpg";
 
 type RecommendationItem = {
-  id: number;
+  eventId: string;
   category: string;
   date: string;
   time: string;
@@ -21,7 +22,7 @@ type RecommendationCardContainerProps = {
 };
 
 type RecommendationLiked = {
-  id: number;
+  eventId: string;
   name: string;
 };
 
@@ -30,12 +31,12 @@ const RecommendationCardContainer: React.FC<
 > = ({ number, IsRank }) => {
   const [liked, setLiked] = useState<RecommendationLiked[]>([]);
 
-  function handleLike(id: number, name: string) {
+  function handleLike(eventId: string, name: string) {
     setLiked((prev) => {
-      if (prev.map((ele) => ele.id).includes(id)) {
-        return prev.filter((ele) => ele.id !== id);
+      if (prev.map((ele) => ele.eventId).includes(eventId)) {
+        return prev.filter((ele) => ele.eventId !== eventId);
       } else {
-        return [...prev, { id, name }];
+        return [...prev, { eventId, name }];
       }
     });
   }
@@ -48,7 +49,7 @@ const RecommendationCardContainer: React.FC<
     const allRecommendations = Array(number)
       .fill(number)
       .map((_, i: number) => ({
-        id: i,
+        eventId: i.toString(), // Convert to string to match RecommendationItem type
         category: "Category",
         date: "Date",
         time: "Time",
@@ -57,7 +58,7 @@ const RecommendationCardContainer: React.FC<
         subtextDate: "Subtext Date",
         timeRange: "Time Range",
         location: "Location",
-        imgURL: "https://picsum.photos/800/600",
+        imgURL: i & 1 ? "https://picsum.photos/800/600" : yogoImg,
         isLiked: i % 2 === 0,
       }));
     setRecommendations(allRecommendations);
@@ -68,11 +69,11 @@ const RecommendationCardContainer: React.FC<
       {recommendations.map((ele: RecommendationItem, i: number) => (
         <Card
           IsRank={IsRank}
-          key={ele.id}
+          key={ele.eventId}
           handleLike={handleLike}
-          isLiked={liked.map((item) => item.id).includes(ele.id)}
-          id={ele.id}
-          index={ele.id}
+          isLiked={liked.map((item) => item.eventId).includes(ele.eventId)}
+          eventId={ele.eventId}
+          index={parseInt(ele.eventId)}
           imgURL={ele.imgURL}
           subtextDate={ele.subtextDate}
           subtextName={ele.subtextName}

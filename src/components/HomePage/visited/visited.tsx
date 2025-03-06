@@ -1,4 +1,5 @@
-import React from "react";
+import React, { use } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface VisitedProps {
   imgUrl: string;
@@ -6,6 +7,7 @@ interface VisitedProps {
   attented: string | number;
   dateandTime: string;
   rating: number;
+  eventId: string;
 }
 
 const Visited: React.FC<VisitedProps> = ({
@@ -14,10 +16,15 @@ const Visited: React.FC<VisitedProps> = ({
   attented,
   dateandTime,
   rating,
+  eventId,
 }) => {
+  const navigate = useNavigate();
   return (
     <>
-      <div className="visitedContainer">
+      <div
+        onClick={() => navigate(`/event-details?eventId=${eventId}`)}
+        className="visitedContainer"
+      >
         <div className="visitedContainer_imgContainer">
           <img id="visitedContainer_img" src={imgUrl} alt="underwaterImg" />
         </div>

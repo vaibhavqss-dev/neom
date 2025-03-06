@@ -1,41 +1,47 @@
 import React, { JSX } from "react";
 import { useEffect, useState } from "react";
-import FavoritesImg from "./FavoritesImg/FavoritesImg";
-import underwaterImg from "./../../assets/neom-underwater.jpg";
-import desertcity from "./../../assets/desertcity.jpg";
-import smileGreenFace from "./../../assets/smileGreenFace.svg";
+import ShortListedCard from "./ShortListedCard/ShortListedCard";
+import underwaterImg from "./../../assets/img/neom-underwater.jpg";
+import desertcity from "./../../assets/img/desertcity.jpg";
+import smileGreenFace from "./../../assets/img/smileGreenFace.svg";
 
-import RecommadationSlider from "./recommendation/recommadationSlider";
-import HomepageRecommadation from "../HomePage/recommadation/recommadation";
+import FavoritesRecommendationSlider from "./recommendation/recommadationSlider";
 import RecommendationCardContainer from "../base/recommendationCards/RecommendationCardContainer";
 
-type FavoriteItem = JSX.Element;
+type ShortListed = {
+  key: string;
+  eventid: string;
+  onFavoriteRemove: (index: number) => void;
+  imgURL: string;
+  name: string;
+  category: string;
+  date: string;
+  time: string;
+  face: string;
+};
 const Favorites: React.FC = () => {
-  const [isFavorite, setIsFavorite] = useState<FavoriteItem[]>([]);
+  const [ShortListed, setShortListed] = useState<ShortListed[]>([]);
 
   const onFavoriteRemove = (index: number) => {
-    // console.log("Remove", index);
-    setIsFavorite((prev) =>
+    setShortListed((prev) =>
       prev.filter((ele) => parseInt(ele.key as string) !== index)
     );
   };
 
   useEffect(() => {
-    const favoritesArray = Array.from({ length: 10 }).map((_, index) => (
-      <FavoritesImg
-        key={index}
-        index={index}
-        onFavoriteRemove={onFavoriteRemove}
-        imgURL={index & 1 ? underwaterImg : desertcity}
-        name={index & 1 ? "Underwater" : "Desert City"}
-        category={"Active and Adventurous"}
-        date={new Date().toLocaleDateString()}
-        time={`${10 + index}:00 AM - ${7 + index}:00 PM`}
-        face={smileGreenFace}
-      />
-    ));
+    const favoritesArray = Array.from({ length: 10 }).map((_, index) => ({
+      key: index.toString(),
+      eventid: index.toString(),
+      onFavoriteRemove: onFavoriteRemove,
+      imgURL: index & 1 ? underwaterImg : desertcity,
+      name: index & 1 ? "Underwater" : "Desert City",
+      category: "Active and Adventurous",
+      date: new Date().toLocaleDateString(),
+      time: `${10 + index}:00 AM - ${7 + index}:00 PM`,
+      face: smileGreenFace,
+    }));
 
-    setIsFavorite(favoritesArray);
+    setShortListed(favoritesArray);
   }, []);
 
   return (
@@ -46,9 +52,23 @@ const Favorites: React.FC = () => {
           You have short listed 8 events to join later
         </p>
 
-        <div className="favoritesPg_container">{isFavorite}</div>
+        <div className="favoritesPg_container">
+          {ShortListed.map((ele: ShortListed) => (
+            <ShortListedCard
+              key={ele.key}
+              index={parseInt(ele.key)}
+              onFavoriteRemove={ele.onFavoriteRemove}
+              imgURL={ele.imgURL}
+              name={ele.name}
+              category={ele.category}
+              date={ele.date}
+              time={ele.time}
+              face={ele.face}
+            />
+          ))}
+        </div>
 
-        <RecommadationSlider />
+        <FavoritesRecommendationSlider />
 
         <div className="favoritesPgRecommandation_section">
           <p className="favoritesPgRecommandation_section-title">

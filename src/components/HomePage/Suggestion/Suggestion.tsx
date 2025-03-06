@@ -1,5 +1,3 @@
-// import "./Suggestion.css";
-
 interface SuggestionProps {
   imgUrl: string;
   title: string;

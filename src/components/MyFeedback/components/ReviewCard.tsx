@@ -1,4 +1,6 @@
 import React from "react";
+import EmotionRating from "./EmotionRating";
+import { useNavigate } from "react-router-dom";
 
 type ReviewProps = {
   date: string;
@@ -23,11 +25,16 @@ const ReviewCard: React.FC<ReviewProps> = ({
   event_date = "Nov 17, 2022",
   image = "https://www.google.com",
   reviews = 123,
+  rating = 1,
 }) => {
+  const navigate = useNavigate();
   return (
     <div className="review_card">
       <div className="feedback">
-        <div className="feedback_image">
+        <div
+          onClick={() => navigate(`/event-details?eventId=${eventId}`)}
+          className="feedback_image"
+        >
           <div className="feedback_image_overlay">
             <p className="feedback_image_overlay_text">{name}</p>
             <p className="feedback_image_overlay_date">{event_date}</p>
@@ -39,7 +46,9 @@ const ReviewCard: React.FC<ReviewProps> = ({
           <p className="feedback_text_date">{date}</p>
           <p className="feedback_text_heading">{city}</p>
           <p className="feedback_text_subheading">{review}</p>
-          <div className="feedback_text_rating">{avg_star}</div>
+          <div className="feedback_text_rating">
+            <EmotionRating rating={(rating + 1) % 7} />
+          </div>
         </div>
       </div>
       <hr />

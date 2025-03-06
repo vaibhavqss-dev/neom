@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import desertcity from "../../assets/desertcity.jpg";
+import desertcity from "../../assets/img/desertcity.jpg";
 import SelectDistance from "../base/selectdistance/selectdistance";
 import RecommendationCardContainer from "../base/recommendationCards/RecommendationCardContainer";
 import { useSearchParams } from "react-router-dom";
@@ -60,11 +60,11 @@ const RescheduledEvent: React.FC<RescheduledEventProps> = ({}) => {
             className="rescheduledEventPg_imgContainer_overlay_btn"
             onClick={() => {
               navigate(
-                `/checking?eventId=${
-                  EventDummyDate.eventId || ""
+                `/reschedule-popup?eventId=${
+                  EventDummyDate.eventId
                 }&eventName=${encodeURIComponent(
                   EventDummyDate.name
-                )}&eventday=${EventDummyDate.date}&eventTime=${
+                )}&eventDay=${EventDummyDate.date}&eventTime=${
                   EventDummyDate.timeSlots[0]
                 }`
               );

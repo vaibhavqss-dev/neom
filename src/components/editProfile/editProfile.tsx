@@ -1,8 +1,8 @@
 import React from "react";
-import desertCity from "../../assets/desertcity.jpg";
-import profilePic from "../../assets/profilePic.png";
-import pencil from "../../assets/pencil.svg";
-import like from "../../assets/like.svg";
+import desertCity from "../../assets/img/desertcity.jpg";
+import profilePic from "../../assets/img/profilePic.png";
+import pencil from "../../assets/img/pencil.svg";
+import like from "../../assets/img/like.svg";
 import Interest from "./selectInterest/interest";
 
 const EditProfile: React.FC = () => {

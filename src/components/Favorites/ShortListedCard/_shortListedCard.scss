@@ -1,0 +1,59 @@
+.favorites_img_container {
+  cursor: pointer;
+  position: relative;
+  margin: 1rem 1rem 0 0;
+  width: 14rem;
+}
+
+.favorites_img_remove_btn {
+  font-size: 0.7rem;
+  position: absolute;
+  top: 0.8rem;
+  right: 0.5rem;
+  background-color: #ffffff;
+  color: rgb(255, 10, 10);
+  border: none;
+  border-radius: 0.9rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+#favorites_img {
+  width: 14rem;
+  height: 18rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+#smileface {
+  width: 0.7rem;
+  margin-right: 0.5rem;
+}
+
+.favorites_img_type {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  margin: 0;
+}
+
+.favorites_img_type_text {
+  margin: 0;
+}
+
+.favorites_img_type_date {
+  margin: 0;
+}
+
+.favorites_img_title {
+  font-size: 1rem;
+  margin: 0.8rem 0 0.3rem 0;
+  font-family: cursive;
+}
+
+.favorites_img_time {
+  margin: 0;
+  font-size: 0.7rem;
+  color: gray;
+}

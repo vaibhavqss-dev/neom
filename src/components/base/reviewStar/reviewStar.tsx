@@ -1,5 +1,5 @@
-import starReviewWhite from "./../../../assets/star-review-white.svg";
-import starReviewYellow from "./../../../assets/review-star.svg";
+import starReviewWhite from "./../../../assets/img/star-review-white.svg";
+import starReviewYellow from "./../../../assets/img/review-star.svg";
 
 // handleStarChange
 type ReviewStarProps = {

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./Checkout.scss";
 import { NavLink } from "react-router-dom";
-import underwater from "../../assets/neom-underwater.jpg";
-import neom from "../../assets/neom.png";
+import underwater from "../../assets/img/neom-underwater.jpg";
+import neom from "../../assets/img/neom.png";
 
 const Checkout: React.FC = () => {
   const [isTransactionComplete, setIsTransactionComplete] = useState(false);

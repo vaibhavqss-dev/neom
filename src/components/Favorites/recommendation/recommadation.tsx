@@ -1,5 +1,6 @@
 import React from "react";
-import smileGreenFace from "./../../../assets/smileGreenFace.svg";
+import smileGreenFace from "./../../../assets/img/smileGreenFace.svg";
+import { useNavigate } from "react-router-dom";
 
 interface RecommadationProps {
   imgURL: string;
@@ -8,18 +9,24 @@ interface RecommadationProps {
   date: string;
   time: string;
   face: string;
+  eventId: string;
 }
 
-const Recommadation: React.FC<RecommadationProps> = ({
+const FavoritesRecommendationCard: React.FC<RecommadationProps> = ({
   imgURL,
   name,
   category,
   date,
   time,
   face,
+  eventId,
 }) => {
+  const navigate = useNavigate();
   return (
-    <div className="recommadation_container">
+    <div
+      onClick={() => navigate(`/event-details?eventId=${eventId}`)}
+      className="recommadation_container"
+    >
       <div className="recommadation_img_container">
         <img id="recommadation_img" src={imgURL} alt="underwater" />
         <div className="recommadation_text"></div>
@@ -47,4 +54,4 @@ const Recommadation: React.FC<RecommadationProps> = ({
   );
 };
 
-export default Recommadation;
+export default FavoritesRecommendationCard;

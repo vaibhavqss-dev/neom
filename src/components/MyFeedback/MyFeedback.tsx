@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import VibometerIcon from "../vibOmeter/vibometerIcon";
-import smileGreenFace from "../../assets/smileGreenFace.svg";
-import desertcity from "../../assets/desertcity.jpg";
+import overwhelmed from "../../assets/img/overwhelmed.svg";
+import desertcity from "../../assets/img/desertcity.jpg";
 import ReviewCard from "./components/ReviewCard";
 
 type Review = {
@@ -44,7 +44,7 @@ const MyFeedback: React.FC = () => {
     <div className="myFeedback">
       <div className="myFeedback_firstSection">
         <div className="myFeedback_firstSection_left">
-          <img src={smileGreenFace} alt="profile" />
+          <img src={overwhelmed} alt="profile" />
           <p className="myFeedback_firstSection_left_category">
             Overwhelmed experience
           </p>

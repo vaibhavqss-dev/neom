@@ -12,7 +12,7 @@ export type FilterState = {
 };
 
 export type RecommendationLiked = {
-  id: number;
+  id: string;
   name: string;
 };
 
@@ -21,7 +21,7 @@ type RecommendationSectionProps = {
   onFilterChange: (e: any, filterType: string) => void;
   events: any[];
   liked: RecommendationLiked[];
-  handleLike: (id: number, name: string) => void;
+  handleLike: (id: string, name: string) => void;
 };
 
 const RecommendationSection: React.FC<RecommendationSectionProps> = ({
@@ -41,7 +41,7 @@ const RecommendationSection: React.FC<RecommendationSectionProps> = ({
               key={ele.id}
               handleLike={handleLike}
               isLiked={liked.map((item) => item.id).includes(ele.id)}
-              id={ele.id}
+              eventId={ele.id}
               index={ele.id}
               imgURL={ele.imgURL}
               subtextDate={ele.subtextDate}

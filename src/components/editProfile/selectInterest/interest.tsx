@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import desertCity from "../../../assets/desertcity.jpg";
-import like from "../../../assets/like.svg";
+import desertCity from "../../../assets/img/desertcity.jpg";
+import like from "../../../assets/img/like.svg";
 
 const Interest: React.FC = () => {
   const [availableInterests] = useState([

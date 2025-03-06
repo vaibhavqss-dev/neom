@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import Navbar from "./components/navbar/navbar";
 import Home from "./components/HomePage/Home";
 import Favorites from "./components/Favorites/Favorites";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -12,15 +11,15 @@ import CancelRecommendation from "./components/cancelRecommendation/cancelRecomm
 import CompletedEvents from "./components/completedEvents/completedEvents";
 import AddReview from "./components/addReview/addReview";
 import VibOmeter from "./components/vibOmeter/vibOmeter";
-import CancelConfirmationPopup from "./components/utility/cancelConfirmation/cancelConfirmation";
+import CancelConfirmationPopup from "./components/navbar/models/cancelEventPopup/cancelConfirmation";
 import ConfirmationPopup from "./components/utility/confirmation/confirmationPop";
-import ConfirmSchedule from "./components/utility/confirmSchedule/confirmSchedule";
+import ConfirmSchedule from "./components/navbar/models/confirmReschedulePopup/confirmReSchedule";
 import RescheduledEvent from "./components/rescheduledEvents/rescheduledEvent";
 import EditProfile from "./components/editProfile/editProfile";
 import EditSetting from "./components/editSetting/editSetting";
-import RescheduledEventPopUp from "./components/popups/reschedulepopup/reschedule";
 import Checkout from "./components/Checkout/Checkout";
 import MyFeedback from "./components/MyFeedback/MyFeedback";
+import RescheduledEventPopUp from "./components/rescheduledEvents/reschedulePopUp/reschedulePopup";
 
 const router = createBrowserRouter([
   {
@@ -33,18 +32,15 @@ const router = createBrowserRouter([
       { path: "/upcoming-events", element: <UpcomingEventsPg /> },
       { path: "/event-details", element: <EventDetails /> },
       { path: "/completed-events", element: <CompletedEvents /> },
-      { path: "/vib-o-meter", element: <VibOmeter /> },
       { path: "/cancel-recommendation", element: <CancelRecommendation /> },
-      // { path: "/checking", element: <CancelConfirmationPopup /> },
-      // { path: "/checking", element: <ConfirmationPopup /> },
-      // { path: "/checking", element: <ConfirmSchedule /> },
       { path: "/rescheduled-event", element: <RescheduledEvent /> },
       { path: "/edit-profile", element: <EditProfile /> },
       { path: "/edit-setting", element: <EditSetting /> },
-      { path: "/checking", element: <RescheduledEventPopUp /> },
       { path: "/checkout", element: <Checkout /> },
       { path: "/add-review", element: <AddReview /> },
       { path: "/myfeedback", element: <MyFeedback /> },
+      { path: "/reschedule-popup", element: <RescheduledEventPopUp /> },
+      { path: "/vib-o-meter", element: <VibOmeter /> },
     ],
   },
 ]);

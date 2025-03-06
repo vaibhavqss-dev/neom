@@ -15,27 +15,31 @@
 
 @import "components/Favorites/recommendation/_recommadation";
 @import "components/Favorites/_favorites";
+@import "components/Favorites/ShortListedCard/shortListedCard";
 
 @import "components/EventDetails/_event_details";
 @import "components/EventDetails/reviewCard/reviewCard";
 
-@import "./components/UpcomingEvents/_upcomingEvents";
-@import "./components/footer/_footer";
-@import "components/navbar/_navbar";
+@import "components/UpcomingEvents/_upcomingEvents";
+@import "components/footer/_footer";
 @import "components/cancelRecommendation/cancelRecommendation";
 @import "components/completedEvents/_completedEvents";
 @import "components/addReview/_addReview";
 @import "components/vibOmeter/_vibOmeter";
 @import "components/rescheduledEvents/_rescheduledEvent";
+@import "components/rescheduledEvents/reschedulePopUp/_reschedulePopup";
+
 @import "components/editProfile/_editProfile";
 @import "components/editSetting/editSetting";
 @import "components/editProfile/selectInterest/interest";
-@import "components/Favorites/FavoritesImg/_favoritesImg.scss";
-@import "components/MyFeedback/_myfeedback";
 
-@import "components/utility/cancelConfirmation/_cancelConfirmation";
 @import "components/utility/confirmation/confirmationPop.scss";
-@import "components/utility/confirmSchedule/_confirmSchedule";
 
-@import "components/popups/reschedulepopup/_reschedule";
+
+@import "components/MyFeedback/_myfeedback";
 @import "components/MyFeedback/components/reviewCard";
+@import "components/MyFeedback/components/_emotionRating";
+
+@import "components/navbar/_navbar";
+@import "components/navbar/models/cancelEventPopup/_cancelConfirmation";
+

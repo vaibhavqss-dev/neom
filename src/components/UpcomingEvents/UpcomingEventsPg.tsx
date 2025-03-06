@@ -1,9 +1,9 @@
 import React, { JSX } from "react";
-import desertcity from "../../assets/desertcity.jpg";
+import desertcity from "../../assets/img/desertcity.jpg";
 import Card from "../base/card/card";
 import SelectDistance from "../base/selectdistance/selectdistance";
-import location from "../../assets/location.svg";
-import calender from "../../assets/calendar.svg";
+import location from "../../assets/img/location.svg";
+import calender from "../../assets/img/calendar.svg";
 
 type FilterState = {
   date: string;
@@ -15,7 +15,7 @@ type FilterState = {
 };
 
 type likedEvents = {
-  id: number;
+  id: string;
   name: string;
 };
 
@@ -31,7 +31,7 @@ const UpcomingEventsPg: React.FC = () => {
   });
 
   const [likedEvents, setLikedEvents] = React.useState<likedEvents[]>([]);
-  function handleLike(id: number, name: string) {
+  function handleLike(id: string, name: string) {
     console.log("Liked Event: ", id, name);
     setLikedEvents((prev) => {
       if (prev.map((ele) => ele.id).includes(id)) {
@@ -70,7 +70,7 @@ const UpcomingEventsPg: React.FC = () => {
     // like Filter useState
     const AllEvents = Array.from({ length: 10 }).map((_, index) => ({
       index: index,
-      id: index,
+      eventId: index,
       imgURL: "https://picsum.photos/800/600",
       subtextDate: "Nov 10 - 29",
       subtextName: "Vibrant & Social",
@@ -116,8 +116,10 @@ const UpcomingEventsPg: React.FC = () => {
     setEvents(
       filteredEvents.map((event, index) => (
         <Card
-          isLiked={likedEvents.map((item) => item.id).includes(event.id)}
-          id={event.id}
+          isLiked={likedEvents
+            .map((item) => item.id)
+            .includes(String(event.eventId))}
+          eventId={String(event.eventId)}
           handleLike={handleLike}
           key={event.index}
           index={event.index}

@@ -1,5 +1,5 @@
-import star from "../../../assets/star.svg";
-import desertcity from "../../../assets/desertcity.jpg";
+import star from "../../../assets/img/star.svg";
+import desertcity from "../../../assets/img/desertcity.jpg";
 
 type ReviewCardProps = {
   id: number;

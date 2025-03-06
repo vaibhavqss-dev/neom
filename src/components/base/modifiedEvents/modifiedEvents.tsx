@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import underwater from "../../../assets/neom-underwater.jpg";
+import underwater from "../../../assets/img/neom-underwater.jpg";
 import { useCountdownTimer } from "./hooks/useCountdownTimer";
 import EventMessage from "./components/EventMessage";
 import EventDetails from "./components/EventDetails";
@@ -7,6 +7,7 @@ import RecommendationSection, {
   FilterState,
   RecommendationLiked,
 } from "./components/RecommendationSection";
+import { useSearchParams } from "react-router-dom";
 
 type ModifiedBaseEventsProps = {
   name?: string;
@@ -21,10 +22,13 @@ const ModifiedBaseEvents: React.FC<ModifiedBaseEventsProps> = ({
   eventLocation = "Pune, Maharashtra",
   eventStartIn = "1 hour 5 minutes",
 }) => {
+  const [searchParams] = useSearchParams();
+  const Msgid = parseInt(searchParams.get("id") || "0") % 3;
+
   const timeLeft = useCountdownTimer(18, 15);
   const [liked, setLiked] = useState<RecommendationLiked[]>([]);
 
-  function handleLike(id: number, name: string) {
+  function handleLike(id: string, name: string) {
     setLiked((prev) => {
       if (prev.map((ele) => ele.id).includes(id)) {
         return prev.filter((ele) => ele.id !== id);
@@ -115,7 +119,7 @@ const ModifiedBaseEvents: React.FC<ModifiedBaseEventsProps> = ({
 
   return (
     <div className="events">
-      <EventMessage name={name} eventName={eventName} messageType={0} />
+      <EventMessage name={name} eventName={eventName} messageType={Msgid} />
 
       <EventDetails
         redirectUrl={`/event-details?eventId=1&eventName=underwaterCity`}

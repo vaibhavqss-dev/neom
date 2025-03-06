@@ -1,4 +1,10 @@
 import React, { useEffect } from "react";
+import anger from "../../assets/img/anger.svg";
+import appreciation from "../../assets/img/appreciation.svg";
+import boredom from "../../assets/img/boredom.svg";
+import joy from "../../assets/img/joy.svg";
+import overwhelm from "../../assets/img/overwhelmed.svg";
+import disappointment from "../../assets/img/disappointed.svg";
 
 const VibometerIcon: React.FC = () => {
   useEffect(() => {
@@ -36,10 +42,17 @@ const VibometerIcon: React.FC = () => {
     }
 
     for (let i = 0; i < 6; i++) {
-      const emoji = document.createElement("div");
+      const emoji = document.createElement("img");
       const para = document.createElement("p");
       emoji.className = "emoji";
-      emoji.innerHTML = ["😀", "😊", "😐", "😕", "😟", "😢"][i];
+      emoji.src = [
+        overwhelm,
+        joy,
+        appreciation,
+        boredom,
+        disappointment,
+        anger,
+      ][i];
 
       const centerBrickIndex = i * 5 + 2;
       const angle = 180 - centerBrickIndex * (180 / (totalBricks - 1));

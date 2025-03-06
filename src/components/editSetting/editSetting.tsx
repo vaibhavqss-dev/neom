@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+
 const EditSetting: React.FC = () => {
   const [settings, setSettings] = useState({
     personalInfo: false,
@@ -44,8 +45,7 @@ const EditSetting: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Settings to be submitted:", settings);
-    // Here you would call your API
-    // submitSettingsToApi(settings);
+    // ccall api here
   };
 
   return (

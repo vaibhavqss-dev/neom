@@ -1,7 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 type CardProps = {
-  id?: number;
+  eventId: string;
   index: number;
   category: string;
   date: string;
@@ -13,13 +14,13 @@ type CardProps = {
   location: string;
   imgURL: string;
   isLiked?: boolean;
-  handleLike?: (id: number, name: string) => void;
+  handleLike?: (id: string, name: string) => void;
   IsRank?: boolean;
 };
 
 const Card: React.FC<CardProps> = ({
   index,
-  id,
+  eventId,
   imgURL,
   subtextDate,
   subtextName,
@@ -34,15 +35,19 @@ const Card: React.FC<CardProps> = ({
   IsRank,
 }) => {
   const onLikedHandle = () => {
-    if (id === undefined) return;
-    console.log("Liked Event: ", id, name);
-    handleLike && handleLike(id, name);
+    if (eventId === undefined) return;
+    console.log("Liked Event: ", eventId, name);
+    handleLike && handleLike(eventId, name);
   };
+  const navigate = useNavigate();
 
   return (
     <div className="recommendationCards">
       <div className="recommendationCards_card" key={index}>
-        <div className="recommendationCards_card_img_container">
+        <div
+          onClick={() => navigate(`/event-details?eventId=${eventId}`)}
+          className="recommendationCards_card_img_container"
+        >
           <img
             src={imgURL}
             alt="Upcoming Events"
@@ -50,7 +55,7 @@ const Card: React.FC<CardProps> = ({
           />
         </div>
         <div className="recommendationCards_card_text">
-          <div className="recommendationCards_card_text_subtext">
+          <div className="recommendationCards_card_text_</div>subtext">
             <p className="recommendationCards_card_text_subtext_name">
               {subtextName}
             </p>

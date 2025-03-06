@@ -1,0 +1,38 @@
+.emotion-rating {
+  display: flex;
+  gap: 12px;
+
+  .emotion-icon {
+    display: flex;
+    img {
+      width: 3rem;
+      transition: all 0.3s ease;
+
+      &.grayscale {
+        filter: grayscale(100%);
+        opacity: 0.6;
+      }
+
+      &.blinking {
+        // animation: blink 1s infinite alternate;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      img {
+        transform: scale(1.2);
+      }
+    }
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
