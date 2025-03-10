@@ -19,28 +19,28 @@ const ItinerarieSlider: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    let direction = "right";
-    const interval = setInterval(() => {
-      if (!sliderRef.current) return;
-      if (direction === "right") {
-        scrollRight();
-        if (
-          sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
-          sliderRef.current.scrollWidth
-        ) {
-          direction = "left";
-        }
-      } else {
-        scrollLeft();
-        if (sliderRef.current.scrollLeft <= 0) {
-          direction = "right";
-        }
-      }
-    }, 2000);
+  // useEffect(() => {
+  //   let direction = "right";
+  //   const interval = setInterval(() => {
+  //     if (!sliderRef.current) return;
+  //     if (direction === "right") {
+  //       scrollRight();
+  //       if (
+  //         sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
+  //         sliderRef.current.scrollWidth
+  //       ) {
+  //         direction = "left";
+  //       }
+  //     } else {
+  //       scrollLeft();
+  //       if (sliderRef.current.scrollLeft <= 0) {
+  //         direction = "right";
+  //       }
+  //     }
+  //   }, 2000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <div>

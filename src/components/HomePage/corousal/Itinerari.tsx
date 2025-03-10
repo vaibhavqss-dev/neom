@@ -1,24 +1,12 @@
-import React from "react";
 import calendar from "../../../assets/img/calendar.svg";
 import location from "../../../assets/img/location.svg";
 import category from "../../../assets/img/category.svg";
 import weather from "../../../assets/img/weather.svg";
 import redstars from "../../../assets/img/star.svg";
 import { NavLink, useNavigate } from "react-router-dom";
+import React from "react";
 
-function Itinerari({
-  eventId,
-  ImgUrl,
-  title,
-  description,
-  stars,
-  reviews,
-  dateandTime,
-  locationName,
-  categoryName,
-  Scheduled,
-  emojiFaceImg,
-}: {
+type ItinerariProps = {
   eventId: string | number;
   ImgUrl: string;
   title: string;
@@ -30,12 +18,30 @@ function Itinerari({
   categoryName: string;
   Scheduled?: boolean;
   emojiFaceImg: string;
-}) {
+  subtext?: string;
+};
+
+const Itinerari: React.FC<ItinerariProps> = ({
+  eventId,
+  ImgUrl,
+  title,
+  description,
+  stars,
+  reviews,
+  dateandTime,
+  locationName,
+  categoryName,
+  Scheduled,
+  emojiFaceImg,
+  subtext = "Overwhelming vibes are coming here",
+}) => {
   const navigate = useNavigate();
 
   return (
     <div
-      onClick={() => navigate(`/event-details?eventId=${eventId}`)}
+      onClick={() =>
+        navigate(`/event-details?eventId=${eventId}&isScheduled=1`)
+      }
       className="corousalContainer"
     >
       <div className="corousalContainer_imgContainer">
@@ -82,12 +88,8 @@ function Itinerari({
 
         <div className="corousalContainer_notifyContainer">
           <div className="corousalContainer_notifyContainer_text1">
-            <img
-              id="smileGreenFace"
-              src={emojiFaceImg}
-              alt="smileGreenFace"
-            />
-            Overwhelmed vibes are coming here{" "}
+            <img id="smileGreenFace" src={emojiFaceImg} alt="smileGreenFace" />
+            {subtext}{" "}
           </div>
           <div className="corousalContainer_notifyContainer_text2">
             {Scheduled ? "Scheduled" : undefined}
@@ -96,6 +98,6 @@ function Itinerari({
       </div>
     </div>
   );
-}
+};
 
 export default Itinerari;

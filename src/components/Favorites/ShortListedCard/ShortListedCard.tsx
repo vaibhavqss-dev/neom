@@ -24,10 +24,7 @@ const ShortListedCard: React.FC<FavoritesImgProps> = ({
 }) => {
   const navigate = useNavigate();
   return (
-    <div
-      onClick={() => navigate(`/event-details?eventId=${index}`)}
-      className="favorites_img_container"
-    >
+    <div className="favorites_img_container">
       <div className="favorites_img_container">
         <button
           onClick={() =>
@@ -37,7 +34,12 @@ const ShortListedCard: React.FC<FavoritesImgProps> = ({
         >
           Remove
         </button>
-        <img id="favorites_img" src={imgURL} alt="underwater" />
+        <img
+          onClick={() => navigate(`/event-details?eventId=${index}&isScheduled=1`)}
+          id="favorites_img"
+          src={imgURL}
+          alt="underwater"
+        />
       </div>
 
       <p className="favorites_img_type">

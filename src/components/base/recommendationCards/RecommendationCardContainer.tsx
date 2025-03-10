@@ -49,13 +49,13 @@ const RecommendationCardContainer: React.FC<
     const allRecommendations = Array(number)
       .fill(number)
       .map((_, i: number) => ({
-        eventId: i.toString(), // Convert to string to match RecommendationItem type
-        category: "Category",
-        date: "Date",
-        time: "Time",
-        name: "Name",
-        subtextName: "Subtext Name",
-        subtextDate: "Subtext Date",
+        eventId: i.toString(),
+        category: `Category ${i}`,
+        date: ` Date ${i}`,
+        time: `Time ${i}`,
+        name: `Name ${i}`,
+        subtextName: `Subtext Name ${i}`,
+        subtextDate: `Subtext Date ${i}`,
         timeRange: "Time Range",
         location: "Location",
         imgURL: i & 1 ? "https://picsum.photos/800/600" : yogoImg,
@@ -73,7 +73,7 @@ const RecommendationCardContainer: React.FC<
           handleLike={handleLike}
           isLiked={liked.map((item) => item.eventId).includes(ele.eventId)}
           eventId={ele.eventId}
-          index={parseInt(ele.eventId)}
+          index={parseInt(ele.eventId) + 1}
           imgURL={ele.imgURL}
           subtextDate={ele.subtextDate}
           subtextName={ele.subtextName}

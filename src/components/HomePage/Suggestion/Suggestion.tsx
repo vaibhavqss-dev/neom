@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 interface SuggestionProps {
   imgUrl: string;
   title: string;
@@ -5,6 +7,8 @@ interface SuggestionProps {
   dateandTime: string;
   food?: boolean;
   emoji_url: string;
+  eventId: string | number; // Add eventId prop
+  onRemove: () => void; // Add callback for removal
 }
 
 export default function Suggestion({
@@ -14,7 +18,21 @@ export default function Suggestion({
   dateandTime,
   food,
   emoji_url,
+  eventId,
+  onRemove,
 }: SuggestionProps) {
+  const navigate = useNavigate();
+
+  // Handle accept button click
+  const handleAccept = () => {
+    navigate(`/event-details?eventId=${eventId}`);
+  };
+
+  // Handle remind later button click
+  const handleRemind = () => {
+    onRemove();
+  };
+
   return (
     <div className="SuggestionContainer">
       <div className="SuggestionContainer_img">
@@ -35,10 +53,16 @@ export default function Suggestion({
       <div className="suggestion_text">
         <p className="suggestion_text_description">{description}</p>
         <div className="suggestion_textButton">
-          <button className="suggestion_textButton_button_yes">
+          <button 
+            className="suggestion_textButton_button_yes" 
+            onClick={handleAccept}
+          >
             {food ? "Yes, I Accept" : "Yes, I would share"}
           </button>
-          <button className="suggestion_textButton_button_no">
+          <button 
+            className="suggestion_textButton_button_no"
+            onClick={handleRemind}
+          >
             {food ? "No, thanks" : "Remind me later"}
           </button>
         </div>

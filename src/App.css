@@ -150,6 +150,136 @@ body {
 }
 
 
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #f3f4f6;
+}
+.signup-container .signup-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.signup-container .signup-card h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 0.5rem 0;
+  text-align: center;
+}
+.signup-container .signup-card .subtitle {
+  color: #6b7280;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.signup-container .signup-card .success-message {
+  padding: 1rem;
+  background-color: rgb(212.7857142857, 247.7142857143, 225.6428571429);
+  color: rgb(26.4935064935, 153.5064935065, 73.2467532468);
+  border-radius: 0.375rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 500;
+}
+.signup-container .signup-card .error-message {
+  padding: 1rem;
+  background-color: white;
+  color: rgb(234.9802955665, 21.0197044335, 21.0197044335);
+  border-radius: 0.375rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 500;
+}
+.signup-container .signup-card form .form-group {
+  margin-bottom: 1.5rem;
+}
+.signup-container .signup-card form .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #1f2937;
+}
+.signup-container .signup-card form .form-group input {
+  width: 93%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  transition: all 0.3s ease;
+}
+.signup-container .signup-card form .form-group input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+.signup-container .signup-card form .form-group input.error {
+  border-color: #ef4444;
+}
+.signup-container .signup-card form .form-group input.error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+.signup-container .signup-card form .form-group input::placeholder {
+  color: #9ca3af;
+}
+.signup-container .signup-card form .form-group .error-text {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #ef4444;
+}
+.signup-container .signup-card form .signup-button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: #4f46e5;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.signup-container .signup-card form .signup-button:hover:not(:disabled) {
+  background-color: #4338ca;
+}
+.signup-container .signup-card form .signup-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+}
+.signup-container .signup-card form .signup-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+.signup-container .signup-card .login-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+.signup-container .signup-card .login-link a {
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.signup-container .signup-card .login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .signup-container .signup-card {
+    padding: 1.5rem;
+  }
+}
 .recommendationCardContainer {
   margin-top: 0rem;
   display: flex;
@@ -1443,18 +1573,6 @@ body {
   background-color: transparent;
   position: relative;
 }
-.upcomingEventsPg_dateLocation_btns_date input[type=date]::-webkit-datetime-edit {
-  color: transparent; /* Hides default text until a date is picked */
-}
-.upcomingEventsPg_dateLocation_btns_date input[type=date]:placeholder-shown::-webkit-datetime-edit {
-  color: #888; /* Adjust color as needed */
-}
-.upcomingEventsPg_dateLocation_btns_date input[type=date]:focus {
-  outline: none;
-}
-.upcomingEventsPg_dateLocation_btns_date input[type=date]:invalid {
-  color: #888;
-}
 .upcomingEventsPg_dateLocation_btns_location {
   position: relative;
 }
@@ -1520,11 +1638,13 @@ body {
 body {
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .footer_container {
-  margin: 0;
-  margin-top: 3%;
+  margin-top: 2rem;
   background-color: #222222;
   color: white;
   padding: 0.4rem;

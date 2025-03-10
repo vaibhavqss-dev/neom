@@ -38,14 +38,19 @@ const Visited: React.FC<VisitedProps> = ({
             on {dateandTime}
           </p>
         </div>
-        <p className="visitedContainer_rating_stars">
-          You rated this event
-          <span className="visitedContainer_rating_stars_black">
-            {Array.from({ length: (rating % 5) + 1 }, (_, index) => (
-              <span key={index}>★</span>
-            ))}
-          </span>
-        </p>
+
+        {rating == undefined ? (
+          <button>Rate this event</button>
+        ) : (
+          <p className="visitedContainer_rating_stars">
+            You rated this event
+            <span className="visitedContainer_rating_stars_black">
+              {Array.from({ length: (rating % 5) + 1 }, (_, index) => (
+                <span key={index}>★</span>
+              ))}
+            </span>
+          </p>
+        )}
       </div>
     </>
   );

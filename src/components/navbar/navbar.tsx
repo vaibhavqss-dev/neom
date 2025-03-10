@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import Neom from "../../assets/img/logo.jpg";
 import bell from "../../assets/img/bell.svg";
 import web from "../../assets/img/web.svg";
@@ -17,7 +17,6 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
   const [selectedLanguage, setSelectedLanguage] = useState("English");
 
   const toggleMenu = (selector: string): void => {
-    // Don't allow menu toggling when the popup is open
     if (isOpen) return;
 
     const element = document.querySelector(`.${selector}`);
@@ -56,6 +55,8 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
     isModelOpen?.(false);
   };
 
+  const navigate = useNavigate();
+
   return (
     <div
       className={`navbar ${isOpen || isRescheduleOpen ? "popup-active" : ""}`}
@@ -75,7 +76,12 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
       />
 
       <div className="neom">
-        <img id="neom_logo" src={Neom} alt="neomlogo" />
+        <img
+          onClick={() => navigate("/")}
+          id="neom_logo"
+          src={Neom}
+          alt="neomlogo"
+        />
       </div>
 
       <div className="links">

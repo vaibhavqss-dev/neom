@@ -63,6 +63,11 @@ const EventDetails: React.FC<EventDetailsProps> = ({
   operatorDescription = "This is one of the many events come under golf category",
   operatorRating = 4.9,
 }) => {
+  const query = new URLSearchParams(window.location.search);
+  const isScheduled = query.get("isScheduled");
+  if(isScheduled === "1") eventCompleted = true;
+
+
   const navigate = useNavigate();
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);

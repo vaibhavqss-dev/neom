@@ -1,5 +1,4 @@
 import React, { JSX } from "react";
-import desertcity from "../../assets/img/desertcity.jpg";
 import Card from "../base/card/card";
 import SelectDistance from "../base/selectdistance/selectdistance";
 import location from "../../assets/img/location.svg";
@@ -31,6 +30,25 @@ const UpcomingEventsPg: React.FC = () => {
   });
 
   const [likedEvents, setLikedEvents] = React.useState<likedEvents[]>([]);
+
+  // Add NEOM city famous places
+  const neomPlaces = [
+    "The Line",
+    "Trojena",
+    "Sindalah Island",
+    "OXAGON",
+    "Neom Bay",
+    "Gulf of Aqaba",
+    "NEOM Mountain Resort",
+    "NEOM Tech City",
+    "The Spine",
+    "Port NEOM",
+  ];
+
+  // States for dropdown functionality
+  const [showDropdown, setShowDropdown] = React.useState(false);
+  const [filteredPlaces, setFilteredPlaces] = React.useState(neomPlaces);
+
   function handleLike(id: string, name: string) {
     console.log("Liked Event: ", id, name);
     setLikedEvents((prev) => {
@@ -65,33 +83,62 @@ const UpcomingEventsPg: React.FC = () => {
     }
   }
 
+  function handleLocationChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    setFilter((prev) => ({
+      ...prev,
+      location: value,
+    }));
+
+    // Filter places based on input
+    setFilteredPlaces(
+      neomPlaces.filter((place) =>
+        place.toLowerCase().includes(value.toLowerCase())
+      )
+    );
+  }
+
+  function selectLocation(place: string) {
+    setFilter((prev) => ({
+      ...prev,
+      location: place,
+    }));
+    setShowDropdown(false);
+  }
+
   React.useEffect(() => {
     // API call to get all events list according to POST request
     // like Filter useState
-    const AllEvents = Array.from({ length: 10 }).map((_, index) => ({
-      index: index,
-      eventId: index,
-      imgURL: "https://picsum.photos/800/600",
-      subtextDate: "Nov 10 - 29",
-      subtextName: "Vibrant & Social",
-      name: "Round of Golf",
-      timeRange: "7:00 AM - 9:00 AM",
-      location: "Delhi",
-      category: [
-        "Singing",
-        "Golf Tournament",
-        "Box Cricket",
-        "Swimming",
-        "Stand Up Comedy",
-        "RAMP Walk",
-        "Talks Shows",
-        "Kite Surfing",
-        "Book Exhibitions",
-      ][index % 4],
-      date: "Nov 10 - 29",
-      time: "7:00 AM - 9:00 AM",
-      distance: { type: "walking", value: 20 },
-    }));
+    const AllEvents = Array.from({ length: 10 }).map((_, index) => {
+      // Randomly select a location from neomPlaces
+      const randomLocation =
+        neomPlaces[Math.floor(Math.random() * neomPlaces.length)];
+
+      return {
+        index: index,
+        eventId: index,
+        imgURL: "https://picsum.photos/800/600",
+        subtextDate: "Nov 10 - 29",
+        subtextName: "Vibrant & Social",
+        name: "Round of Golf",
+        timeRange: "7:00 AM - 9:00 AM",
+        location: randomLocation, // Use random NEOM location instead of fixed "Delhi"
+        category: [
+          "Singing",
+          "Golf Tournament",
+          "Box Cricket",
+          "Swimming",
+          "Stand Up Comedy",
+          "RAMP Walk",
+          "Talks Shows",
+          "Kite Surfing",
+          "Book Exhibitions",
+        ][index % 9],
+        date: "Nov 10 - 29",
+        time: "7:00 AM - 9:00 AM",
+        distance: { type: "walking", value: 20 },
+      };
+    });
 
     const filteredEvents = AllEvents.filter((event) => {
       if (Filter.date && Filter.date !== event.date) return false;
@@ -164,12 +211,48 @@ const UpcomingEventsPg: React.FC = () => {
 
             <div className="upcomingEventsPg_dateLocation_btns_location">
               <img src={location} alt="location" />
-              <input
-                type="text"
-                onChange={(e) => onFilterChange(e, "location")}
-                className="upcomingEventsPg_dateLocation_btns_text"
-                placeholder="Pick a location"
-              />
+              <div style={{ position: "relative", width: "100%" }}>
+                <input
+                  type="text"
+                  value={Filter.location}
+                  onChange={handleLocationChange}
+                  className="upcomingEventsPg_dateLocation_btns_text"
+                  placeholder="Pick a location"
+                  onFocus={() => setShowDropdown(true)}
+                  onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+                />
+                {showDropdown && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "100%",
+                      left: 0,
+                      width: "100%",
+                      maxHeight: "200px",
+                      overflowY: "auto",
+                      background: "white",
+                      boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
+                      borderRadius: "4px",
+                      zIndex: 10,
+                    }}
+                  >
+                    {filteredPlaces.map((place, idx) => (
+                      <div
+                        key={idx}
+                        style={{
+                          padding: "8px 12px",
+                          cursor: "pointer",
+                          borderBottom: "1px solid #eee",
+                        }}
+                        onMouseDown={() => selectLocation(place)}
+                        onTouchStart={() => selectLocation(place)}
+                      >
+                        {place}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

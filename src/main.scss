@@ -1,16 +1,19 @@
 @import "App";
 
+@import "components/user_auth/login/login.module.scss";
+@import "components/user_auth/signup/signup.module.scss";
+
 @import "components/base/recommendationCards/_recommendationCard";
 @import "components/base/selectdistance/_selectdistance";
 @import "components/base/reviewStar/_reviewStar";
-@import "components/base/card/_card";
+@import "components/base/card/_card";   
 @import "components/base/modifiedEvents/_modifiedEvents";
 
 @import "components/HomePage/visited/visited";
 @import "components/HomePage/recommadation/recommadation";
 @import "components/HomePage/maps/maps";
 @import "components/HomePage/Home";
-@import "components/HomePage/corousal/_corousals";
+@import "components/HomePage/corousal/_corousals"; 
 @import "components/HomePage/Suggestion/_suggestion";
 
 @import "components/Favorites/recommendation/_recommadation";
@@ -35,11 +38,9 @@
 
 @import "components/utility/confirmation/confirmationPop.scss";
 
-
 @import "components/MyFeedback/_myfeedback";
 @import "components/MyFeedback/components/reviewCard";
 @import "components/MyFeedback/components/_emotionRating";
 
 @import "components/navbar/_navbar";
 @import "components/navbar/models/cancelEventPopup/_cancelConfirmation";
-

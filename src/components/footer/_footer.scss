@@ -1,11 +1,13 @@
 body {
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .footer_container {
-  margin: 0;
-  margin-top: 3%;
+  margin-top: 2rem;
   background-color: #222222;
   color: white;
   padding: 0.4rem;

@@ -59,21 +59,21 @@ body {
         position: relative;
       }
 
-      input[type="date"]::-webkit-datetime-edit {
-        color: transparent; /* Hides default text until a date is picked */
-      }
+      // input[type="date"]::-webkit-datetime-edit {
+      //   color: transparent; /* Hides default text until a date is picked */
+      // }
 
-      input[type="date"]:placeholder-shown::-webkit-datetime-edit {
-        color: #888; /* Adjust color as needed */
-      }
+      // input[type="date"]:placeholder-shown::-webkit-datetime-edit {
+      //   color: #888; /* Adjust color as needed */
+      // }
 
-      input[type="date"]:focus {
-        outline: none;
-      }
+      // input[type="date"]:focus {
+      //   outline: none;
+      // }
 
-      input[type="date"]:invalid {
-        color: #888;
-      }
+      // input[type="date"]:invalid {
+      //   color: #888;
+      // }
     }
 
     &_location {
