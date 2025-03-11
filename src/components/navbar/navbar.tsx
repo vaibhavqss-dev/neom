@@ -15,9 +15,49 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isRescheduleOpen, setIsRescheduleOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("English");
+  const [activePopup, setActivePopup] = useState<string | null>(null);
+
+  const closeAllPopupsExcept = (keepOpen: string | null) => {
+    if (keepOpen !== "notification_model") {
+      const notificationElement = document.querySelector(".notification_model");
+      if (!notificationElement?.classList.contains("NotificationNOTActive")) {
+        notificationElement?.classList.add("NotificationNOTActive");
+      }
+    }
+
+    if (keepOpen !== "hamburger_model") {
+      const hamburgerElement = document.querySelector(".hamburger_model");
+      if (!hamburgerElement?.classList.contains("active")) {
+        hamburgerElement?.classList.add("active");
+      }
+    }
+
+    if (keepOpen !== "language_model") {
+      const languageElement = document.querySelector(".language_model");
+      if (!languageElement?.classList.contains("active")) {
+        languageElement?.classList.add("active");
+      }
+    }
+
+    if (keepOpen !== "cancel_popup") {
+      setIsOpen(false);
+    }
+
+    if (keepOpen !== "reschedule_popup") {
+      setIsRescheduleOpen(false);
+    }
+  };
 
   const toggleMenu = (selector: string): void => {
-    if (isOpen) return;
+    if (activePopup === selector) {
+      closeAllPopupsExcept(null);
+      setActivePopup(null);
+      isModelOpen?.(false);
+      return;
+    }
+
+    closeAllPopupsExcept(selector);
+    setActivePopup(selector);
 
     const element = document.querySelector(`.${selector}`);
     element?.classList.toggle(
@@ -39,23 +79,31 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
 
   const handleClosePopup = (): void => {
     setIsOpen(false);
-    const notificationElement = document.querySelector(".notification_model");
-    if (!notificationElement?.classList.contains("NotificationNOTActive")) {
-      notificationElement?.classList.add("NotificationNOTActive");
-    }
+    setActivePopup(null);
     isModelOpen?.(false);
   };
 
   const handleCloseReschedulePopup = (): void => {
     setIsRescheduleOpen(false);
-    const notificationElement = document.querySelector(".notification_model");
-    if (!notificationElement?.classList.contains("NotificationNOTActive")) {
-      notificationElement?.classList.add("NotificationNOTActive");
-    }
+    setActivePopup(null);
     isModelOpen?.(false);
   };
 
   const navigate = useNavigate();
+
+  const openCancelPopup = () => {
+    closeAllPopupsExcept("cancel_popup");
+    setIsOpen(true);
+    setActivePopup("cancel_popup");
+    isModelOpen?.(true);
+  };
+
+  const openReschedulePopup = () => {
+    closeAllPopupsExcept("reschedule_popup");
+    setIsRescheduleOpen(true);
+    setActivePopup("reschedule_popup");
+    isModelOpen?.(true);
+  };
 
   return (
     <div
@@ -142,24 +190,12 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
           <div className="notification_model_btns">
             <button
               className="notification_model_btns_rescheduleBtn"
-              onClick={() => {
-                setIsRescheduleOpen(true);
-                // Close the notification when opening the popup
-                document
-                  .querySelector(".notification_model")
-                  ?.classList.add("NotificationNOTActive");
-              }}
+              onClick={openReschedulePopup}
             >
               Reschedule
             </button>
             <button
-              onClick={() => {
-                setIsOpen(true);
-                // Close the notification when opening the popup
-                document
-                  .querySelector(".notification_model")
-                  ?.classList.add("NotificationNOTActive");
-              }}
+              onClick={openCancelPopup}
               className="notification_model_btns_cancelBtn"
             >
               Cancel

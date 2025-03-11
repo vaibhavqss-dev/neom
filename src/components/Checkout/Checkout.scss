@@ -126,6 +126,50 @@ $neom-success: #3ee0d0; // Bright turquoise
   align-items: center;
 }
 
+.payment-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.card-input-container {
+  margin-bottom: 1.5rem;
+  text-align: left;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: $neom-dark;
+    font-weight: 500;
+  }
+}
+
+.stripe-card-element {
+  padding: 1rem;
+  border: 1px solid rgba($neom-primary, 0.2);
+  border-radius: 0.5rem;
+  background: white;
+  box-shadow: 0 1px 3px rgba($neom-dark, 0.05);
+  transition: border 0.3s ease;
+  min-height: 40px;
+
+  &:focus {
+    border-color: $neom-primary;
+    box-shadow: 0 0 0 1px $neom-primary;
+  }
+}
+
+.error-message {
+  color: #dc3545;
+  background-color: rgba(#dc3545, 0.1);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
 .pay-button {
   background: linear-gradient(90deg, $neom-primary, $neom-accent);
   color: white;
@@ -148,6 +192,17 @@ $neom-success: #3ee0d0; // Bright turquoise
 
   &:active {
     transform: translateY(1px);
+  }
+
+  &:disabled {
+    background: linear-gradient(
+      90deg,
+      desaturate($neom-primary, 40%),
+      desaturate($neom-accent, 40%)
+    );
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.7;
   }
 }
 
@@ -233,5 +288,95 @@ $neom-success: #3ee0d0; // Bright turquoise
 
   &:active {
     transform: translateY(1px);
+  }
+}
+
+.checkoutBankName {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  padding: 0.5rem;
+  background-color: rgba($neom-light, 0.5);
+  border-radius: 0.5rem;
+
+  &_title {
+    font-size: 1.2rem;
+    color: $neom-primary;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  &_value {
+    font-size: 0.9rem;
+    color: lighten($neom-dark, 20%);
+    margin: 0;
+  }
+}
+
+// Failure specific styles
+.failure {
+  .failure-icon {
+    background: linear-gradient(45deg, #dc3545, #ff6b6b);
+    box-shadow: 0 5px 15px rgba(#dc3545, 0.4);
+    color: white;
+  }
+
+  .failure-title {
+    color: #dc3545;
+  }
+
+  .failure-message {
+    color: #dc3545;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 300px;
+  margin: 1rem auto;
+}
+
+.retry-button {
+  background: linear-gradient(90deg, $neom-primary, $neom-accent);
+  color: white;
+  border: none;
+  border-radius: 2rem;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba($neom-primary, 0.3);
+  width: 100%;
+  text-align: center;
+  display: block;
+  text-decoration: none;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba($neom-primary, 0.4);
+  }
+}
+
+.cancel-button {
+  background: transparent;
+  color: $neom-primary;
+  border: 2px solid $neom-primary;
+  border-radius: 2rem;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+  display: block;
+  text-decoration: none;
+
+  &:hover {
+    background-color: rgba($neom-primary, 0.05);
+    transform: translateY(-2px);
   }
 }
