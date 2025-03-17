@@ -926,6 +926,34 @@ body {
   cursor: pointer;
 }
 
+.weather-widget {
+  display: flex;
+  align-items: center;
+}
+
+.weather-icon {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.temperature {
+  color: white;
+}
+
+.current-temp {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.range {
+  font-size: 14px;
+}
+
+.high-temp,
+.low-temp {
+  margin: 0 1px;
+}
+
 .corousalContainer_eventDetails {
   margin-top: 1rem;
   /* background-color: red; */

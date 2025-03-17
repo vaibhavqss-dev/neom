@@ -47,8 +47,18 @@ const Itinerari: React.FC<ItinerariProps> = ({
       <div className="corousalContainer_imgContainer">
         <img src={ImgUrl} alt="underwater" />
         <div className="corousalContainer_imgContainer_weather--svg">
-          <img src={weather} alt="weather" />
-          <p>25°C</p>
+
+          <div className="weather-widget">
+            <div className="weather-icon">🌤️</div>
+            <div className="temperature">
+              <span className="current-temp">18° C</span>
+              <div className="range">
+                <span className="high-temp">29°</span>
+                <span className="low-temp">16°</span>
+              </div>
+            </div>
+          </div>
+          
         </div>
       </div>
 

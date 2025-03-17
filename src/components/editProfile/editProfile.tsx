@@ -1,18 +1,25 @@
 import React from "react";
-import desertCity from "../../assets/img/desertcity.jpg";
 import profilePic from "../../assets/img/profilePic.png";
 import pencil from "../../assets/img/pencil.svg";
-import like from "../../assets/img/like.svg";
 import Interest from "./selectInterest/interest";
 
 const EditProfile: React.FC = () => {
   const [Profile, setProfile] = React.useState({
     name: "Vaibhavv",
     email: "something@gmail.com",
-    number: "9971 87 7676",
-    dob: "08/01/1979",
-    interests: ["Explore", "Adventure", "Travel"],
+    number: "9971877676",
+    dob: "08/01/1000",
+    interests: ["explore", "adventure", "travel"],
   });
+
+  function onChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+    const { id, value } = e.target;
+    setProfile((prev) => ({ ...prev, [id]: value }));
+  }
+
+  const handleInterestsChange = (newInterests: string[]) => {
+    setProfile((prev) => ({ ...prev, interests: newInterests }));
+  };
 
   return (
     <div className="editProfile">
@@ -57,12 +64,20 @@ const EditProfile: React.FC = () => {
           <div className="editProfilePg_container_right">
             <div className="editProfilePg_container_right_inputs">
               <label htmlFor="name">What should we call you?</label>
-              <input type="text" id="name" placeholder="Vaibhav" />
+              <input
+                onChange={(e) => onChangeHandler(e)}
+                value={Profile.name}
+                type="text"
+                id="name"
+                placeholder="Vaibhav"
+              />
             </div>
 
             <div className="editProfilePg_container_right_inputs">
               <label htmlFor="email">What's your email address?</label>
               <input
+                onChange={(e) => onChangeHandler(e)}
+                value={Profile.email}
                 type="email"
                 id="email"
                 placeholder="vaibhavemail@gmail.com"
@@ -73,16 +88,31 @@ const EditProfile: React.FC = () => {
               <label htmlFor="number">
                 On which number can we contact you?
               </label>
-              <input type="number" id="number" placeholder="9971 87 7676" />
+              <input
+                onChange={(e) => onChangeHandler(e)}
+                value={Profile.number}
+                type="number"
+                id="number"
+                placeholder="9971 87 7676"
+              />
             </div>
 
             <div className="editProfilePg_container_right_inputs">
               <label htmlFor="date">When can we wish a happy birthday?</label>
-              <input type="date" id="dob" placeholder="08/01/1979" />
+              <input
+                onChange={(e) => onChangeHandler(e)}
+                value={Profile.dob}
+                type="date"
+                id="dob"
+                placeholder="08/01/1979"
+              />
             </div>
 
             <div className="editProfilePg_container_right_intputs_interests">
-              <Interest />
+              <Interest
+                initialInterests={Profile.interests}
+                onInterestsChange={handleInterestsChange}
+              />
             </div>
 
             <div className="editProfilePg_container_right_btns">
