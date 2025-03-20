@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import VibometerIcon from "../vibOmeter/vibometerIcon";
 import overwhelmed from "../../assets/img/overwhelmed.svg";
-import desertcity from "../../assets/img/desertcity.jpg";
 import ReviewCard from "./components/ReviewCard";
 
 type Review = {
@@ -16,28 +15,33 @@ type Review = {
   reviews: string;
   rating: number;
 };
+document.title = `My Feedback`;
 
 const MyFeedback: React.FC = () => {
-  const [Reviews, setReviews] = React.useState<Review[]>([]);
+  const [Reviews, setReviews] = React.useState<any[]>([]);
   useEffect(() => {
-    document.title = `My Feedback`;
-    const AllReviews = Array.from({ length: 5 }, (_, i) => {
-      return {
-        date: "Nov 17, 2022",
-        city: "Sindalah City",
-        review:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio nulla quasi reiciendis corrupti, necessitatibus itaque molestiae ipsum beatae accusamus explicabo atque vitae, magni illo cum, pariatur quia officia autem perspiciatis!",
-        avg_star: i % 7,
-        eventId: i.toString(),
-        name: "Golf Course",
-        event_date: "Nov 17, 2022",
-        image: desertcity,
-        reviews: "123",
-        rating: i % 7,
-      };
-    });
+    async function fetchReviews() {
+      try {
+        const response = await fetch("http://localhost:3001/api/user/review", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
 
-    setReviews(AllReviews);
+        const data = await response.json();
+        if (data.error) {
+          console.error("API error:", data.error);
+          return;
+        }
+
+        setReviews(data.reviews);
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
+    }
+    fetchReviews();
   }, []);
 
   return (
@@ -72,16 +76,16 @@ const MyFeedback: React.FC = () => {
             {Reviews.map((review, index) => (
               <ReviewCard
                 key={index}
-                date={review.date}
+                date={review.event.date}
                 city={review.city}
-                review={review.review}
+                review={review.comment}
                 avg_star={review.avg_star}
-                eventId={review.eventId}
-                name={review.name}
-                event_date={review.event_date}
-                image={review.image}
-                reviews={review.reviews}
-                rating={review.rating}
+                eventId={review.event.event_id}
+                name={review.event.title}
+                event_date={review.event.date[0]}
+                image={review.event.image_urls[0]}
+                reviews={review.event.no_reviews}
+                rating={review.avg_rating}
               />
             ))}
           </div>

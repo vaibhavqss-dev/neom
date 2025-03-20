@@ -1,4 +1,3 @@
-
 body {
   padding: 0;
   font-family: "Roboto", sans-serif;
@@ -9,23 +8,27 @@ body {
   font-family: cursive;
   margin: 3rem 0 0 2rem;
 }
+
 .upcomingEventsPg_heading {
   font-size: 2rem;
   margin: 0;
 }
+
 .upcomingEventsPg_text {
   margin: 0;
   font-size: 1.5rem;
   padding-top: 1rem;
 }
+
 .upcomingEventsPg_date_and_distance {
   display: flex;
   gap: 5rem;
 }
+
 .upcomingEventsPg_date_location_btns {
   display: flex;
   justify-content: space-between;
-  width: 18rem;  
+  width: 18rem;
 }
 .upcomingEventsPg_location_btn {
   width: 12rem;
@@ -35,13 +38,17 @@ body {
   width: 58rem;
   justify-content: space-between;
 }
-.upcomingEventsPg_distance_btns_walking, .upcomingEventsPg_distance_btns_driving, .upcomingEventsPg_distance_btns_no_limit {
+.upcomingEventsPg_distance_btns_walking,
+.upcomingEventsPg_distance_btns_driving,
+.upcomingEventsPg_distance_btns_no_limit {
   border: 1px solid black;
   background-color: transparent;
   border-radius: 1rem;
   padding: 0.6rem;
 }
-.upcomingEventsPg_distance_btns_walking button, .upcomingEventsPg_distance_btns_driving button, .upcomingEventsPg_distance_btns_no_limit button {
+.upcomingEventsPg_distance_btns_walking button,
+.upcomingEventsPg_distance_btns_driving button,
+.upcomingEventsPg_distance_btns_no_limit button {
   border: none;
   background-color: transparent;
   cursor: pointer;

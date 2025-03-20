@@ -1,16 +1,22 @@
-import React, { useEffect, useRef } from "react";
-import * as L from "leaflet";
+import React, { useEffect, useRef, useState } from "react";
+import L from "leaflet"; // Change from * as L to just L
 import "leaflet/dist/leaflet.css";
 import { useNavigate } from "react-router-dom";
 
-const IconUrl = [
-  ["https://cdn-icons-png.flaticon.com/512/4874/4874937.png", "location"],
-  ["https://cdn-icons-png.flaticon.com/512/2784/2784593.png", "swim"],
-  ["https://cdn-icons-png.flaticon.com/512/3043/3043861.png", "golf"],
-  ["https://cdn-icons-png.flaticon.com/512/3659/3659784.png", "music"],
-  ["https://cdn-icons-png.flaticon.com/512/3225/3225194.png", "shopping"],
-  ["https://cdn-icons-png.flaticon.com/512/2602/2602414.png", "school"],
-];
+// Improved category-to-icon mapping with more professional icons
+const categoryIcons = {
+  location: "https://cdn-icons-png.flaticon.com/512/4874/4874937.png",
+  swim: "https://cdn-icons-png.flaticon.com/512/2784/2784593.png",
+  golf: "https://cdn-icons-png.flaticon.com/512/3043/3043861.png",
+  music: "https://cdn-icons-png.flaticon.com/512/3659/3659784.png",
+  shopping: "https://cdn-icons-png.flaticon.com/512/3225/3225194.png",
+  school: "https://cdn-icons-png.flaticon.com/512/2602/2602414.png",
+  restaurant: "https://cdn-icons-png.flaticon.com/512/1046/1046857.png",
+  hiking: "https://cdn-icons-png.flaticon.com/512/1247/1247758.png",
+  sport: "https://cdn-icons-png.flaticon.com/512/857/857418.png",
+  festival: "https://cdn-icons-png.flaticon.com/512/3075/3075918.png",
+  default: "https://cdn-icons-png.flaticon.com/512/1483/1483336.png",
+};
 
 const mapStyles = {
   container: {
@@ -118,17 +124,99 @@ const mapCssContent = `
 `;
 
 interface MapWithPointsProps {
-  coordinates: [number, number, string][];
+  coordinates?: [number, number, string][];
 }
 
-const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates }) => {
+interface Event {
+  event: {
+    id: string;
+    title: string;
+    description: string;
+    category: string;
+    location: string;
+    latitude: string;
+    longitude: string;
+    image_urls: string[];
+    overall_rating: number;
+    no_reviews: number;
+    status?: string;
+    date?: string;
+    time?: string;
+  };
+}
+
+const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates = [] }) => {
   const navigate = useNavigate();
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [mapInitialized, setMapInitialized] = useState(false);
+
   const mapContainerId = useRef(
     `map-container-${Math.random().toString(36).substring(2, 9)}`
   );
   const styleSheetRef = useRef<HTMLStyleElement | null>(null);
-  const eventHandlerRef = useRef<((e: Event) => void) | undefined>(undefined);
+  // Fix the map ref type
+  const mapRef = useRef<any | null>(null);
 
+  // Fetch events data from API - adding cleanup flag to prevent state updates after unmount
+  useEffect(() => {
+    let isMounted = true;
+
+    async function fetchEvents() {
+      setLoading(true);
+      try {
+        const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3001";
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          setError("Authentication required");
+          setLoading(false);
+          return;
+        }
+
+        const response = await fetch(
+          `http://localhost:3001/api/user/reserveevent?coordinates=true`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (!isMounted) return;
+
+        if (data.error) {
+          setError(data.error);
+          console.error("API error:", data.error);
+          return;
+        }
+
+        setEvents(data.events || []);
+      } catch (err) {
+        if (isMounted) {
+          console.error("Fetch error:", err);
+          setError("Failed to fetch events");
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    fetchEvents();
+
+    // Cleanup function
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Make sure stylesheet is added only once
   useEffect(() => {
     if (!styleSheetRef.current) {
       const style = document.createElement("style");
@@ -137,18 +225,88 @@ const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates }) => {
       styleSheetRef.current = style;
     }
 
-    const map = L.map(mapContainerId.current).setView([0, 0], 1);
-
-    L.tileLayer(
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-      {
-        attribution:
-          "© Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+    return () => {
+      if (styleSheetRef.current) {
+        styleSheetRef.current.remove();
+        styleSheetRef.current = null;
       }
-    ).addTo(map);
+    };
+  }, []);
 
+  // Setup map only after DOM is ready and cleanup properly
+  useEffect(() => {
+    let mapInstance: any | null = null;
+
+    // Wait for DOM to be ready
+    const initializeMap = () => {
+      // Safety check to ensure the container exists
+      const container = document.getElementById(mapContainerId.current);
+      if (!container) {
+        console.error("Map container not found");
+        return;
+      }
+
+      // Add explicit height to make sure the container is visible
+      container.style.height = "30rem";
+
+      // Initialize map
+      mapInstance = L.map(container, {
+        // Add fade animation: false to prevent some positioning errors
+        fadeAnimation: false,
+      }).setView([28.0, 35.0], 7);
+
+      mapRef.current = mapInstance;
+
+      L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        {
+          attribution:
+            "© Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+        }
+      ).addTo(mapInstance);
+
+      setMapInitialized(true);
+    };
+
+    // Small timeout to ensure DOM is ready
+    const timer = setTimeout(() => {
+      initializeMap();
+    }, 100);
+
+    // Clean up function
+    return () => {
+      clearTimeout(timer);
+      if (mapInstance) {
+        // Properly remove map to prevent memory leaks
+        mapInstance.remove();
+        mapRef.current = null;
+        setMapInitialized(false);
+      }
+    };
+  }, []);
+
+  // Fix for the map markers effect - memoize complex values
+  const memoizedEvents = React.useMemo(() => events, [events]);
+  const memoizedCoordinates = React.useMemo(() => coordinates, [coordinates]);
+
+  // Add markers after map is initialized and events are loaded - with memoized dependencies
+  useEffect(() => {
+    // Only proceed if map is initialized and we have data
+    if (!mapInitialized || !mapRef.current) return;
+
+    const map = mapRef.current;
     const bounds = L.latLngBounds();
+    let hasMarkers = false;
 
+    // Clear existing markers if needed
+    // Fix the layer parameter type
+    map.eachLayer((layer: any) => {
+      if (layer instanceof L.Marker) {
+        map.removeLayer(layer);
+      }
+    });
+
+    // Create custom icon for each marker
     const createCustomIcon = (iconUrl: string, type: string) => {
       return L.divIcon({
         html: `<div class="custom-marker marker-pulse"><img src="${iconUrl}" alt="${type}" style="width: 100%; height: 100%;" /></div>`,
@@ -157,105 +315,123 @@ const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates }) => {
       });
     };
 
-    coordinates.forEach(([lat, lon, type], index) => {
+    // Add markers from coordinates prop (for backward compatibility)
+    memoizedCoordinates.forEach(([lat, lon, type]) => {
       const iconUrl =
-        IconUrl.find((icon) => icon[1] === type)?.[0] ??
-        "https://cdn-icons-png.flaticon.com/512/1483/1483336.png";
+        categoryIcons[type as keyof typeof categoryIcons] ||
+        categoryIcons.default;
 
-      const marker = L.marker([lat, lon], {
-        icon: createCustomIcon(iconUrl, type),
-        riseOnHover: true,
-      }).addTo(map);
+      try {
+        const marker = L.marker([lat, lon], {
+          icon: createCustomIcon(iconUrl, type),
+          riseOnHover: true,
+        }).addTo(map);
 
-      bounds.extend(marker.getLatLng());
+        bounds.extend(marker.getLatLng());
+        hasMarkers = true;
 
-      const rating = (Math.random() * 2 + 3).toFixed(1);
-      const reviewCount = Math.floor(Math.random() * 50) + 10;
-      const statusText = index < 5 ? "On Time" : "Delayed";
-      const statusClass =
-        index < 5 ? "popup-status-ontime" : "popup-status-delay";
-      const eventDate = new Date();
-      eventDate.setDate(eventDate.getDate() + Math.floor(Math.random() * 7));
+        // ...existing popup code...
+      } catch (e) {
+        console.error("Error adding marker:", e);
+      }
+    });
 
-      const formattedDate = eventDate.toLocaleDateString("en-US", {
-        weekday: "short",
-        month: "short",
-        day: "numeric",
-      });
+    // Add markers from fetched events data
+    memoizedEvents.forEach((eventItem, index) => {
+      const { event } = eventItem;
 
-      const formattedTime = eventDate.toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
+      // Parse coordinates from strings to numbers
+      const lat = parseFloat(event.latitude);
+      const lon = parseFloat(event.longitude);
 
-      // Create event ID for consistent reference
-      const eventId = `event-${type}-${index}`;
+      // Skip if we don't have valid coordinates
+      if (isNaN(lat) || isNaN(lon)) return;
 
-      // Create popup content
-      const popupContent = document.createElement("div");
-      popupContent.className = "popup-container";
-      popupContent.innerHTML = `
-        <div class="popup-title">${
-          type.charAt(0).toUpperCase() + type.slice(1)
-        } Event</div>
+      // Get icon URL based on event category
+      const category = event.category.toLowerCase();
+      const iconUrl =
+        categoryIcons[category as keyof typeof categoryIcons] ||
+        categoryIcons.default;
+
+      try {
+        const marker = L.marker([lat, lon], {
+          icon: createCustomIcon(iconUrl, category),
+          riseOnHover: true,
+        }).addTo(map);
+
+        bounds.extend(marker.getLatLng());
+        hasMarkers = true;
+
+        // Create popup with real event data
+        const popupContent = document.createElement("div");
+        popupContent.className = "popup-container";
+        popupContent.innerHTML = `
+        <div class="popup-title">${event.title}</div>
         <div class="popup-rating">
-          ${rating} ${Array.from(
-        { length: Math.round(Number(rating)) },
-        () => "★"
-      ).join("")}
+          ${event.overall_rating} ${Array.from(
+          { length: Math.round(event.overall_rating) },
+          () => "★"
+        ).join("")}
           <span style="color: #bdc3c7;">${Array.from(
-            { length: 5 - Math.round(Number(rating)) },
+            { length: 5 - Math.round(event.overall_rating) },
             () => "★"
           ).join("")}</span>
-          (${reviewCount} reviews)
+          (${event.no_reviews} reviews)
         </div>
         <div class="popup-time">
-          <i style="margin-right: 5px;">📅</i> ${formattedDate} at ${formattedTime}
+          <i style="margin-right: 5px;">📅</i> ${event.date || "Upcoming"} ${
+          event.time ? `at ${event.time}` : ""
+        }
         </div>
         <div class="popup-location">
-          <i style="margin-right: 5px;">📍</i> NEOM ${
-            type.charAt(0).toUpperCase() + type.slice(1)
-          } Center
+          <i style="margin-right: 5px;">📍</i> ${event.location}
         </div>
         <div style="margin-top: 8px;">
-          <span class="${statusClass}">${statusText}</span>
+          <span class="${
+            event.status === "delayed"
+              ? "popup-status-delay"
+              : "popup-status-ontime"
+          }">
+            ${event.status === "delayed" ? "Delayed" : "On Time"}
+          </span>
         </div>
       `;
 
-      // Add button with direct click handler to avoid custom events
-      const viewButton = document.createElement("button");
-      viewButton.className = "popup-button";
-      viewButton.textContent = "View Details";
-      viewButton.id = eventId;
-      viewButton.onclick = () => {
-        navigate(`/event-details?id=${index}&type=${type}`);
-      };
+        const viewButton = document.createElement("button");
+        viewButton.className = "popup-button";
+        viewButton.textContent = "View Details";
+        viewButton.onclick = () => {
+          navigate(`/event-details?id=${event.id}`);
+        };
 
-      popupContent.appendChild(viewButton);
+        popupContent.appendChild(viewButton);
 
-      // Add popup to marker
-      marker.bindPopup(popupContent, {
-        closeButton: true,
-        className: "custom-popup",
-        minWidth: 250,
-        maxWidth: 300,
-      });
+        marker.bindPopup(popupContent, {
+          closeButton: true,
+          className: "custom-popup",
+          minWidth: 250,
+          maxWidth: 300,
+        });
 
-      marker.on("mouseover", () => {
-        marker.openPopup();
-      });
+        marker.on("mouseover", () => {
+          marker.openPopup();
+        });
+      } catch (e) {
+        console.error("Error adding event marker:", e);
+      }
     });
 
-    // Fit map to markers
-    if (coordinates.length > 0) {
-      map.fitBounds(bounds, { padding: [40, 40] });
+    // Fit map to markers if we have any
+    if (hasMarkers) {
+      try {
+        map.fitBounds(bounds, { padding: [40, 40] });
+      } catch (e) {
+        console.error("Error fitting bounds:", e);
+        // Fallback to default view
+        map.setView([28.0, 35.0], 7);
+      }
     }
-
-    // Clean up on component unmount
-    return () => {
-      map.remove();
-    };
-  }, [coordinates, navigate]);
+  }, [memoizedCoordinates, memoizedEvents, mapInitialized, navigate]);
 
   // Clean up styles on component unmount
   useEffect(() => {
@@ -271,7 +447,24 @@ const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates }) => {
       <p style={mapStyles.title} className="mapContainerIt_title">
         Find Events on Map
       </p>
-      <div id={mapContainerId.current} style={mapStyles.container}></div>
+      {loading && (
+        <div style={{ textAlign: "center", padding: "20px" }}>
+          Loading events...
+        </div>
+      )}
+      {error && (
+        <div style={{ textAlign: "center", padding: "20px", color: "red" }}>
+          {error}
+        </div>
+      )}
+      <div
+        id={mapContainerId.current}
+        style={{
+          ...mapStyles.container,
+          height: "30rem", // Explicitly set height
+          visibility: loading ? "hidden" : "visible", // Hide until loaded
+        }}
+      ></div>
     </div>
   );
 };

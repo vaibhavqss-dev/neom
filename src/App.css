@@ -41,14 +41,18 @@ body {
   justify-content: space-between;
 }
 
-.upcomingEventsPg_distance_btns_walking, .upcomingEventsPg_distance_btns_driving, .upcomingEventsPg_distance_btns_no_limit {
+.upcomingEventsPg_distance_btns_walking,
+.upcomingEventsPg_distance_btns_driving,
+.upcomingEventsPg_distance_btns_no_limit {
   border: 1px solid black;
   background-color: transparent;
   border-radius: 1rem;
   padding: 0.6rem;
 }
 
-.upcomingEventsPg_distance_btns_walking button, .upcomingEventsPg_distance_btns_driving button, .upcomingEventsPg_distance_btns_no_limit button {
+.upcomingEventsPg_distance_btns_walking button,
+.upcomingEventsPg_distance_btns_driving button,
+.upcomingEventsPg_distance_btns_no_limit button {
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -149,6 +153,51 @@ body {
   margin-right: 2rem;
 }
 
+
+.loginContainer {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+.formGroup input {
+  width: 94%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.errorMessage {
+  color: #d32f2f;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.loginButton {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+.loginButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
 
 .signup-container {
   display: flex;

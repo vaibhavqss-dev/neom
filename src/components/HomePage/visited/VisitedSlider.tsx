@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Visited from "./visited";
 import yogaImg from "../../../assets/img/yoga.jpg";
 import music from "../../../assets/img/music.jpg";
@@ -6,6 +6,10 @@ import Buttons from "../../LeftandRightButtons/buttons";
 
 const VisitedSlider: React.FC = () => {
   const sliderRef = useRef<HTMLDivElement | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const [visited, setVisited] = useState<any[]>([]);
 
   const scrollLeft = () => {
     if (sliderRef.current) {
@@ -19,28 +23,42 @@ const VisitedSlider: React.FC = () => {
     }
   };
 
-  // useEffect(() => {
-  //   let direction = 1;
-  //   const interval = setInterval(() => {
-  //     if (!sliderRef.current) return;
-  //     if (direction === 1) {
-  //       scrollRight();
-  //       if (
-  //         sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
-  //         sliderRef.current.scrollWidth
-  //       ) {
-  //         direction = 0;
-  //       }
-  //     } else {
-  //       scrollLeft();
-  //       if (sliderRef.current.scrollLeft <= 0) {
-  //         direction = 1;
-  //       }
-  //     }
-  //   }, 2000);
+  useEffect(() => {
+    async function fetchItineraries() {
+      setLoading(true);
+      try {
+        const apiUrl = "http://localhost:3001";
+        const token = localStorage.getItem("token");
 
-  //   return () => clearInterval(interval);
-  // }, []);
+        if (!token) {
+          setError("Authentication required");
+          return;
+        }
+
+        const response = await fetch(`${apiUrl}/api/user/visitedevent`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          setError(data.error);
+          console.error("API error:", data.error);
+          return;
+        }
+        setVisited(data.events);
+      } catch (err) {
+        console.error("Fetch error:", err);
+        setError("Failed to fetch itineraries");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchItineraries();
+  }, []);
 
   return (
     <div className="visitedSection">
@@ -52,14 +70,14 @@ const VisitedSlider: React.FC = () => {
         className="visitedSectionSlider"
         style={{ display: "flex", overflowX: "auto", scrollBehavior: "smooth" }}
       >
-        {Array.from({ length: 10 }).map((_, index) => (
+        {visited.map((ele: any, index) => (
           <Visited
-            imgUrl={index & 1 ? music : yogaImg}
-            title="Round of Golf"
+            imgUrl={ele.event.image_urls[0]}
+            title={ele.event.title}
             attented={index + 1}
-            dateandTime={new Date().toDateString()}
-            rating={index + 1}
-            eventId={index.toString()}
+            dateandTime={ele.event.date[0]}
+            rating={ele.reviews[0].avg_rating}
+            eventId={ele.event_id}
             key={index}
           />
         ))}

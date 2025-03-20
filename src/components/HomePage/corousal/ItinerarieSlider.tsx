@@ -1,69 +1,100 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Itinerari from "./Itinerari";
 import cardImage from "../../../assets/img/holiday_0.png";
 import emojiFaceImg from "../../../assets/img/overwhelmed.svg";
 import Buttons from "../../LeftandRightButtons/buttons";
 
 const ItinerarieSlider: React.FC = () => {
+  const [itineraries, setItineraries] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const sliderRef = useRef<HTMLDivElement | null>(null);
 
-  const scrollLeft = () => {
+  // Memoize scroll handlers to prevent unnecessary re-renders
+  const scrollLeft = useCallback(() => {
     if (sliderRef.current) {
       sliderRef.current.scrollLeft -= 300;
     }
-  };
+  }, []);
 
-  const scrollRight = () => {
+  const scrollRight = useCallback(() => {
     if (sliderRef.current) {
       sliderRef.current.scrollLeft += 300;
     }
-  };
+  }, []);
 
-  // useEffect(() => {
-  //   let direction = "right";
-  //   const interval = setInterval(() => {
-  //     if (!sliderRef.current) return;
-  //     if (direction === "right") {
-  //       scrollRight();
-  //       if (
-  //         sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
-  //         sliderRef.current.scrollWidth
-  //       ) {
-  //         direction = "left";
-  //       }
-  //     } else {
-  //       scrollLeft();
-  //       if (sliderRef.current.scrollLeft <= 0) {
-  //         direction = "right";
-  //       }
-  //     }
-  //   }, 2000);
+  useEffect(() => {
+    let isMounted = true;
 
-  //   return () => clearInterval(interval);
-  // }, []);
+    async function fetchItineraries() {
+      setLoading(true);
+      try {
+        const apiUrl = "http://localhost:3001";
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          setError("Authentication required");
+          return;
+        }
+
+        const response = await fetch(`${apiUrl}/api/user/reserveevent`, {
+          headers: {
+            "Content-Type": "application/json", // This is wrong - still shows old state!
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          setError(data.error);
+          console.error("API error:", data.error);
+          return;
+        }
+
+        if (!isMounted) return;
+
+        setItineraries(data.data);
+      } catch (err) {
+        if (isMounted) {
+          console.error("Fetch error:", err);
+          setError("Failed to fetch itineraries");
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    fetchItineraries();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <div>
-      {/* <button onClick={scrollLeft}>Left</button>
-      <button onClick={scrollRight}>Right</button> */}
       <div
         ref={sliderRef}
         className="CorousalSlider"
         style={{ display: "flex", overflowX: "auto", scrollBehavior: "smooth" }}
       >
-        {Array.from({ length: 5 }).map((_, index) => (
+        {itineraries.map((ele, index) => (
           <Itinerari
             emojiFaceImg={emojiFaceImg}
             eventId={index}
             key={index}
-            title="Round of Golf"
-            description="lorem kfjasfdk alkadsjd dfslkf j s fst amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            title={ele.event.title}
+            description={ele.event.description}
             dateandTime={new Date().toDateString()}
-            locationName="Chapra bihar"
-            categoryName="Golf"
-            ImgUrl={cardImage}
-            stars={index + 1}
-            reviews={index + 4}
+            locationName={ele.event.location}
+            categoryName={ele.event.category}
+            ImgUrl={ele.event.image_urls[0] || cardImage}
+            stars={ele.event.overall_rating}
+            reviews={ele.event.no_reviews}
+            subtext={ele.event.subtext}
             Scheduled
           />
         ))}

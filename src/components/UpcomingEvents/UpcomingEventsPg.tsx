@@ -122,7 +122,7 @@ const UpcomingEventsPg: React.FC = () => {
         subtextName: "Vibrant & Social",
         name: "Round of Golf",
         timeRange: "7:00 AM - 9:00 AM",
-        location: randomLocation, // Use random NEOM location instead of fixed "Delhi"
+        location: randomLocation,
         category: [
           "Singing",
           "Golf Tournament",

@@ -1,7 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import FavoritesRecommendationCard from "./recommadation";
-import underwaterImg from "./../../../assets/img/neom-underwater.jpg";
-import desertcity from "./../../../assets/img/desertcity.jpg";
 import smileGreenFace from "./../../../assets/img/smileGreenFace.svg";
 
 import Buttons from "../../LeftandRightButtons/buttons";
@@ -43,21 +41,45 @@ export default function FavoritesRecommendationSlider() {
   //   return () => clearInterval(interval);
   // }, []);
 
+  const [recommendations, setRecommendations] = useState<any[]>([]);
+  useEffect(() => {
+    async function fetchRecommendations() {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          `http://localhost:3001/api/user/recommendation`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+        setRecommendations(data.event);
+      } catch (error) {
+        console.error("API error:", error);
+      }
+    }
+    fetchRecommendations();
+  }, []);
+
   return (
     <div className="favorites_recommendation">
       <p className="favorites_recommendation_title">
         Vaibhav, we've found some recommendation for you
       </p>
       <div ref={sliderRef} className="favorites_recommendation_container">
-        {Array.from({ length: 10 }).map((_, index) => (
+        {recommendations.map((ele: any, index) => (
           <FavoritesRecommendationCard
-            eventId={String(index)}
+            eventId={ele.event_id}
             key={index}
-            imgURL={index & 1 ? underwaterImg : desertcity}
-            name={index & 1 ? "Underwater" : "Desert City"}
-            category={"Active and Adventurous"}
-            date={new Date().toLocaleDateString()}
-            time={`${10 + index}:00 AM - ${7 + index}:00 PM`}
+            imgURL={ele.event.image_urls[0]}
+            name={ele.event.title}
+            category={ele.event.category}
+            date={ele.event.date[0]}
+            time={ele.event.time[0]}
             face={smileGreenFace}
           />
         ))}

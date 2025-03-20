@@ -1,5 +1,6 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./login.module.scss";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -56,14 +57,14 @@ const Login: React.FC = () => {
     };
 
     postLoginData();
-  }, [isSubmitted, username, password]);
+  }, [isSubmitted, username, password, navigate]);
 
   return (
-    <div className="login-container">
+    <div className={styles.loginContainer}>
       <h1>Login</h1>
 
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className={styles.formGroup}>
           <label htmlFor="username">Username</label>
           <input
             type="text"
@@ -74,7 +75,7 @@ const Login: React.FC = () => {
           />
         </div>
 
-        <div className="form-group">
+        <div className={styles.formGroup}>
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -85,9 +86,9 @@ const Login: React.FC = () => {
           />
         </div>
 
-        {error && <div className="error-message">{error}</div>}
+        {error && <div className={styles.errorMessage}>{error}</div>}
 
-        <button type="submit" disabled={loading}>
+        <button type="submit" disabled={loading} className={styles.loginButton}>
           {loading ? "Logging in..." : "Login"}
         </button>
       </form>

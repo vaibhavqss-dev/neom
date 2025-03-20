@@ -1,58 +1,113 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
+type SettingsProps = {
+  personalandAccount: boolean;
+  operator: boolean;
+  managedata: boolean;
+  password_security: boolean;
+  notification_email: boolean;
+  notification_sms: boolean;
+  notification_personalized: boolean;
+  language: string;
+};
 
 const EditSetting: React.FC = () => {
-  const [settings, setSettings] = useState({
-    personalInfo: false,
-    operatorConsent: false,
-    manageData: false,
-    passwordSecurity: false,
-    notifications: {
-      emails: false,
-      notifications: false,
-      personalizedNotifications: false,
-    },
-    language: {
-      english: false,
-      french: false,
-      arabic: false,
-    },
-  });
+  const [settings, setSettings] = useState<SettingsProps | undefined>();
 
-  const handleToggle = (setting: string) => {
-    setSettings({
-      ...settings,
-      [setting]: !settings[setting as keyof typeof settings],
-    });
-  };
-
-  const handleNestedToggle = (
-    category: "notifications" | "language",
-    setting: string
+  const handleToggle = (
+    settingName: string,
+    settingValue: string | boolean
   ) => {
-    setSettings({
-      ...settings,
-      [category]: {
-        ...settings[category],
-        [setting]:
-          !settings[category][
-            setting as keyof (typeof settings)[typeof category]
-          ],
-      },
+    setSettings((prevSettings) => {
+      if (!prevSettings) return prevSettings;
+      return {
+        ...prevSettings,
+        [settingName]: settingValue,
+      };
     });
   };
+
+  const handleLanguageChange = (language: string) => {
+    setSettings((prevSettings) => {
+      if (!prevSettings) return prevSettings;
+      return {
+        ...prevSettings,
+        language: language,
+      };
+    });
+  };
+
+  useEffect(() => {
+    async function fetchSettings() {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("Authentication required");
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `http://localhost:3001/api/user/settings`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setSettings(data.settings);
+      } catch (error) {
+        console.error("Error fetching settings:", error);
+      }
+    }
+    fetchSettings();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Settings to be submitted:", settings);
-    // ccall api here
+
+    async function submitSettings() {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        console.error("Authentication required");
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `http://localhost:3001/api/user/settings`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(settings),
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.error) {
+          console.error("API error:", data.error);
+          return;
+        }
+
+        console.log("Settings submitted successfully:", data);
+      } catch (error) {
+        console.error("Error submitting settings:", error);
+      }
+    }
+    submitSettings();
   };
 
   return (
     <div className="editSetting">
       <div className="editSettingPg">
         <div className="editSettingPg_headers">
-          <h1>Good morning Vaibhav!</h1>
+          <h1>Good morning handleToggleVaibhav!</h1>
           <p>
             You can change the settings for your personal data and other
             information.
@@ -73,8 +128,8 @@ const EditSetting: React.FC = () => {
                 <input
                   type="checkbox"
                   id="personalInfo"
-                  checked={settings.personalInfo}
-                  onChange={() => handleToggle("personalInfo")}
+                  checked={settings?.personalandAccount || false}
+                  onChange={() => handleToggle("personalandAccount", !settings?.personalandAccount)}
                 />
                 <label htmlFor="personalInfo"></label>
               </div>
@@ -92,8 +147,8 @@ const EditSetting: React.FC = () => {
                 <input
                   type="checkbox"
                   id="operatorConsent"
-                  checked={settings.operatorConsent}
-                  onChange={() => handleToggle("operatorConsent")}
+                  checked={settings?.operator || false}
+                  onChange={() => handleToggle("operator", !settings?.operator)}
                 />
                 <label htmlFor="operatorConsent"></label>
               </div>
@@ -111,8 +166,10 @@ const EditSetting: React.FC = () => {
                 <input
                   type="checkbox"
                   id="manageData"
-                  checked={settings.manageData}
-                  onChange={() => handleToggle("manageData")}
+                  checked={settings?.managedata || false}
+                  onChange={() =>
+                    handleToggle("managedata", !settings?.managedata)
+                  }
                 />
                 <label htmlFor="manageData"></label>
               </div>
@@ -130,8 +187,13 @@ const EditSetting: React.FC = () => {
                 <input
                   type="checkbox"
                   id="passwordSecurity"
-                  checked={settings.passwordSecurity}
-                  onChange={() => handleToggle("passwordSecurity")}
+                  checked={settings?.password_security || false}
+                  onChange={() =>
+                    handleToggle(
+                      "password_security",
+                      !settings?.password_security
+                    )
+                  }
                 />
                 <label htmlFor="passwordSecurity"></label>
               </div>
@@ -147,9 +209,12 @@ const EditSetting: React.FC = () => {
                   <input
                     type="checkbox"
                     id="notificationsEmails"
-                    checked={settings.notifications.emails}
+                    checked={settings?.notification_email || false}
                     onChange={() =>
-                      handleNestedToggle("notifications", "emails")
+                      handleToggle(
+                        "notification_email",
+                        !settings?.notification_email
+                      )
                     }
                   />
                   <label htmlFor="notificationsEmails">Emails</label>
@@ -158,9 +223,12 @@ const EditSetting: React.FC = () => {
                   <input
                     type="checkbox"
                     id="notificationsApp"
-                    checked={settings.notifications.notifications}
+                    checked={settings?.notification_sms || false}
                     onChange={() =>
-                      handleNestedToggle("notifications", "notifications")
+                      handleToggle(
+                        "notification_sms",
+                        !settings?.notification_sms
+                      )
                     }
                   />
                   <label htmlFor="notificationsApp">Notifications</label>
@@ -169,11 +237,11 @@ const EditSetting: React.FC = () => {
                   <input
                     type="checkbox"
                     id="notificationsPersonalized"
-                    checked={settings.notifications.personalizedNotifications}
+                    checked={settings?.notification_personalized || false}
                     onChange={() =>
-                      handleNestedToggle(
-                        "notifications",
-                        "personalizedNotifications"
+                      handleToggle(
+                        "notification_personalized",
+                        !settings?.notification_personalized
                       )
                     }
                   />
@@ -195,28 +263,31 @@ const EditSetting: React.FC = () => {
               <div className="editSettingPg_form_input_checkbox _multiSelect">
                 <div className="checkbox-item">
                   <input
-                    type="checkbox"
+                    type="radio"
                     id="languageEnglish"
-                    checked={settings.language.english}
-                    onChange={() => handleNestedToggle("language", "english")}
+                    name="language"
+                    checked={settings?.language === "english"}
+                    onChange={() => handleLanguageChange("english")}
                   />
                   <label htmlFor="languageEnglish">English</label>
                 </div>
                 <div className="checkbox-item">
                   <input
-                    type="checkbox"
+                    type="radio"
                     id="languageFrench"
-                    checked={settings.language.french}
-                    onChange={() => handleNestedToggle("language", "french")}
+                    name="language"
+                    checked={settings?.language === "french"}
+                    onChange={() => handleLanguageChange("french")}
                   />
                   <label htmlFor="languageFrench">French</label>
                 </div>
                 <div className="checkbox-item">
                   <input
-                    type="checkbox"
+                    type="radio"
                     id="languageArabic"
-                    checked={settings.language.arabic}
-                    onChange={() => handleNestedToggle("language", "arabic")}
+                    name="language"
+                    checked={settings?.language === "arabic"}
+                    onChange={() => handleLanguageChange("arabic")}
                   />
                   <label htmlFor="languageArabic">Arabic</label>
                 </div>
