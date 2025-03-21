@@ -4,10 +4,10 @@ import ShortListedCard from "./ShortListedCard/ShortListedCard";
 import smileGreenFace from "./../../assets/img/smileGreenFace.svg";
 import FavoritesRecommendationSlider from "./recommendation/recommadationSlider";
 import Card from "../base/card/card";
+import { Likeevent, Unlikeevent } from "../../api/like_event";
 
 type ShortListed = {
   key: string;
-  eventid: string;
   onFavoriteRemove: (index: number) => void;
   imgURL: string;
   name: string;
@@ -15,16 +15,17 @@ type ShortListed = {
   date: string;
   time: string;
   face: string;
+  event_id: string;
 };
+
 const Favorites: React.FC = () => {
-  const [ShortListed, setShortListed] = useState<ShortListed[]>([]);
+  const [ShortListed, setShortListed] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const onFavoriteRemove = (index: number) => {
-    setShortListed((prev) =>
-      prev.filter((ele) => parseInt(ele.key as string) !== index)
-    );
+   
+  const onFavoriteRemove = (event_id: string) => {
+    const isValid = Unlikeevent(event_id);
+    setShortListed((prev) => prev.filter((ele) => ele.event_id !== event_id));
   };
 
   const [recommendations, setRecommendations] = useState<any[]>([]);
@@ -40,7 +41,7 @@ const Favorites: React.FC = () => {
         }
 
         const response = await fetch(
-          `http://localhost:3001/api/user/reserveevent`,
+          `http://localhost:3001/api/user/likeevent`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -56,7 +57,7 @@ const Favorites: React.FC = () => {
           console.error("API error:", data.error);
           return;
         }
-        setRecommendations(data.data);
+        setRecommendations(data.events);
       } catch (err) {
         console.error("Fetch error:", err);
         setError("Failed to fetch itineraries");
@@ -70,13 +71,13 @@ const Favorites: React.FC = () => {
   useEffect(() => {
     const favoritesArray = recommendations.map((ele: any, index) => ({
       key: index.toString(),
-      eventid: ele.event_id,
+      event_id: ele.event_id,
       onFavoriteRemove: onFavoriteRemove,
-      imgURL: ele.event.image_urls[0],
-      name: ele.event.title,
-      category: ele.event.category,
-      date: ele.event.date[0],
-      time: ele.event.time[0],
+      imgURL: ele.image_urls[0],
+      name: ele.title,
+      category: ele.category,
+      date: ele.date[0],
+      time: ele.time[0],
       face: smileGreenFace,
     }));
 
@@ -89,6 +90,7 @@ const Favorites: React.FC = () => {
       if (prev.map((ele) => ele.eventId).includes(eventId)) {
         return prev.filter((ele) => ele.eventId !== eventId);
       } else {
+        const isLiked = Likeevent(eventId);
         return [...prev, { eventId, name }];
       }
     });
@@ -160,8 +162,9 @@ const Favorites: React.FC = () => {
           <div className="favoritesPg_container">
             {ShortListed.map((ele: ShortListed) => (
               <ShortListedCard
-                key={ele.key}
-                index={parseInt(ele.key)}
+                key={ele.event_id}
+                event_id={ele.event_id}
+                index={parseInt(ele.event_id)}
                 onFavoriteRemove={ele.onFavoriteRemove}
                 imgURL={ele.imgURL}
                 name={ele.name}

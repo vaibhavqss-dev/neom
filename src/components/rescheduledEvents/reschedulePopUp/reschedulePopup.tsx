@@ -6,7 +6,7 @@ const RescheduledEventPopUp = () => {
   const [searchParams] = useSearchParams();
 
   // Get event details from URL params
-  const eventId = searchParams.get("eventId") || "123";
+  const eventId = searchParams.get("event_id") || "123";
   const eventName = searchParams.get("eventName") || "Round of Golf";
   const eventDay = searchParams.get("eventDay") || "Jan 01, 2023";
   const eventTime = searchParams.get("eventTime") || "12:00 AM";
@@ -77,7 +77,7 @@ const RescheduledEventPopUp = () => {
       formValues.selectedTimeSlot,
       formValues.selectedSeats
     );
-
+    
     // After updating the event, redirect to upcoming events
     navigate("/cancel-recommendation?id=1", { replace: true });
   };

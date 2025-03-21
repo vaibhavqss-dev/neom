@@ -16,7 +16,7 @@ const CompletedEvents: React.FC<CompletedEventsProps> = ({
 }) => {
   return (
     <div className="completedEventsPg">
-      <div className="completedEventsPg_addReview">
+      {/* <div className="completedEventsPg_addReview">
         <div className="completedEventsPg_addReview_text">
           <p className="completedEventsPg_addReview_text_heading">
             Hey {userName},
@@ -27,12 +27,12 @@ const CompletedEvents: React.FC<CompletedEventsProps> = ({
             It helps us to improve and serve you better.
           </p>
         </div>
-        <NavLink to={`/add-review?eventId=${1}`}>
+        <NavLink to={`/add-review?event_id=${1}`}>
           <button className="completedEventsPg_addReview_btn">
             Add a review
           </button>
         </NavLink>
-      </div>
+      </div> */}
 
       <EventDetails eventCompleted={eventCompleted} />
     </div>

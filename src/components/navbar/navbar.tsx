@@ -6,6 +6,9 @@ import web from "../../assets/img/web.svg";
 import bellnofiy from "../../assets/img/bell-notify.svg";
 import CancelConfirmationPopup from "./models/cancelEventPopup/cancelConfirmation";
 import ConfirmReSchedule from "./models/confirmReschedulePopup/confirmReSchedule";
+import NotificationItem from "./models/NotificationItem";
+import { useNotifications } from "../../hooks/useNotifications";
+import "../../assets/css/notification.css";
 
 type interfaceProps = {
   isModelOpen?: (isOpen: boolean) => void;
@@ -16,6 +19,10 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
   const [isRescheduleOpen, setIsRescheduleOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [activePopup, setActivePopup] = useState<string | null>(null);
+  const [currentEventId, setCurrentEventId] = useState<string>("");
+  const [currentEventName, setCurrentEventName] = useState<string>("");
+
+  const { notifications, hasNewNotifications, markAsRead } = useNotifications();
 
   const closeAllPopupsExcept = (keepOpen: string | null) => {
     if (keepOpen !== "notification_model") {
@@ -70,6 +77,11 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
         : element?.classList.contains("active");
 
     isModelOpen?.(!isHidden);
+
+    // Mark notifications as read when opening notification panel
+    if (selector === "notification_model" && !activePopup) {
+      notifications.forEach((notification) => markAsRead(notification.id));
+    }
   };
 
   const handleLanguageSelect = (language: string) => {
@@ -91,15 +103,19 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
 
   const navigate = useNavigate();
 
-  const openCancelPopup = () => {
+  const openCancelPopup = (eventId: string, name: string) => {
     closeAllPopupsExcept("cancel_popup");
+    setCurrentEventId(eventId);
+    setCurrentEventName(name);
     setIsOpen(true);
     setActivePopup("cancel_popup");
     isModelOpen?.(true);
   };
 
-  const openReschedulePopup = () => {
+  const openReschedulePopup = (eventId: string, name: string) => {
     closeAllPopupsExcept("reschedule_popup");
+    setCurrentEventId(eventId);
+    setCurrentEventName(name);
     setIsRescheduleOpen(true);
     setActivePopup("reschedule_popup");
     isModelOpen?.(true);
@@ -110,16 +126,16 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
       className={`navbar ${isOpen || isRescheduleOpen ? "popup-active" : ""}`}
     >
       <CancelConfirmationPopup
-        eventId="1"
+        eventId={currentEventId}
         open={isOpen}
-        name="Vaibhav"
+        name={currentEventName}
         onClose={handleClosePopup}
       />
 
       <ConfirmReSchedule
-        eventId="1"
+        eventId={currentEventId}
         open={isRescheduleOpen}
-        name="Vaibhav"
+        name={currentEventName}
         onClose={handleCloseReschedulePopup}
       />
 
@@ -165,6 +181,7 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
           className="notification"
         >
           <img id="bell-logo" src={bell} alt="notification" />
+          {hasNewNotifications && <span className="notification-badge"></span>}
         </div>
 
         <div className="notification_model NotificationNOTActive">
@@ -177,30 +194,20 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
             </button>
           </div>
 
-          <p className="notification_model_title">
-            Hey Vaibhav <img src={bellnofiy} alt="bellImg" />
-          </p>
-
-          <p className="notification_model_text">
-            "We regret to inform you that the current weather conditions are not
-            conductive for a golf session. Would you like to reschedule or
-            cancel your golf session for today ?"
-          </p>
-
-          <div className="notification_model_btns">
-            <button
-              className="notification_model_btns_rescheduleBtn"
-              onClick={openReschedulePopup}
-            >
-              Reschedule
-            </button>
-            <button
-              onClick={openCancelPopup}
-              className="notification_model_btns_cancelBtn"
-            >
-              Cancel
-            </button>
-          </div>
+          {notifications.length > 0 ? (
+            notifications.map((notification) => (
+              <NotificationItem
+                key={notification.id}
+                notification={notification}
+                onReschedule={openReschedulePopup}
+                onCancel={openCancelPopup}
+              />
+            ))
+          ) : (
+            <div className="no-notifications">
+              <p>No notifications</p>
+            </div>
+          )}
         </div>
 
         <div className="links_hamburger">

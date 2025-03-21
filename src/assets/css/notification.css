@@ -1,0 +1,28 @@
+.notification {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.notification-item {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.no-notifications {
+  text-align: center;
+  padding: 15px;
+  color: #777;
+}

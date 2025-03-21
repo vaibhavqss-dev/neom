@@ -1,19 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import VibometerIcon from "./vibometerIcon";
 
 const VibOmeter: React.FC = () => {
+  const query = new URLSearchParams(window.location.search);
+  const event_id = query.get("event_id") || "";
   const [experience, setExperience] = React.useState<string>("");
 
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setExperience(e.target.value);
   }
 
-  // Effect
-  // React.useEffect(() => {
-
-  //   // Send the API Request to the server
-  //   console.log(experience);
-  // }, []);
+  async function sendFeedback() {
+    const response = await fetch("http://localhost:3001/api/user/vibometer", {
+      method: "POST",
+      body: JSON.stringify({
+        vibe: experience,
+        event_id: event_id,
+      }),
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+  }
 
   return (
     <div className="vibometer__container">
@@ -34,7 +45,9 @@ const VibOmeter: React.FC = () => {
             placeholder="Share your experience with us..."
           ></textarea>
         </div>
-        <button className="vibometer_submitBtn">Submit</button>
+        <button onClick={() => sendFeedback()} className="vibometer_submitBtn">
+          Submit
+        </button>
       </div>
     </div>
   );

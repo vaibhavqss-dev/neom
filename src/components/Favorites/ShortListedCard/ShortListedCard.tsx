@@ -8,6 +8,7 @@ type FavoritesImgProps = {
   date: string;
   time: string;
   face: string;
+  event_id: string;
   index: number;
   onFavoriteRemove?: (index: number) => void;
 };
@@ -20,6 +21,7 @@ const ShortListedCard: React.FC<FavoritesImgProps> = ({
   time,
   face,
   index,
+  event_id,
   onFavoriteRemove,
 }) => {
   const navigate = useNavigate();
@@ -28,14 +30,14 @@ const ShortListedCard: React.FC<FavoritesImgProps> = ({
       <div className="favorites_img_container">
         <button
           onClick={() =>
-            onFavoriteRemove && onFavoriteRemove(parseInt(index.toString()))
+            onFavoriteRemove && onFavoriteRemove(parseInt(event_id))
           }
           className="favorites_img_remove_btn"
         >
           Remove
         </button>
         <img
-          onClick={() => navigate(`/event-details?eventId=${index}&isScheduled=1`)}
+          onClick={() => navigate(`/event-details?eventId=${event_id}`)}
           id="favorites_img"
           src={imgURL}
           alt="underwater"

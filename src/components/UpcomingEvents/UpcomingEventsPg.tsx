@@ -1,4 +1,4 @@
-import React, { JSX } from "react";
+import React, { JSX, useEffect, useState } from "react";
 import Card from "../base/card/card";
 import SelectDistance from "../base/selectdistance/selectdistance";
 import location from "../../assets/img/location.svg";
@@ -18,9 +18,32 @@ type likedEvents = {
   name: string;
 };
 
+// Event data type from API
+type EventData = {
+  event_id: number;
+  title: string;
+  description: string;
+  subtext: string;
+  date: string[];
+  time: string[];
+  latitude: string;
+  longitude: string;
+  category: string;
+  location: string;
+  image_urls: string[];
+  overall_rating: number;
+  min_temprature: string;
+  max_temprature: string;
+  avg_rating: string;
+  no_reviews: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 const UpcomingEventsPg: React.FC = () => {
-  const [events, setEvents] = React.useState<JSX.Element[]>([]);
-  const [Filter, setFilter] = React.useState<FilterState>({
+  const [events, setEvents] = useState<JSX.Element[]>([]);
+  const [apiEvents, setApiEvents] = useState<EventData[]>([]);
+  const [Filter, setFilter] = useState<FilterState>({
     date: "",
     location: "",
     distance: { type: "", value: 0 },
@@ -29,10 +52,12 @@ const UpcomingEventsPg: React.FC = () => {
     isCategoryApplied: false,
   });
 
-  const [likedEvents, setLikedEvents] = React.useState<likedEvents[]>([]);
+  const [likedEvents, setLikedEvents] = useState<likedEvents[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // Add NEOM city famous places
   const neomPlaces = [
+    "Neom City, Saudi Arabia",
     "The Line",
     "Trojena",
     "Sindalah Island",
@@ -45,9 +70,20 @@ const UpcomingEventsPg: React.FC = () => {
     "Port NEOM",
   ];
 
+  const eventCategories = [
+    "sports",
+    "technology",
+    "entertainment",
+    "business",
+    "adventure",
+    "culture",
+    "health",
+    "food",
+  ];
+
   // States for dropdown functionality
-  const [showDropdown, setShowDropdown] = React.useState(false);
-  const [filteredPlaces, setFilteredPlaces] = React.useState(neomPlaces);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [filteredPlaces, setFilteredPlaces] = useState(neomPlaces);
 
   function handleLike(id: string, name: string) {
     console.log("Liked Event: ", id, name);
@@ -69,17 +105,29 @@ const UpcomingEventsPg: React.FC = () => {
       }));
     } else if (filterType === "category") {
       const categoryValue = e;
-      setFilter((prev) => ({
-        ...prev,
-        category: categoryValue,
-        isCategoryApplied: true,
-      }));
+      setFilter((prev) => {
+        const updatedFilter = {
+          ...prev,
+          category: categoryValue,
+          isCategoryApplied: true,
+        };
+        fetchEvents(categoryValue, updatedFilter.location, updatedFilter.date);
+        return updatedFilter;
+      });
     } else {
       const value = e.target.value;
-      setFilter((prev) => ({
-        ...prev,
-        [filterType]: value,
-      }));
+      setFilter((prev) => {
+        const updatedFilter = {
+          ...prev,
+          [filterType]: value,
+        };
+
+        // If date is changed, fetch events with the updated filter values
+        if (filterType === "date") {
+          fetchEvents(updatedFilter.category, updatedFilter.location, value);
+        }
+        return updatedFilter;
+      });
     }
   }
 
@@ -99,90 +147,182 @@ const UpcomingEventsPg: React.FC = () => {
   }
 
   function selectLocation(place: string) {
-    setFilter((prev) => ({
-      ...prev,
-      location: place,
-    }));
+    setFilter((prev) => {
+      const updatedFilter = {
+        ...prev,
+        location: place,
+      };
+      fetchEvents(updatedFilter.category, place, updatedFilter.date);
+      return updatedFilter;
+    });
     setShowDropdown(false);
   }
 
-  React.useEffect(() => {
-    // API call to get all events list according to POST request
-    // like Filter useState
-    const AllEvents = Array.from({ length: 10 }).map((_, index) => {
-      // Randomly select a location from neomPlaces
-      const randomLocation =
-        neomPlaces[Math.floor(Math.random() * neomPlaces.length)];
-
-      return {
-        index: index,
-        eventId: index,
-        imgURL: "https://picsum.photos/800/600",
-        subtextDate: "Nov 10 - 29",
-        subtextName: "Vibrant & Social",
-        name: "Round of Golf",
-        timeRange: "7:00 AM - 9:00 AM",
-        location: randomLocation,
-        category: [
-          "Singing",
-          "Golf Tournament",
-          "Box Cricket",
-          "Swimming",
-          "Stand Up Comedy",
-          "RAMP Walk",
-          "Talks Shows",
-          "Kite Surfing",
-          "Book Exhibitions",
-        ][index % 9],
-        date: "Nov 10 - 29",
-        time: "7:00 AM - 9:00 AM",
-        distance: { type: "walking", value: 20 },
-      };
-    });
-
-    const filteredEvents = AllEvents.filter((event) => {
-      if (Filter.date && Filter.date !== event.date) return false;
-      if (
-        Filter.location &&
-        !event.location.toLowerCase().includes(Filter.location.toLowerCase())
-      )
-        return false;
-      if (Filter.category && Filter.category !== event.category) return false;
-      if (Filter.isDistanceApplied) {
-        if (Filter.distance.type === "walking") {
-          if (Filter.distance.value <= event.distance.value) return true;
-          return false;
-        } else if (Filter.distance.type === "driving") {
-          if (Filter.distance.value <= event.distance.value) return true;
-          return false;
-        }
+  async function fetchEvents(category = "", location = "", date = "") {
+    setLoading(true);
+    try {
+      const queryParams = new URLSearchParams();
+      if (category) queryParams.append("category", category.toLowerCase());
+      if (location) queryParams.append("location", location);
+      if (date) {
+        const formattedDate = formatDateForAPI(date);
+        queryParams.append("date", formattedDate);
       }
-      return true;
-    });
 
-    setEvents(
-      filteredEvents.map((event, index) => (
-        <Card
-          isLiked={likedEvents
-            .map((item) => item.id)
-            .includes(String(event.eventId))}
-          eventId={String(event.eventId)}
-          handleLike={handleLike}
-          key={event.index}
-          index={event.index}
-          imgURL={event.imgURL}
-          subtextDate={event.subtextDate}
-          subtextName={event.subtextName}
-          name={event.name}
-          timeRange={event.timeRange}
-          location={event.location}
-          category={event.category}
-          date={event.date}
-          time={event.time}
-        />
-      ))
-    );
-  }, [Filter, likedEvents]);
+      const url = `http://localhost:3001/api/events?${queryParams.toString()}`;
+      console.log("Fetching events from:", url);
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+
+      const result = await response.json();
+      if (result.success && Array.isArray(result.data)) {
+        setApiEvents(result.data);
+      } else {
+        console.error("Invalid response format or empty data", result);
+        setApiEvents([]);
+      }
+    } catch (error) {
+      console.error("Error fetching events:", error);
+      setApiEvents([]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // Format date for API request - fixed to handle edge cases
+  function formatDateForAPI(dateString: string): string {
+    if (!dateString) return "";
+
+    try {
+      // Convert YYYY-MM-DD to a readable format
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        console.error("Invalid date:", dateString);
+        return "";
+      }
+      return date.toDateString(); // Format like "Sat May 03 2025"
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return "";
+    }
+  }
+
+  // Format date for display - with improved error handling
+  function formatDateForDisplay(dates: string[]): string {
+    if (!dates || !Array.isArray(dates) || dates.length === 0) return "";
+
+    try {
+      if (dates.length === 1) {
+        return formatSingleDate(dates[0]);
+      } else {
+        return `${formatSingleDate(dates[0])} - ${formatSingleDate(
+          dates[dates.length - 1]
+        )}`;
+      }
+    } catch (error) {
+      console.error("Error formatting display date:", error, dates);
+      return "";
+    }
+  }
+
+  function formatSingleDate(dateString: string): string {
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        return dateString; // Return the original string if parsing fails
+      }
+      const month = date.toLocaleString("default", { month: "short" });
+      const day = date.getDate();
+      return `${month} ${day}`;
+    } catch (error) {
+      console.error("Error formatting single date:", error, dateString);
+      return dateString;
+    }
+  }
+
+  // Format time for display - with improved error handling
+  function formatTimeForDisplay(times: string[]): string {
+    if (!times || !Array.isArray(times) || times.length === 0) return "";
+
+    try {
+      const formatTime = (timeStr: string) => {
+        try {
+          const parts = timeStr.split(":");
+          if (parts.length < 2) return timeStr; // Return original if can't parse
+
+          const hours = parseInt(parts[0]);
+          const minutes = parts[1];
+
+          if (isNaN(hours)) return timeStr; // Return original if can't parse
+
+          const ampm = hours >= 12 ? "PM" : "AM";
+          const hour12 = hours % 12 || 12;
+          return `${hour12}:${minutes} ${ampm}`;
+        } catch (e) {
+          return timeStr; // Return original on any error
+        }
+      };
+
+      if (times.length === 1) {
+        return formatTime(times[0]);
+      } else {
+        return `${formatTime(times[0])} - ${formatTime(
+          times[times.length - 1]
+        )}`;
+      }
+    } catch (error) {
+      console.error("Error formatting time:", error, times);
+      return "";
+    }
+  }
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  // Generate cards from API data
+  useEffect(() => {
+    if (apiEvents && apiEvents.length > 0) {
+      try {
+        const cards = apiEvents.map((event) => (
+          <Card
+            isLiked={likedEvents
+              .map((item) => item.id)
+              .includes(String(event.event_id))}
+            eventId={String(event.event_id)}
+            handleLike={handleLike}
+            key={event.event_id}
+            index={event.event_id}
+            imgURL={
+              event.image_urls && event.image_urls.length > 0
+                ? event.image_urls[0]
+                : ""
+            }
+            subtextDate={formatDateForDisplay(event.date)}
+            subtextName={event.subtext || ""}
+            name={event.title || ""}
+            timeRange={formatTimeForDisplay(event.time)}
+            location={event.location || ""}
+            category={event.category || ""}
+            date={formatDateForDisplay(event.date)}
+            time={formatTimeForDisplay(event.time)}
+          />
+        ));
+        setEvents(cards);
+      } catch (error) {
+        console.error("Error generating cards:", error);
+        setEvents([]);
+      }
+    } else {
+      setEvents([]);
+    }
+  }, [apiEvents, likedEvents]);
 
   return (
     <div className="upcomingEventsPg">
@@ -266,102 +406,29 @@ const UpcomingEventsPg: React.FC = () => {
         </p>
 
         <div className="upcomingEventsPg_eventsType_btns">
-          <button
-            onClick={(e) => onFilterChange("Stand Up Comedy", "category")}
-            className={
-              Filter.category === "Stand Up Comedy"
-                ? "upcomingEventsPg_eventsType_btn_active"
-                : "upcomingEventsPg_eventsType_btn"
-            }
-          >
-            Stand Up Comedy
-          </button>
-          <button
-            onClick={(e) => onFilterChange("RAMP Walk", "category")}
-            className={
-              Filter.category === "RAMP Walk"
-                ? "upcomingEventsPg_eventsType_btn_active"
-                : "upcomingEventsPg_eventsType_btn"
-            }
-          >
-            RAMP Walk
-          </button>
-          <button
-            onClick={(e) => onFilterChange("Box Cricket", "category")}
-            className={
-              Filter.category === "Box Cricket"
-                ? "upcomingEventsPg_eventsType_btn_active"
-                : "upcomingEventsPg_eventsType_btn"
-            }
-          >
-            Box Cricket
-          </button>
-          <button
-            onClick={(e) => onFilterChange("Swimming", "category")}
-            className={
-              Filter.category === "Swimming"
-                ? "upcomingEventsPg_eventsType_btn_active"
-                : "upcomingEventsPg_eventsType_btn"
-            }
-          >
-            Swimming
-          </button>
-          <button
-            onClick={(e) => onFilterChange("Golf Tournament", "category")}
-            className={
-              Filter.category === "Golf Tournament"
-                ? "upcomingEventsPg_eventsType_btn_active"
-                : "upcomingEventsPg_eventsType_btn"
-            }
-          >
-            Golf Tournament
-          </button>
-          <button
-            onClick={(e) => onFilterChange("Singing", "category")}
-            className={
-              Filter.category === "Singing"
-                ? "upcomingEventsPg_eventsType_btn_active"
-                : "upcomingEventsPg_eventsType_btn"
-            }
-          >
-            Singing
-          </button>
-          <button
-            onClick={(e) => onFilterChange("Talks Shows", "category")}
-            className={
-              Filter.category === "Talks Shows"
-                ? "upcomingEventsPg_eventsType_btn_active"
-                : "upcomingEventsPg_eventsType_btn"
-            }
-          >
-            Talks Shows
-          </button>
-          <button
-            onClick={(e) => onFilterChange("Kite Surfing", "category")}
-            className={
-              Filter.category === "Kite Surfing"
-                ? "upcomingEventsPg_eventsType_btn_active"
-                : "upcomingEventsPg_eventsType_btn"
-            }
-          >
-            Kite Surfing
-          </button>
-          <button
-            onClick={(e) => onFilterChange("Book Exhibitions", "category")}
-            className={
-              Filter.category === "Book Exhibitions"
-                ? "upcomingEventsPg_eventsType_btn_active"
-                : "upcomingEventsPg_eventsType_btn"
-            }
-          >
-            Book Exhibitions
-          </button>
+          {eventCategories.map((category) => (
+            <button
+              key={category}
+              onClick={() => onFilterChange(category, "category")}
+              className={
+                Filter.category === category
+                  ? "upcomingEventsPg_eventsType_btn_active"
+                  : "upcomingEventsPg_eventsType_btn"
+              }
+            >
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </button>
+          ))}
         </div>
       </div>
 
       <div className="upcomingEventsPg_recommendation">
-        {events.length == 0 ? (
-          <div className="ColorRed">Currently out of service :(</div>
+        {loading ? (
+          <div>Loading events...</div>
+        ) : events.length === 0 ? (
+          <div className="ColorRed">
+            No events found. Try different filters.
+          </div>
         ) : (
           events
         )}

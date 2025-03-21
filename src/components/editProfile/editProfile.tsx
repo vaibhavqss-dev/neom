@@ -100,6 +100,8 @@ const EditProfile: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string>(profilePic);
   const [Profile, setProfile] = useState<ProfileProps | undefined>();
   const [loading, setLoading] = useState(true);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   const onChangeHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,13 +115,10 @@ const EditProfile: React.FC = () => {
     setProfile((prev) => (prev ? { ...prev, interests: newInterests } : prev));
   }, []);
 
-  async function UpdateProfile() {
+  async function UpdateProfile(updatedProfileData?: ProfileProps) {
     try {
-      // Create a copy of the profile to manipulate before sending
-      const profileToSend = { ...Profile };
-
-      // No need to transform the date as we're already storing it in DD-MM-YYYY format
-
+      const profileToSend = updatedProfileData || { ...Profile };
+      console.log("Sending profile data to server:", profileToSend);
       const response = await fetch("http://localhost:3001/api/user/profile", {
         method: "PATCH",
         headers: {
@@ -135,7 +134,12 @@ const EditProfile: React.FC = () => {
         data.profile.dob = formatDateForDisplay(data.profile.dob);
       }
 
-      setProfile(data.profile);
+      setProfile(data.updated_fields);
+
+      // Update profile image from API response
+      if (data.updated_fields?.profile_img) {
+        setProfileImage(data.updated_fields.profile_img);
+      }
     } catch (e) {
       console.error("Error updating data:", e);
     }
@@ -149,6 +153,14 @@ const EditProfile: React.FC = () => {
         alert("Profile data not loaded");
         return;
       }
+
+      // Update the profile_img in the Profile state
+      if (profileImage !== profilePic) {
+        setProfile((prev) =>
+          prev ? { ...prev, profile_img: profileImage } : prev
+        );
+      }
+
       alert("Profile updated successfully!");
       UpdateProfile();
     },
@@ -177,6 +189,11 @@ const EditProfile: React.FC = () => {
         });
         const data = await response.json();
         setProfile(data.profile);
+
+        // Set profile image from API response if available
+        if (data.profile?.profile_img) {
+          setProfileImage(data.profile.profile_img);
+        }
       } catch (e) {
         console.error("Error fetching data:", e);
       } finally {
@@ -212,6 +229,112 @@ const EditProfile: React.FC = () => {
     }
   };
 
+  // Use useEffect to trigger upload when file is selected
+  useEffect(() => {
+    if (selectedFile) {
+      uploadProfileImage();
+    }
+  }, [selectedFile]);
+
+  const getPresignedUrl = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/user/profile/uploadimg",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({ profile_img_name: "my_profile" }),
+        }
+      );
+
+      if (!response.ok) {
+        console.error("Error response from server:", await response.text());
+        return null;
+      }
+
+      const data = await response.json();
+      console.log("Presigned URL data:", data);
+      return data;
+    } catch (e) {
+      console.error("Error getting presigned URL:", e);
+      return null;
+    }
+  };
+
+  const uploadProfileImage = async () => {
+    if (!selectedFile) {
+      console.error("No file selected");
+      return;
+    }
+
+    setUploading(true);
+
+    try {
+      // Get the presigned URL from the backend
+      const presignedUrlData = await getPresignedUrl();
+      if (!presignedUrlData || !presignedUrlData.uploadUrl) {
+        alert("Error getting presigned URL");
+        setUploading(false);
+        return;
+      }
+
+      console.log("Attempting to upload to:", presignedUrlData.uploadUrl);
+      console.log("File size:", selectedFile.size);
+
+      // Upload the file to storage
+      const uploadResponse = await fetch(presignedUrlData.uploadUrl, {
+        method: "PUT",
+        body: selectedFile,
+      });
+
+      console.log("Upload response status:", uploadResponse.status);
+
+      if (!uploadResponse.ok) {
+        const errorText = await uploadResponse.text();
+        console.error("Upload error response:", errorText);
+        throw new Error(
+          `Upload failed: ${uploadResponse.status} ${uploadResponse.statusText}`
+        );
+      }
+
+      // Get the public URL for the uploaded image
+      const publicUrl = presignedUrlData.publicUrl;
+      console.log("Public URL:", publicUrl);
+
+      // Create an updated profile object with the new image URL
+      if (Profile) {
+        const updatedProfile = {
+          ...Profile,
+          profile_img: publicUrl,
+        };
+
+        // Log the updated profile for debugging
+        console.log("Updated profile with new image:", updatedProfile);
+
+        // Update state for local display
+        setProfileImage(publicUrl);
+
+        // Save profile changes to backend, passing the updated profile directly
+        await UpdateProfile(updatedProfile);
+
+        // Update local state after backend confirms update
+        setProfile(updatedProfile);
+
+        alert("Profile image uploaded successfully!");
+      } else {
+        console.error("Profile is undefined, cannot update");
+      }
+    } catch (e) {
+      console.error("Error uploading profile image:", e);
+      alert("Failed to upload image. Please try again.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <>
       {loading ? (
@@ -233,23 +356,45 @@ const EditProfile: React.FC = () => {
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
+                        // Store the actual file for upload
+                        setSelectedFile(file);
+
+                        // Create a local preview
                         const imageUrl = URL.createObjectURL(file);
                         setProfileImage(imageUrl);
+
+                        // Upload will be triggered by useEffect
                       }
                     }}
                   />
                   <img
                     className="editProfilePg_container_left_img_profileImg"
-                    src={profileImage}
+                    src={Profile?.profile_img || profileImage}
                     alt="Profile"
+                    style={{ opacity: uploading ? 0.5 : 1 }}
                   />
+                  {uploading && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        zIndex: 2,
+                      }}
+                    >
+                      Uploading...
+                    </div>
+                  )}
                   <img
                     className="editProfilePg_container_left_img_pencilbtn"
                     src={pencil}
-                    onClick={() =>
-                      document.getElementById("profileImageInput")?.click()
-                    }
-                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      if (!uploading) {
+                        document.getElementById("profileImageInput")?.click();
+                      }
+                    }}
+                    style={{ cursor: uploading ? "not-allowed" : "pointer" }}
                   />
                 </div>
               </div>

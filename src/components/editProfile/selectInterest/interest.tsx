@@ -113,13 +113,13 @@ const Interest: React.FC<InterestProps> = ({
     <div className="selectInterest">
       <div className="selectInterest_likes">
         <div
-          onClick={() => onInterestImageClick("plays")}
+          onClick={() => onInterestImageClick("adventure")}
           className="selectInterest_likes_input"
         >
           <p>adventure</p>
           <img
             className={`selectInterest_likes_input_img ${
-              isInterestSelected("plays") ? "like_opacity" : ""
+              isInterestSelected("adventure") ? "like_opacity" : ""
             }`}
             src={plays}
             alt={"plays"}

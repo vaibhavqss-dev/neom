@@ -41,7 +41,7 @@ const router = createBrowserRouter([
           { path: "/rescheduled-event", element: <RescheduledEvent /> },
           { path: "/edit-profile", element: <EditProfile /> },
           { path: "/edit-setting", element: <EditSetting /> },
-          { path: "/checkout", element: <Checkout /> },
+          // { path: "/checkout", element: <Checkout /> },
           { path: "/add-review", element: <AddReview /> },
           { path: "/myfeedback", element: <MyFeedback /> },
           { path: "/reschedule-popup", element: <RescheduledEventPopUp /> },

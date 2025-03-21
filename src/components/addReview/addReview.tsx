@@ -1,12 +1,13 @@
 import ReviewStar from "../base/reviewStar/reviewStar";
-import React, { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 type AddReviewProps = {
   name?: string;
 };
 
 const AddReview: React.FC<AddReviewProps> = ({ name = "Vaibhav" }) => {
+  const navigate = useNavigate();
   const [star, setStar] = React.useState({
     qualityOfEvent: 0,
     serviceAtEvent: 0,
@@ -14,11 +15,19 @@ const AddReview: React.FC<AddReviewProps> = ({ name = "Vaibhav" }) => {
     staffPoliteness: 0,
     operatorOfEvent: 0,
   });
-  const [feedback, setFeedback] = React.useState("");
 
+  const [feedback, setFeedback] = React.useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  // Check auth token on component mount
   useEffect(() => {
-    // fetch api to get the review data
-  }, []);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.warn("No authentication token found. Redirecting to login.");
+      navigate("/login");
+    }
+  }, [navigate]);
 
   function handleStarChange(key: string, value: number) {
     setStar((prev) => ({ ...prev, [key]: value }));
@@ -29,13 +38,71 @@ const AddReview: React.FC<AddReviewProps> = ({ name = "Vaibhav" }) => {
   }
 
   const queryParams = new URLSearchParams(window.location.search);
-  const eventId = queryParams.get("eventId");
+  const eventId = queryParams.get("event_id");
   console.log("EventId from query parameters:", eventId);
 
-  function onSubmit() {
-    // fetch api to submit the review
+  async function addReview() {
+    try {
+      setIsSubmitting(true);
+      setSubmitError(null);
 
-    console.log(star, feedback);
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setSubmitError("Please log in to submit a review");
+        navigate("/login");
+        return;
+      }
+
+      console.log(
+        "Submitting review with token:",
+        token.substring(0, 10) + "..."
+      );
+
+      const response = await fetch(`http://localhost:3001/api/user/review`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          quality_of_event: star.qualityOfEvent,
+          service_of_event: star.serviceAtEvent,
+          facilites_of_event: star.facilitiesOfEvent,
+          staffPoliteness: star.staffPoliteness,
+          operator_of_event: star.operatorOfEvent,
+          comment: feedback,
+          event_id: eventId,
+        }),
+      });
+
+      console.log("Review API response status:", response.status);
+
+      if (response.status === 401) {
+        setSubmitError("Your session has expired. Please log in again.");
+        navigate("/login");
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Review API response:", data);
+
+      if (data.success) {
+        alert("Review added successfully");
+        navigate("/completed-events");
+      } else {
+        setSubmitError(data.message || "Failed to add review");
+      }
+    } catch (err) {
+      console.error("Error submitting review:", err);
+      setSubmitError("An error occurred while submitting your review");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  function onSubmit() {
+    if (isSubmitting) return;
+    addReview();
   }
 
   return (
@@ -128,8 +195,14 @@ const AddReview: React.FC<AddReviewProps> = ({ name = "Vaibhav" }) => {
           ></textarea>
         </div>
 
-        <button onClick={onSubmit} className="addReviewPg_submitBtn">
-          Submit
+        {submitError && <div className="addReviewPg_error">{submitError}</div>}
+
+        <button
+          onClick={onSubmit}
+          className="addReviewPg_submitBtn"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Submitting..." : "Submit"}
         </button>
       </div>
     </div>

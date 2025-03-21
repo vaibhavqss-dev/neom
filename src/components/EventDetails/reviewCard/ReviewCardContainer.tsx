@@ -3,6 +3,7 @@ import ReviewCard from "./reviewCard";
 type ReviewCardContainerProps = {
   number?: number;
   id: number;
+  reviewsContent: any;
 };
 
 type ReviewItem = {
@@ -20,7 +21,10 @@ type RecommendationLiked = {
   name: string;
 };
 
-const ReviewCardContainer: React.FC<ReviewCardContainerProps> = ({ id }) => {
+const ReviewCardContainer: React.FC<ReviewCardContainerProps> = ({
+  id,
+  reviewsContent,
+}) => {
   const [liked, setLiked] = useState<RecommendationLiked[]>([]);
 
   function handleLike(id: number, name: string) {
@@ -28,36 +32,41 @@ const ReviewCardContainer: React.FC<ReviewCardContainerProps> = ({ id }) => {
     setLiked([...liked, { id, name }]);
   }
 
+  console.log("Liked", reviewsContent);
   const [reviews, setReviews] = useState<ReviewItem[]>([]);
   useEffect(() => {
-    const allReviews = Array(10)
-      .fill(3)
-      .map((_, i: number) => ({
-        id: i,
-        key: i,
-        name: "Name",
-        date: "Date",
-        text: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam nam nostrum quisquam doloremque temporibus veniam nisi harum eius esse, atque, sed id sequi? Explicabo, aliquid obcaecati earum voluptatum eveniet blanditiis odio maiores!",
-        rating: 4,
-        profileURL: "https://picsum.photos/800/600",
-      }));
+    const allReviews = reviewsContent.map((ele: any, i: number) => ({
+      id: ele.id,
+      key: i,
+      name: ele.User.name,
+      date: ele.createdAt || "",
+      text: ele.comment || "",
+      rating: parseInt(ele.avg_rating) || 1,
+      profileURL: ele.User.profile_img || "",
+    }));
     setReviews(allReviews);
-  }, [id]);
+  }, []);
 
   return (
     <>
-      {reviews.map((ele) => (
-        <div className="eventDetailsPg_reviewsCard" key={ele.id}>
-          <ReviewCard
-            id={ele.id}
-            name={ele.name}
-            date={ele.date}
-            text={ele.text}
-            rating={ele.rating}
-            profileURL={ele.profileURL}
-          />
+      {reviews.length > 0 ? (
+        reviews.map((ele) => (
+          <div className="eventDetailsPg_reviewsCard" key={ele.id}>
+            <ReviewCard
+              id={ele.id}
+              name={ele.name}
+              date={ele.date}
+              text={ele.text}
+              rating={ele.rating}
+              profileURL={ele.profileURL}
+            />
+          </div>
+        ))
+      ) : (
+        <div className="eventDetailsPg_reviewsCard">
+          <p>No reviews yet</p>
         </div>
-      ))}
+      )}
     </>
   );
 };

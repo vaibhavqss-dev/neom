@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./login.module.scss";
+import { setToken } from "../../../utils/auth";
 
 const Login: React.FC = () => {
+
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -10,60 +13,51 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
-  };
 
-  const navigate = useNavigate();
-  useEffect(() => {
-    const postLoginData = async () => {
-      if (!isSubmitted) return;
-
+    try {
       setLoading(true);
       setError(null);
 
-      try {
-        console.log(process.env.REACT_API_URL);
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username, password }),
-        });
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (!response.ok) {
-          throw new Error(data.message || "Login failed");
-        }
+      if (data.success && data.token) {
+        console.log("Login successful, saving token");
+        setToken(data.token);
 
-        if (data.token) {
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("username", username);
-          localStorage.setItem("user_id", data.user_id);
-          console.log("Token saved to localStorage");
-        }
+        const savedToken = localStorage.getItem("token");
+        console.log(
+          "Saved token (first 10 chars):",
+          savedToken ? savedToken.substring(0, 10) + "..." : "none"
+        );
 
         navigate("/");
-        console.log("Login successful:", data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Something went wrong");
-      } finally {
-        setLoading(false);
-        setIsSubmitted(false);
+      } else {
+        setError(data.message || "Login failed");
       }
-    };
-
-    postLoginData();
-  }, [isSubmitted, username, password, navigate]);
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("An error occurred during login. Please try again.");
+    } finally {
+      setLoading(false);
+      setIsSubmitted(false);
+    }
+  };
 
   return (
     <div className={styles.loginContainer}>
       <h1>Login</h1>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleLogin}>
         <div className={styles.formGroup}>
           <label htmlFor="username">Username</label>
           <input
