@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Card from "../card/card";
 import yogoImg from "./../../../assets/img/yoga.jpg";
+import SelectDistance from "../selectdistance/selectdistance";
+import { Likeevent, Unlikeevent } from "../../../api/like_event";
 
 // type RecommendationItem = {
 //   event_id: string;
@@ -31,13 +33,15 @@ const RecommendationCardContainer: React.FC<
 > = ({ number, IsRank }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const [liked, setLiked] = useState<RecommendationLiked[]>([]);
   function handleLike(eventId: string, name: string) {
     setLiked((prev) => {
       if (prev.map((ele) => ele.eventId).includes(eventId)) {
+        Unlikeevent(eventId);
         return prev.filter((ele) => ele.eventId !== eventId);
       } else {
+        Likeevent(eventId);
         return [...prev, { eventId, name }];
       }
     });
@@ -87,27 +91,35 @@ const RecommendationCardContainer: React.FC<
       {error && <p>{}</p>}
 
       {!error && !loading && (
-        <div className="recommendationCardContainer">
-          {recommendations.map((ele: any, i: number) => (
-            <Card
-              IsRank={IsRank}
-              key={ele.event_id}
-              handleLike={handleLike}
-              isLiked={liked.map((item) => item.eventId).includes(ele.event_id)}
-              eventId={ele.event_id}
-              index={i + 1}
-              imgURL={ele.event.image_urls[0]}
-              subtextDate={ele.event.date[0]}
-              subtextName={ele.event.subtext}
-              name={ele.event.title}
-              timeRange={ele.event.time[0]}
-              location={ele.location}
-              category={ele.category}
-              date={ele.date}
-              time={ele.time}
-            />
-          ))}
-        </div>
+        <>
+          <p className="recommandationSection_title">
+            Today's recommendation for you, {localStorage.getItem("fullname")}
+          </p>
+          {/* <SelectDistance /> */}
+          <div className="recommendationCardContainer">
+            {recommendations.map((ele: any, i: number) => (
+              <Card
+                IsRank={IsRank}
+                key={ele.event_id}
+                handleLike={handleLike}
+                isLiked={liked
+                  .map((item) => item.eventId)
+                  .includes(ele.event_id)}
+                eventId={ele.event_id}
+                index={i + 1}
+                imgURL={ele.event.image_urls[0]}
+                subtextDate={ele.event.date[0]}
+                subtextName={ele.event.subtext}
+                name={ele.event.title}
+                timeRange={ele.event.time[0]}
+                location={ele.location}
+                category={ele.category}
+                date={ele.date}
+                time={ele.time}
+              />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

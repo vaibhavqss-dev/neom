@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SelectDistance from "../../selectdistance/selectdistance";
 import Card from "../../card/card";
 
@@ -16,38 +16,140 @@ export type RecommendationLiked = {
   name: string;
 };
 
-type RecommendationSectionProps = {
-  filter: FilterState;
-  onFilterChange: (e: any, filterType: string) => void;
-  events: any[];
-  liked: RecommendationLiked[];
-  handleLike: (id: string, name: string) => void;
-};
+type RecommendationSectionProps = {};
+const RecommendationSection: React.FC<RecommendationSectionProps> = ({}) => {
+  const [liked, setLiked] = useState<RecommendationLiked[]>([]);
+  const [events, setEvents] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-const RecommendationSection: React.FC<RecommendationSectionProps> = ({
-  filter,
-  onFilterChange,
-  events,
-  liked,
-  handleLike,
-}) => {
+  function handleLike(id: string, name: string) {
+    setLiked((prev) => {
+      if (prev.map((ele) => ele.id).includes(id)) {
+        return prev.filter((ele) => ele.id !== id);
+      } else {
+        return [...prev, { id, name }];
+      }
+    });
+  }
+
+  const [filter, setFilter] = useState<FilterState>({
+    date: "",
+    location: "",
+    distance: { type: "", value: 0 },
+    category: "",
+    isDistanceApplied: false,
+    isCategoryApplied: false,
+  });
+
+  function onFilterChange(e: any, filterType: string) {
+    if (filterType === "distance" && typeof e === "object") {
+      setFilter((prev) => ({
+        ...prev,
+        distance: e,
+        isDistanceApplied: true,
+      }));
+    } else if (filterType === "category") {
+      setFilter((prev) => ({
+        ...prev,
+        category: e,
+        isCategoryApplied: true,
+      }));
+    } else {
+      const value = e.target.value;
+      setFilter((prev) => ({
+        ...prev,
+        [filterType]: value,
+      }));
+    }
+  }
+
+  async function fetchEvents() {
+    try {
+      setLoading(true);
+      setError(null);
+
+      let url = "http://localhost:3001/api/events";
+      const queryParams = [];
+
+      if (filter.category) {
+        queryParams.push(`category=${filter.category}`);
+      }
+
+      if (filter.location) {
+        queryParams.push(`location=${filter.location}`);
+      }
+
+      if (filter.date) {
+        queryParams.push(`date=${filter.date}`);
+      }
+
+      if (queryParams.length > 0) {
+        url += `?${queryParams.join("&")}`;
+      }
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const result = await response.json();
+
+      if (result.success && Array.isArray(result.data)) {
+        let filteredEvents = result.data;
+
+        setEvents(filteredEvents);
+      } else {
+        setEvents([]);
+        setError("No events found or invalid response format");
+      }
+    } catch (err) {
+      console.error("Error fetching events:", err);
+      setError("Failed to fetch events. Please try again later.");
+      setEvents([]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  useEffect(() => {
+    fetchEvents();
+  }, [filter.category, filter.location, filter.date]);
+
   return (
     <div className="events_similarRecommendation">
       <SelectDistance Filter={filter} setDistance={onFilterChange} />
       <div className="events_similarRecommendation_card">
-        {events.length ? (
+        {loading ? (
+          <span>Loading events...</span>
+        ) : error ? (
+          <span style={{ color: "red" }}>{error}</span>
+        ) : events.length ? (
           events.map((ele: any) => (
             <Card
-              key={ele.id}
+              key={ele.event_id}
               handleLike={handleLike}
-              isLiked={liked.map((item) => item.id).includes(ele.id)}
-              eventId={ele.id}
-              index={ele.id}
-              imgURL={ele.imgURL}
-              subtextDate={ele.subtextDate}
-              subtextName={ele.subtextName}
-              name={ele.name}
-              timeRange={ele.timeRange}
+              isLiked={liked
+                .map((item) => item.id)
+                .includes(ele.event_id.toString())}
+              eventId={ele.event_id}
+              index={ele.event_id}
+              imgURL={ele.image_urls[0]}
+              subtextDate={ele.date[0]}
+              subtextName={ele.subtext || ""}
+              name={ele.title}
+              timeRange={ele.time[0]}
               location={ele.location}
               category={ele.category}
               date={ele.date}

@@ -5,10 +5,12 @@ import SuggestionSlider from "./Suggestion/SuggestionSlider";
 import VisitedSlider from "./visited/VisitedSlider";
 import RecommendationCardContainer from "../base/recommendationCards/RecommendationCardContainer";
 
-    const Home: React.FC = () => {
+const Home: React.FC = () => {
+  const fullname = localStorage.getItem("fullname");
+
   return (
     <div className="home isblur">
-      <p className="home_title">Good Morning Vaibhav!</p>
+      <p className="home_title">Good Morning {fullname}</p>
       <p className="home_subtitle">
         {" "}
         Below listed are your itineraries, have a look to the timing and the
@@ -18,10 +20,6 @@ import RecommendationCardContainer from "../base/recommendationCards/Recommendat
       <ItinerarieSlider />
       <SuggestionSlider />
       <div className="recommandationSection">
-        <p className="recommandationSection_title">
-          Today's recommadation for you, Vaibhav
-        </p>
-
         <div className="recommandationSection_container">
           <RecommendationCardContainer IsRank number={5} />
         </div>

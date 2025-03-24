@@ -2,14 +2,18 @@
  * Auth utilities for token management and authentication
  */
 
-// Get token from localStorage
 export const getToken = (): string | null => {
   return localStorage.getItem("token");
 };
 
-// Save token to localStorage
 export const setToken = (token: string): void => {
   localStorage.setItem("token", token);
+};
+export const setUser_id = (user_id: string): void => {
+  localStorage.setItem("user_id", user_id);
+};
+export const setFullname = (fullname: string): void => {
+  localStorage.setItem("fullname", fullname);
 };
 
 // Remove token from localStorage

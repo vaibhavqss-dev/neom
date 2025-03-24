@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./login.module.scss";
-import { setToken } from "../../../utils/auth";
+import { setFullname, setToken, setUser_id } from "../../../utils/auth";
 
 const Login: React.FC = () => {
-
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -33,13 +32,8 @@ const Login: React.FC = () => {
       if (data.success && data.token) {
         console.log("Login successful, saving token");
         setToken(data.token);
-
-        const savedToken = localStorage.getItem("token");
-        console.log(
-          "Saved token (first 10 chars):",
-          savedToken ? savedToken.substring(0, 10) + "..." : "none"
-        );
-
+        setUser_id(data.user_id);
+        setFullname(data.fullname || "Test User");
         navigate("/");
       } else {
         setError(data.message || "Login failed");

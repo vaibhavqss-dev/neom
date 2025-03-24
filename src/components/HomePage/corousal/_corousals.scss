@@ -1,10 +1,18 @@
+// @font-face {
+//   font-family: "IvyMode";
+//   src: url("../../../assets/fonts/IvyMode-Regular.ttf") format("truetype");
+//   font-weight: normal;
+//   font-style: normal;
+// }
+
 .corousalContainer {
   border: 1px solid black;
   width: 39vw;
   height: 15rem;
   display: flex;
   font-weight: 300;
-  font-style: normal;
+  // font-style: url("../../../assets/fonts/IvyMode-Regular.ttf");
+  font-style: 'IvyMode';
   border-radius: 1rem;
   margin-right: 1rem;
 
@@ -72,19 +80,19 @@
       text-overflow: ellipsis; /* Show ellipsis for overflow */
       position: relative;
 
-      &::after {
-        content: "read more";
-        position: absolute;
-        bottom: 5px;
-        left: 44px;
-        width: 100%;
-        text-align: center;
-        color: red;
-        text-decoration: underline;
-        font-size: 0.7rem;
-        padding-top: 1rem;
-        cursor: pointer;
-      }
+      // &::after {
+      //   content: "read more";
+      //   position: absolute;
+      //   bottom: 5px;
+      //   left: 44px;
+      //   width: 100%;
+      //   text-align: center;
+      //   color: red;
+      //   text-decoration: underline;
+      //   font-size: 0.7rem;
+      //   padding-top: 1rem;
+      //   cursor: pointer;
+      // }
     }
   }
 
@@ -108,7 +116,7 @@
 }
 
 .current-temp {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
 }
 

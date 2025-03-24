@@ -1,12 +1,38 @@
 import React, { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
+// Define the Event interface to match the API response
+interface EventReview {
+  comment: string;
+  user_id: number;
+  avg_rating: number;
+  createdAt: string;
+  id: number;
+  User: {
+    name: string;
+    email: string;
+    profile_img: string;
+  };
+}
+
+interface Event {
+  event_id: number;
+  title: string;
+  description: string;
+  subtext: string;
+  date: string[];
+  time: string[];
+  location: string;
+  available_seats: number;
+  image_urls: string[];
+}
+
 const RescheduledEventPopUp = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   // Get event details from URL params
-  const eventId = searchParams.get("event_id") || "123";
+  const eventId = searchParams.get("eventId") || "123";
   const eventName = searchParams.get("eventName") || "Round of Golf";
   const eventDay = searchParams.get("eventDay") || "Jan 01, 2023";
   const eventTime = searchParams.get("eventTime") || "12:00 AM";
@@ -20,10 +46,66 @@ const RescheduledEventPopUp = () => {
   });
 
   const [formValues, setFormValues] = React.useState({
-    selectedDay: "Jan 1, 2025",
-    selectedTimeSlot: "10:00 AM - 3:30 PM",
+    selectedDay: "",
+    selectedTimeSlot: "",
     selectedSeats: "1 seat",
   });
+
+  const [event, setEvent] = React.useState<Event | undefined>();
+
+  // Format time for display (convert 24-hour to 12-hour format)
+  const formatTime = (time: string): string => {
+    try {
+      // Assuming time is in HH:MM:SS format
+      const [hours, minutes] = time.split(":");
+      const hour = parseInt(hours);
+      const ampm = hour >= 12 ? "PM" : "AM";
+      const formattedHour = hour % 12 || 12;
+      return `${formattedHour}:${minutes} ${ampm}`;
+    } catch (e) {
+      console.error("Error formatting time:", e);
+      return time;
+    }
+  };
+
+  // Generate time slot display from start and end times
+  const getTimeSlotDisplay = (startTime: string, endTime?: string): string => {
+    if (endTime) {
+      return `${formatTime(startTime)} - ${formatTime(endTime)}`;
+    }
+    return formatTime(startTime);
+  };
+
+  // Function to get available time slots from event data
+  const getAvailableTimeSlots = (): string[] => {
+    if (!event || !event.time) return [];
+
+    // If we have multiple time values, we can create time slots
+    if (event.time.length > 1) {
+      const slots = [];
+      for (let i = 0; i < event.time.length - 1; i++) {
+        slots.push(getTimeSlotDisplay(event.time[i], event.time[i + 1]));
+      }
+      return slots.length ? slots : [getTimeSlotDisplay(event.time[0])];
+    }
+
+    // If we have just one time value
+    return event.time.map((t) => getTimeSlotDisplay(t));
+  };
+
+  // Function to get available seats options
+  const getAvailableSeatsOptions = (): string[] => {
+    if (!event || !event.available_seats) return ["1 seat"];
+
+    const options = [];
+    const maxOptions = Math.min(5, event.available_seats); // Limit to 5 options or available seats
+
+    for (let i = 1; i <= maxOptions; i++) {
+      options.push(`${i} seat${i > 1 ? "s" : ""}`);
+    }
+
+    return options;
+  };
 
   function onChangeEventDay(
     eventDay: string,
@@ -71,16 +153,87 @@ const RescheduledEventPopUp = () => {
       return;
     }
 
+    // Extract the number of seats from the format "X seat(s)"
+    const seatsValue = formValues.selectedSeats.split(" ")[0];
+
     onChangeEventDay(
       formValues.selectedDay,
       ScheduleEvent.eventId,
       formValues.selectedTimeSlot,
-      formValues.selectedSeats
+      seatsValue
     );
-    
+
+    // Update the event via API
+    if (!UpdateEvent()) {
+      alert("Event Not Updated");
+      return;
+    }
+
     // After updating the event, redirect to upcoming events
-    navigate("/cancel-recommendation?id=1", { replace: true });
+    navigate(`/cancel-recommendation?id=1&eventname=${ event && event.title}`, { replace: true });
   };
+
+  async function getEvent() {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/events?event_id=${eventId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setEvent(data.event);
+      } else {
+        console.error("API response was not successful", data);
+      }
+    } catch (err) {
+      console.error("Error fetching event:", err);
+    }
+  }
+
+  async function UpdateEvent() {
+    try {
+      // Extract number from seats string (e.g., "2 seats" -> "2")
+      const seatsNumber = ScheduleEvent.seats.split(" ")[0];
+
+      const response = await fetch(
+        `http://localhost:3001/api/user/event/reschedule`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            event_id: ScheduleEvent.eventId,
+            date: ScheduleEvent.eventDay,
+            time: ScheduleEvent.timeSlot,
+            no_of_guest: seatsNumber,
+          }),
+        }
+      );
+      const data = await response.json();
+      if (response.ok && data.success) {
+        console.log("Event updated successfully");
+        return true;
+      } else {
+        console.error("API response was not successful", data);
+        return false;
+      }
+    } catch (err) {
+      console.error("Error updating event:", err);
+      return false;
+    }
+  }
+
+  useEffect(() => {
+    getEvent();
+  }, [eventId]);
 
   return (
     <div className="reschedule-popup-overlay">
@@ -88,18 +241,25 @@ const RescheduledEventPopUp = () => {
         <div className="event-card">
           <h2>Hey Vaibhav,</h2>
           <p>
-            You have chosen a new "{ScheduleEvent.name}" event on{" "}
-            {ScheduleEvent.eventDay}, at {ScheduleEvent.timeSlot}. Have a great
-            day ahead and enjoy your new round of golf!
+            You have chosen a new "{ScheduleEvent.name}".
+            {/* event on{" "}
+            {ScheduleEvent.eventDay}, at {ScheduleEvent.timeSlot}. 
+             */}
+            Have a great day ahead and enjoy your new experience!
           </p>
 
           <div className="form-group_1">
             <div className="form-group">
               <label>Select a day</label>
               <select value={formValues.selectedDay} onChange={handleDayChange}>
-                <option>Jan 1, 2025</option>
-                <option>Jan 2, 2025</option>
-                <option>Jan 12, 2025</option>
+                {event &&
+                  event.date &&
+                  event.date.map((date: string) => (
+                    <option key={date}>{date}</option>
+                  ))}
+                {(!event || !event.date || event.date.length === 0) && (
+                  <option>No dates available</option>
+                )}
               </select>
             </div>
 
@@ -109,9 +269,12 @@ const RescheduledEventPopUp = () => {
                 value={formValues.selectedTimeSlot}
                 onChange={handleTimeSlotChange}
               >
-                <option>10:00 AM - 3:30 PM</option>
-                <option>3:30 PM - 10:00 PM</option>
-                <option>10:00 PM - 3:30 AM</option>
+                {getAvailableTimeSlots().map((slot, index) => (
+                  <option key={index}>{slot}</option>
+                ))}
+                {getAvailableTimeSlots().length === 0 && (
+                  <option>No time slots available</option>
+                )}
               </select>
             </div>
           </div>
@@ -122,16 +285,18 @@ const RescheduledEventPopUp = () => {
               value={formValues.selectedSeats}
               onChange={handleSeatsChange}
             >
-              <option>1 seat</option>
-              <option>3 seat</option>
-              <option>5 seat</option>
+              {getAvailableSeatsOptions().map((option, index) => (
+                <option key={index}>{option}</option>
+              ))}
             </select>
           </div>
 
           <div className="button-group">
-            <button className="reserve-button" onClick={handleReserve}>
-              Reserve my seats
-            </button>
+            {getAvailableTimeSlots().length !== 0 && (
+              <button className="reserve-button" onClick={handleReserve}>
+                Reserve my seats
+              </button>
+            )}
             <button
               onClick={() => navigate("/upcoming-events", { replace: true })}
               className="cancel-button"

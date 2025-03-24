@@ -156,6 +156,11 @@ $backgroundColor: rgba(0, 0, 0, 0.5);
   border-radius: $border-radius;
   padding: 0.5rem;
   z-index: 1;
+  max-height: 30rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: gray $backgroundColor;
+  scrollbar-width: none;
 }
 
 .language_model {
@@ -258,4 +263,13 @@ $backgroundColor: rgba(0, 0, 0, 0.5);
       margin-left: 1rem;
     }
   }
+}
+
+.new_notifications {
+  color: white;
+  border-radius: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+  text-align: center;
 }

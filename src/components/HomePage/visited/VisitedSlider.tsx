@@ -63,7 +63,7 @@ const VisitedSlider: React.FC = () => {
   return (
     <div className="visitedSection">
       <div className="visitedSection_title">
-        <p>Vaibhav, here is your master journey with us so far</p>
+        <p>{localStorage.getItem("fullname")}, here is your master journey with us so far</p>
       </div>
       <div
         ref={sliderRef}

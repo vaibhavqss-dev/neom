@@ -6,6 +6,16 @@ import smileGreenFace from "../../../assets/img/overwhelmed.svg";
 import boredomFace from "../../../assets/img/disappointed.svg";
 import Buttons from "../../LeftandRightButtons/buttons";
 
+interface SuggestionItem {
+  id: string;
+  imgUrl: string;
+  title: string;
+  description: string;
+  dateandTime: string;
+  food: boolean;
+  emoji_url: string;
+}
+
 const SuggestionSlider: React.FC = () => {
   const sliderRef = useRef<HTMLDivElement | null>(null);
 
@@ -23,11 +33,58 @@ const SuggestionSlider: React.FC = () => {
   }));
 
   // State to track current suggestions
-  const [suggestions, setSuggestions] = useState(initialSuggestions);
+  const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
+
+  // Load suggestions from localStorage on component mount
+  useEffect(() => {
+    const userId = localStorage.getItem("user_id") || "default_user";
+    const storedSuggestions = localStorage.getItem(`suggestions_${userId}`);
+    const removedSuggestions = JSON.parse(
+      localStorage.getItem(`removed_suggestions_${userId}`) || "[]"
+    );
+
+    if (storedSuggestions) {
+      setSuggestions(JSON.parse(storedSuggestions));
+    } else {
+      // Filter out any suggestions that are in the removedSuggestions list
+      const filteredSuggestions = initialSuggestions.filter(
+        (suggestion) => !removedSuggestions.includes(suggestion.id)
+      );
+      setSuggestions(filteredSuggestions);
+
+      // Save initial filtered suggestions to localStorage
+      localStorage.setItem(
+        `suggestions_${userId}`,
+        JSON.stringify(filteredSuggestions)
+      );
+    }
+  }, []);
 
   // Function to remove a suggestion
   const removeSuggestion = (id: string) => {
-    setSuggestions(suggestions.filter((suggestion) => suggestion.id !== id));
+    const userId = localStorage.getItem("user_id") || "default_user";
+
+    // Update state
+    const updatedSuggestions = suggestions.filter(
+      (suggestion) => suggestion.id !== id
+    );
+    setSuggestions(updatedSuggestions);
+
+    // Save updated suggestions to localStorage
+    localStorage.setItem(
+      `suggestions_${userId}`,
+      JSON.stringify(updatedSuggestions)
+    );
+
+    // Add suggestion ID to removed suggestions list
+    const removedSuggestions = JSON.parse(
+      localStorage.getItem(`removed_suggestions_${userId}`) || "[]"
+    );
+    removedSuggestions.push(id);
+    localStorage.setItem(
+      `removed_suggestions_${userId}`,
+      JSON.stringify(removedSuggestions)
+    );
   };
 
   const scrollLeft = () => {
@@ -41,29 +98,6 @@ const SuggestionSlider: React.FC = () => {
       sliderRef.current.scrollLeft += 300;
     }
   };
-
-  // useEffect(() => {
-  //   let direction = 1;
-  //   const interval = setInterval(() => {
-  //     if (!sliderRef.current) return;
-  //     if (direction === 1) {
-  //       scrollRight();
-  //       if (
-  //         sliderRef.current.scrollLeft + sliderRef.current.clientWidth >=
-  //         sliderRef.current.scrollWidth
-  //       ) {
-  //         direction = 0;
-  //       }
-  //     } else {
-  //       scrollLeft();
-  //       if (sliderRef.current.scrollLeft <= 0) {
-  //         direction = 1;
-  //       }
-  //     }
-  //   }, 2000);
-
-  //   return () => clearInterval(interval);
-  // }, []);
 
   return (
     <div className="SuggestionSection">
@@ -93,7 +127,9 @@ const SuggestionSlider: React.FC = () => {
           <p>No suggestions available</p>
         )}
       </div>
-      <Buttons scrollLeft={scrollLeft} scrollRight={scrollRight} />
+      {suggestions.length > 0 && (
+        <Buttons scrollLeft={scrollLeft} scrollRight={scrollRight} />
+      )}
     </div>
   );
 };

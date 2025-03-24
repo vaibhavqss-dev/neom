@@ -1,9 +1,8 @@
 import calendar from "../../../assets/img/calendar.svg";
 import location from "../../../assets/img/location.svg";
 import category from "../../../assets/img/category.svg";
-import weather from "../../../assets/img/weather.svg";
 import redstars from "../../../assets/img/star.svg";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React from "react";
 
 type ItinerariProps = {
@@ -19,7 +18,9 @@ type ItinerariProps = {
   Scheduled?: boolean;
   emojiFaceImg: string;
   subtext?: string;
-};
+  min_temprature?: number;
+  max_temprature?: number;
+};  
 
 const Itinerari: React.FC<ItinerariProps> = ({
   eventId,
@@ -33,6 +34,8 @@ const Itinerari: React.FC<ItinerariProps> = ({
   categoryName,
   Scheduled,
   emojiFaceImg,
+  min_temprature = 0,
+  max_temprature = 0,
   subtext = "Overwhelming vibes are coming here",
 }) => {
   const navigate = useNavigate();
@@ -47,18 +50,18 @@ const Itinerari: React.FC<ItinerariProps> = ({
       <div className="corousalContainer_imgContainer">
         <img src={ImgUrl} alt="underwater" />
         <div className="corousalContainer_imgContainer_weather--svg">
-
           <div className="weather-widget">
             <div className="weather-icon">🌤️</div>
             <div className="temperature">
-              <span className="current-temp">18° C</span>
+              <span className="current-temp">
+                {((max_temprature) + min_temprature) / 2} °C
+              </span>
               <div className="range">
-                <span className="high-temp">29°</span>
-                <span className="low-temp">16°</span>
+                <span className="high-temp">{max_temprature}°</span>
+                <span className="low-temp">{min_temprature}°</span>
               </div>
             </div>
           </div>
-          
         </div>
       </div>
 

@@ -39,7 +39,7 @@ const ItinerarieSlider: React.FC = () => {
 
         const response = await fetch(`${apiUrl}/api/user/reserveevent`, {
           headers: {
-            "Content-Type": "application/json", // This is wrong - still shows old state!
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         });
@@ -84,7 +84,7 @@ const ItinerarieSlider: React.FC = () => {
         {itineraries.map((ele, index) => (
           <Itinerari
             emojiFaceImg={emojiFaceImg}
-            eventId={index}
+            eventId={ele.event_id }
             key={index}
             title={ele.event.title}
             description={ele.event.description}
@@ -96,6 +96,8 @@ const ItinerarieSlider: React.FC = () => {
             reviews={ele.event.no_reviews}
             subtext={ele.event.subtext}
             Scheduled
+            min_temprature={parseInt(ele.event.min_temprature)}
+            max_temprature={parseInt(ele.event.max_temprature)}
           />
         ))}
       </div>

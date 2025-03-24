@@ -16,7 +16,7 @@ export const useNotifications = () => {
       setNotifications((prev) => [notification, ...prev]);
       setHasNewNotifications(true);
     });
-
+      
     return () => {
       removeListener();
     };
@@ -30,10 +30,17 @@ export const useNotifications = () => {
     );
     setHasNewNotifications(false);
   };
-
+   
   const clearNotifications = () => {
     setNotifications([]);
     setHasNewNotifications(false);
+  };
+   
+  const clearANotification = (id: string) => {
+    console.log("clearing notification with id: ", id);
+    setNotifications((prev) =>
+      prev.filter((notification) => notification.id !== id)
+    );
   };
 
   return {
@@ -41,5 +48,6 @@ export const useNotifications = () => {
     hasNewNotifications,
     markAsRead,
     clearNotifications,
+    clearANotification,
   };
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import ShortListedCard from "./ShortListedCard/ShortListedCard";
 import smileGreenFace from "./../../assets/img/smileGreenFace.svg";
 import FavoritesRecommendationSlider from "./recommendation/recommadationSlider";
@@ -18,61 +18,99 @@ type ShortListed = {
   event_id: string;
 };
 
-const Favorites: React.FC = () => {
-  const [ShortListed, setShortListed] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-   
-  const onFavoriteRemove = (event_id: string) => {
-    const isValid = Unlikeevent(event_id);
-    setShortListed((prev) => prev.filter((ele) => ele.event_id !== event_id));
-  };
+// Generic API fetch function to reduce code duplication
+const fetchData = async (url: string, token: string) => {
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
+  const data = await response.json();
+
+  if (!response.ok || data.error) {
+    throw new Error(data.error || "Failed to fetch data");
+  }
+
+  return data;
+};
+
+const Favorites: React.FC = () => {
+  // State management
+  const [ShortListed, setShortListed] = useState<any[]>([]);
+  const [liked, setLiked] = useState<{ eventId: string; name: string }[]>([]);
   const [recommendations, setRecommendations] = useState<any[]>([]);
+  const [TrendingEvents, setTrendingEvents] = useState<any[]>([]);
+
+  // Loading and error states for each API call
+  const [likedEventsLoading, setLikedEventsLoading] = useState(false);
+  const [trendingEventsLoading, setTrendingEventsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Handle like/unlike functionality
+  const handleLike = useCallback((eventId: string, name: string) => {
+    setLiked((prev) => {
+      if (prev.map((ele) => ele.eventId).includes(eventId)) {
+        Unlikeevent(eventId.toString());
+        return prev.filter((ele) => ele.eventId !== eventId);
+      } else {
+        Likeevent(eventId.toString());
+        return [...prev, { eventId, name }];
+      }
+    });
+  }, []);
+
+  // Handle removing favorite
+  const onFavoriteRemove = useCallback((event_id: string) => {
+    Unlikeevent(event_id.toString());
+    setShortListed((prev) => prev.filter((ele) => ele.event_id !== event_id));
+  }, []);
+
+  // Create an adapter function to pass into ShortListedCard (fixing type mismatch)
+  const createFavoriteRemoveHandler = useCallback(
+    (event_id: string) => {
+      return function (index: number) {
+        onFavoriteRemove(event_id);
+      };
+    },
+    [onFavoriteRemove]
+  );
+
+  // Fetch liked events
   useEffect(() => {
-    async function fetchItineraries() {
-      setLoading(true);
+    async function fetchLikedEvents() {
+      setLikedEventsLoading(true);
       try {
         const token = localStorage.getItem("token");
-
         if (!token) {
           setError("Authentication required");
           return;
         }
 
-        const response = await fetch(
-          `http://localhost:3001/api/user/likeevent`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        const data = await fetchData(
+          "http://localhost:3001/api/user/likeevent",
+          token
         );
 
-        const data = await response.json();
-
-        if (data.error) {
-          setError(data.error);
-          console.error("API error:", data.error);
-          return;
-        }
-        setRecommendations(data.events);
+        setRecommendations(data.events || []);
       } catch (err) {
         console.error("Fetch error:", err);
-        setError("Failed to fetch itineraries");
+        setError("Failed to fetch liked events");
       } finally {
-        setLoading(false);
+        setLikedEventsLoading(false);
       }
     }
-    fetchItineraries();
+
+    fetchLikedEvents();
   }, []);
 
+  // Process recommendations into ShortListed data
   useEffect(() => {
     const favoritesArray = recommendations.map((ele: any, index) => ({
       key: index.toString(),
       event_id: ele.event_id,
-      onFavoriteRemove: onFavoriteRemove,
+      onFavoriteRemove: createFavoriteRemoveHandler(ele.event_id),
       imgURL: ele.image_urls[0],
       name: ele.title,
       category: ele.category,
@@ -82,59 +120,38 @@ const Favorites: React.FC = () => {
     }));
 
     setShortListed(favoritesArray);
-  }, [recommendations]);
+  }, [recommendations, createFavoriteRemoveHandler]);
 
-  const [liked, setLiked] = useState<any[]>([]);
-  function handleLike(eventId: string, name: string) {
-    setLiked((prev) => {
-      if (prev.map((ele) => ele.eventId).includes(eventId)) {
-        return prev.filter((ele) => ele.eventId !== eventId);
-      } else {
-        const isLiked = Likeevent(eventId);
-        return [...prev, { eventId, name }];
-      }
-    });
-  }
-
-  const [TrendingEvents, setTrendingEvents] = useState<any[]>([]);
+  // Fetch trending events
   useEffect(() => {
     async function fetchTrendingEvents() {
-      setLoading(true);
+      setTrendingEventsLoading(true);
       try {
         const token = localStorage.getItem("token");
-
         if (!token) {
           setError("Authentication required");
           return;
         }
 
-        const response = await fetch(
-          `http://localhost:3001/api/events/trending`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        const data = await fetchData(
+          "http://localhost:3001/api/events/trending",
+          token
         );
 
-        const data = await response.json();
-
-        if (data.error) {
-          setError(data.error);
-          console.error("API error:", data.error);
-          return;
-        }
-        setTrendingEvents(data.events);
+        setTrendingEvents(data.events || []);
       } catch (err) {
         console.error("Fetch error:", err);
-        setError("Failed to fetch itineraries");
+        setError("Failed to fetch trending events");
       } finally {
-        setLoading(false);
+        setTrendingEventsLoading(false);
       }
     }
+
     fetchTrendingEvents();
   }, []);
+
+  // Combined loading state
+  const loading = likedEventsLoading || trendingEventsLoading;
 
   return (
     <>
@@ -150,7 +167,6 @@ const Favorites: React.FC = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              // height: "100vh",
               color: "red",
             }}
           >
@@ -185,7 +201,7 @@ const Favorites: React.FC = () => {
           </p>
 
           <div className="favoritesPgRecommandation_section-slider">
-            {!error && !loading && (
+            {!error && !loading && TrendingEvents.length ? (
               <div className="recommendationCardContainer">
                 {TrendingEvents.map((ele: any, i: number) => (
                   <Card
@@ -208,6 +224,8 @@ const Favorites: React.FC = () => {
                   />
                 ))}
               </div>
+            ) : (
+              <p>No New Trending Events Available now</p>
             )}
           </div>
         </div>

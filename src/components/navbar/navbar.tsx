@@ -22,7 +22,13 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
   const [currentEventId, setCurrentEventId] = useState<string>("");
   const [currentEventName, setCurrentEventName] = useState<string>("");
 
-  const { notifications, hasNewNotifications, markAsRead } = useNotifications();
+  const {
+    notifications,
+    hasNewNotifications,
+    markAsRead,
+    clearNotifications,
+    clearANotification,
+  } = useNotifications();
 
   const closeAllPopupsExcept = (keepOpen: string | null) => {
     if (keepOpen !== "notification_model") {
@@ -60,6 +66,7 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
       closeAllPopupsExcept(null);
       setActivePopup(null);
       isModelOpen?.(false);
+      // clearNotifications();
       return;
     }
 
@@ -130,6 +137,8 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
         open={isOpen}
         name={currentEventName}
         onClose={handleClosePopup}
+        clearANotification={clearANotification}
+
       />
 
       <ConfirmReSchedule
@@ -188,7 +197,7 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
           <div className="notification_model_cancel">
             <button
               className="notification_model_cancelBtn"
-              onClick={() => toggleMenu("notification_model")}
+              onClick={() => clearNotifications()}
             >
               X
             </button>

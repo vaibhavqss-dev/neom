@@ -549,6 +549,7 @@ body {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  filter: brightness(0.5);
 }
 .events_details {
   text-align: center;
@@ -897,7 +898,7 @@ body {
   height: 15rem;
   display: flex;
   font-weight: 300;
-  font-style: normal;
+  font-style: "IvyMode";
   border-radius: 1rem;
   margin-right: 1rem;
 }
@@ -958,19 +959,6 @@ body {
   text-overflow: ellipsis; /* Show ellipsis for overflow */
   position: relative;
 }
-.corousalContainer_textContainer_description::after {
-  content: "read more";
-  position: absolute;
-  bottom: 5px;
-  left: 44px;
-  width: 100%;
-  text-align: center;
-  color: red;
-  text-decoration: underline;
-  font-size: 0.7rem;
-  padding-top: 1rem;
-  cursor: pointer;
-}
 .corousalContainer:hover {
   cursor: pointer;
 }
@@ -990,7 +978,7 @@ body {
 }
 
 .current-temp {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
 }
 
@@ -2019,6 +2007,7 @@ body {
   height: 30rem;
   border-radius: 0.5rem;
   object-fit: cover;
+  filter: brightness(0.6);
 }
 .rescheduledEventPg_imgContainer_overlay {
   text-align: center;
@@ -2793,6 +2782,11 @@ body {
   border-radius: 0.7rem;
   padding: 0.5rem;
   z-index: 1;
+  max-height: 30rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: gray rgba(0, 0, 0, 0.5);
+  scrollbar-width: none;
 }
 
 .language_model {
@@ -2883,6 +2877,15 @@ body {
   background-color: transparent;
   color: white;
   margin-left: 1rem;
+}
+
+.new_notifications {
+  color: white;
+  border-radius: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+  text-align: center;
 }
 
 .cancelConfirmationPopup_container {

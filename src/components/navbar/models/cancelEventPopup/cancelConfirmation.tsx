@@ -5,23 +5,37 @@ type CancelConfirmationPopupProps = {
   open: boolean;
   name: string;
   eventId: string;
-  onClose?: () => void; // Add this new prop for callback
+  onClose?: () => void;
+  clearANotification?: (id: string) => void;
 };
 
 const CancelConfirmationPopup: React.FC<CancelConfirmationPopupProps> = (
   props
 ) => {
-  const { open, name = "Vaibhav", onClose } = props;
+  const {
+    open,
+    name = "Vaibhav",
+    onClose,
+    clearANotification,
+    eventId,
+  } = props;
   const navigate = useNavigate();
 
   const onConfirm = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onClose && onClose(); // Call the callback when confirmed
-    navigate(`/cancel-recommendation?eventId=${props.eventId}`);
+    if (clearANotification && eventId) {
+      console.log(`Clearing notification for event: ${eventId}`);
+      clearANotification(eventId);
+    }
+
+    // Then close the popup
+    onClose && onClose();
+
+    // Finally navigate
+    navigate(`/cancel-recommendation?eventId=${eventId}`);
   };
 
   const onCloseClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onClose && onClose(); // Call the callback when closed
-    // navigate('/')
+    onClose && onClose(); // Call the callback when closed without clearing notification
   };
 
   if (!open) return null; // Don't render anything if not open
@@ -38,13 +52,13 @@ const CancelConfirmationPopup: React.FC<CancelConfirmationPopupProps> = (
         <div className="cancelConfirmationPopup_btn">
           <button
             className="cancelConfirmationPopup_btn_yes"
-            onClick={(e) => onConfirm(e)}
+            onClick={onConfirm}
           >
             Yes, I'm sure
           </button>
           <button
             className="cancelConfirmationPopup_btn_no"
-            onClick={(e) => onCloseClick(e)}
+            onClick={onCloseClick}
           >
             No
           </button>

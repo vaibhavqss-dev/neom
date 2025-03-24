@@ -16,6 +16,17 @@ type ModifiedBaseEventsProps = {
   eventStartIn?: string;
 };
 
+// Define a proper type for the event data
+interface SuggestedEvent {
+  event_id: number;
+  title: string;
+  category: string;
+  time: string[];
+  date: string[];
+  location: string;
+  image_urls: string[];
+}
+
 const ModifiedBaseEvents: React.FC<ModifiedBaseEventsProps> = ({
   name = "Vaibhav",
   eventName = "Under Water",
@@ -24,119 +35,93 @@ const ModifiedBaseEvents: React.FC<ModifiedBaseEventsProps> = ({
 }) => {
   const [searchParams] = useSearchParams();
   const Msgid = parseInt(searchParams.get("id") || "0") % 3;
+  const eventname = searchParams.get("eventname") || "Undefined";
 
-  const timeLeft = useCountdownTimer(18, 15);
-  const [liked, setLiked] = useState<RecommendationLiked[]>([]);
+  const [suggestLoaded, setSuggestLoaded] = useState(false);
+  const [suggestEvents, setSuggestEvents] = useState<SuggestedEvent | null>(
+    null
+  );
+  async function fetchSuggestedEvents() {
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/event/suggest_event/2",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      const data = await response.json();
 
-  function handleLike(id: string, name: string) {
-    setLiked((prev) => {
-      if (prev.map((ele) => ele.id).includes(id)) {
-        return prev.filter((ele) => ele.id !== id);
+      if (response.ok && data.success) {
+        setSuggestEvents(data.event);
       } else {
-        return [...prev, { id, name }];
+        console.error("API response was not successful", data);
       }
-    });
-  }
-
-  const [filter, setFilter] = useState<FilterState>({
-    date: "",
-    location: "",
-    distance: { type: "", value: 0 },
-    category: "",
-    isDistanceApplied: false,
-    isCategoryApplied: false,
-  });
-
-  function onFilterChange(e: any, filterType: string) {
-    if (filterType === "distance" && typeof e === "object") {
-      setFilter((prev) => ({
-        ...prev,
-        distance: e,
-        isDistanceApplied: true,
-      }));
-    } else if (filterType === "category") {
-      setFilter((prev) => ({
-        ...prev,
-        category: e,
-        isCategoryApplied: true,
-      }));
-    } else {
-      const value = e.target.value;
-      setFilter((prev) => ({
-        ...prev,
-        [filterType]: value,
-      }));
+    } catch (error) {
+      console.error("Error fetching events", error);
+    } finally {
+      setSuggestLoaded(true);
     }
   }
 
-  const [events, setEvents] = useState<any>([]);
   useEffect(() => {
-    // Mock event data
-    const allEvents = Array(5)
-      .fill(15)
-      .map((_, index: number) => ({
-        id: index,
-        imgURL: "https://picsum.photos/800/600",
-        subtextDate: "Nov 10 - 29",
-        subtextName: "Vibrant & Social",
-        name: "Round of Golf",
-        timeRange: "7:00 AM - 9:00 AM",
-        location: "Delhi",
-        category: [
-          "Singing",
-          "Golf Tournament",
-          "Box Cricket",
-          "Swimming",
-          "Stand Up Comedy",
-          "RAMP Walk",
-          "Talks Shows",
-          "Kite Surfing",
-          "Book Exhibitions",
-        ][index % 4],
-        date: "Nov 10 - 29",
-        time: "7:00 AM - 9:00 AM",
-        distance: { type: "walking", value: 20 },
-      }));
+    fetchSuggestedEvents();
+  }, []);
 
-    // Apply filters
-    const filteredEvents = allEvents.filter((event) => {
-      if (filter.date && filter.date !== event.date) return false;
-      if (
-        filter.location &&
-        !event.location.toLowerCase().includes(filter.location.toLowerCase())
-      )
-        return false;
-      if (filter.category && filter.category !== event.category) return false;
-      if (filter.isDistanceApplied) {
-        if (filter.distance.value <= event.distance.value) return true;
-        return false;
-      }
-      return true;
-    });
+  // const timeLeft = useCountdownTimer(18, 15);
 
-    setEvents(filteredEvents);
-  }, [filter]);
+  // Parse time for countdown more safely
+  const eventTimeLeft = useCountdownTimer(
+    suggestEvents?.time?.[0]
+      ? parseInt(suggestEvents.time[0].split(":")?.[0] || "0")
+      : 0,
+    suggestEvents?.time?.[0]
+      ? parseInt(suggestEvents.time[0].split(":")?.[1] || "0")
+      : 0
+  );
 
   return (
     <div className="events">
-      <EventMessage name={name} eventName={eventName} messageType={Msgid} />
+      {suggestLoaded ? (
+        suggestEvents ? (
+          <div>
+            <EventMessage
+              name={suggestEvents.title}
+              eventName={eventname}
+              messageType={Msgid}
+            />
 
-      <EventDetails
-        redirectUrl={`/event-details?eventId=1&eventName=underwaterCity`}
-        eventName={eventName}
-        eventLocation={eventLocation}
-        eventStartIn={eventStartIn}
-        timeLeft={timeLeft}
-        imageUrl={underwater}
-      />
+            <EventDetails
+              redirectUrl={`/event-details?eventId=${
+                suggestEvents.event_id
+              }&eventName=${encodeURIComponent(suggestEvents.title)}`}
+              eventName={suggestEvents.title || "Event"}
+              eventLocation={suggestEvents.location || "Location not available"}
+              // Format time properly or provide fallback
+              eventStartIn={
+                suggestEvents.time && suggestEvents.time.length > 0
+                  ? suggestEvents.time[0]
+                  : "Time not specified"
+              }
+              timeLeft={eventTimeLeft}
+              imageUrl={
+                suggestEvents.image_urls && suggestEvents.image_urls.length > 0
+                  ? suggestEvents.image_urls[0]
+                  : underwater
+              }
+            />
+          </div>
+        ) : (
+          <div>No event data available</div>
+        )
+      ) : (
+        <div>Loading event details...</div>
+      )}
 
-      <RecommendationSection
-        filter={filter}
-        onFilterChange={onFilterChange}
-        events={events}
-        liked={liked}
-        handleLike={handleLike}
-      />
+      <RecommendationSection />
     </div>
   );
 };

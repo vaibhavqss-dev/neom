@@ -27,31 +27,46 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
     }
   };
 
-  return (
-    <div className="notification-item">
-      <p className="notification_model_title">
-        Hey Vaibhav <img src={bellnofiy} alt="bellImg" />
-      </p>
-      <p className="notification_model_text">{message}</p>
+  const renderNotificationContent = () => {
+    switch (msgid) {
+      case 0:
+        return (
+          <div className="notification-item">
+            <p className="notification_model_title">
+              Hey Vaibhav <img src={bellnofiy} alt="bellImg" />
+            </p>
+            <p className="notification_model_text">{message}</p>
+          </div>
+        );
+      case 1:
+        return (
+          <div className="notification-item">
+            <p className="notification_model_title">
+              Hey Vaibhav <img src={bellnofiy} alt="bellImg" />
+            </p>
+            <p className="notification_model_text">{message}</p>
+            <div className="notification_model_btns">
+              <button
+                className="notification_model_btns_rescheduleBtn"
+                onClick={handleReschedule}
+              >
+                Reschedule
+              </button>
+              <button
+                className="notification_model_btns_cancelBtn"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        );
+      default:
+        return <p className="new_notifications">No New Notification</p>;
+    }
+  };
 
-      {msgid === 1 && event_id && event_name && (
-        <div className="notification_model_btns">
-          <button
-            className="notification_model_btns_rescheduleBtn"
-            onClick={handleReschedule}
-          >
-            Reschedule
-          </button>
-          <button
-            className="notification_model_btns_cancelBtn"
-            onClick={handleCancel}
-          >
-            Cancel
-          </button>
-        </div>
-      )}
-    </div>
-  );
+  return renderNotificationContent();
 };
 
 export default NotificationItem;

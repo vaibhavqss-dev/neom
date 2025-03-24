@@ -3,6 +3,12 @@ import Card from "../base/card/card";
 import SelectDistance from "../base/selectdistance/selectdistance";
 import location from "../../assets/img/location.svg";
 import calender from "../../assets/img/calendar.svg";
+import {
+  formatDateForAPI,
+  formatDateForDisplay,
+  formatTimeForDisplay,
+} from "../../utils/utility";
+import { Likeevent, Unlikeevent } from "../../api/like_event";
 
 type FilterState = {
   date: string;
@@ -55,7 +61,6 @@ const UpcomingEventsPg: React.FC = () => {
   const [likedEvents, setLikedEvents] = useState<likedEvents[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Add NEOM city famous places
   const neomPlaces = [
     "Neom City, Saudi Arabia",
     "The Line",
@@ -81,16 +86,16 @@ const UpcomingEventsPg: React.FC = () => {
     "food",
   ];
 
-  // States for dropdown functionality
   const [showDropdown, setShowDropdown] = useState(false);
   const [filteredPlaces, setFilteredPlaces] = useState(neomPlaces);
 
   function handleLike(id: string, name: string) {
-    console.log("Liked Event: ", id, name);
     setLikedEvents((prev) => {
       if (prev.map((ele) => ele.id).includes(id)) {
+        Unlikeevent(id);
         return prev.filter((ele) => ele.id !== id);
       } else {
+        Likeevent(id);
         return [...prev, { id, name }];
       }
     });
@@ -122,7 +127,6 @@ const UpcomingEventsPg: React.FC = () => {
           [filterType]: value,
         };
 
-        // If date is changed, fetch events with the updated filter values
         if (filterType === "date") {
           fetchEvents(updatedFilter.category, updatedFilter.location, value);
         }
@@ -192,93 +196,6 @@ const UpcomingEventsPg: React.FC = () => {
       setApiEvents([]);
     } finally {
       setLoading(false);
-    }
-  }
-
-  // Format date for API request - fixed to handle edge cases
-  function formatDateForAPI(dateString: string): string {
-    if (!dateString) return "";
-
-    try {
-      // Convert YYYY-MM-DD to a readable format
-      const date = new Date(dateString);
-      if (isNaN(date.getTime())) {
-        console.error("Invalid date:", dateString);
-        return "";
-      }
-      return date.toDateString(); // Format like "Sat May 03 2025"
-    } catch (error) {
-      console.error("Error formatting date:", error);
-      return "";
-    }
-  }
-
-  // Format date for display - with improved error handling
-  function formatDateForDisplay(dates: string[]): string {
-    if (!dates || !Array.isArray(dates) || dates.length === 0) return "";
-
-    try {
-      if (dates.length === 1) {
-        return formatSingleDate(dates[0]);
-      } else {
-        return `${formatSingleDate(dates[0])} - ${formatSingleDate(
-          dates[dates.length - 1]
-        )}`;
-      }
-    } catch (error) {
-      console.error("Error formatting display date:", error, dates);
-      return "";
-    }
-  }
-
-  function formatSingleDate(dateString: string): string {
-    try {
-      const date = new Date(dateString);
-      if (isNaN(date.getTime())) {
-        return dateString; // Return the original string if parsing fails
-      }
-      const month = date.toLocaleString("default", { month: "short" });
-      const day = date.getDate();
-      return `${month} ${day}`;
-    } catch (error) {
-      console.error("Error formatting single date:", error, dateString);
-      return dateString;
-    }
-  }
-
-  // Format time for display - with improved error handling
-  function formatTimeForDisplay(times: string[]): string {
-    if (!times || !Array.isArray(times) || times.length === 0) return "";
-
-    try {
-      const formatTime = (timeStr: string) => {
-        try {
-          const parts = timeStr.split(":");
-          if (parts.length < 2) return timeStr; // Return original if can't parse
-
-          const hours = parseInt(parts[0]);
-          const minutes = parts[1];
-
-          if (isNaN(hours)) return timeStr; // Return original if can't parse
-
-          const ampm = hours >= 12 ? "PM" : "AM";
-          const hour12 = hours % 12 || 12;
-          return `${hour12}:${minutes} ${ampm}`;
-        } catch (e) {
-          return timeStr; // Return original on any error
-        }
-      };
-
-      if (times.length === 1) {
-        return formatTime(times[0]);
-      } else {
-        return `${formatTime(times[0])} - ${formatTime(
-          times[times.length - 1]
-        )}`;
-      }
-    } catch (error) {
-      console.error("Error formatting time:", error, times);
-      return "";
     }
   }
 
@@ -427,7 +344,7 @@ const UpcomingEventsPg: React.FC = () => {
           <div>Loading events...</div>
         ) : events.length === 0 ? (
           <div className="ColorRed">
-            No events found. Try different filters.
+            No New events found. Try using different filters.
           </div>
         ) : (
           events
