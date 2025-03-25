@@ -110,6 +110,7 @@ $backgroundColor: rgba(0, 0, 0, 0.5);
     padding: 0.5rem;
     width: 10rem;
     box-shadow: $shadow;
+    z-index: 1;
 
     &_links {
       display: flex;
@@ -130,19 +131,6 @@ $backgroundColor: rgba(0, 0, 0, 0.5);
 // Notification components
 .notification {
   cursor: pointer;
-
-  &::after {
-    content: "";
-    position: relative;
-    top: -11px;
-    right: 10px;
-    width: 10px;
-    height: 10px;
-    background-color: $accent-color;
-    border-radius: 50%;
-    display: inline-block;
-  }
-
   #bell-logo {
     width: 20px;
     height: 20px;

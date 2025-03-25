@@ -651,6 +651,7 @@ body {
   align-items: center;
   overflow-x: auto;
   scrollbar-width: none;
+  margin-bottom: 0.5rem;
 }
 
 .visitedContainer {
@@ -705,6 +706,13 @@ body {
 }
 .visitedContainer_rating_stars_black {
   margin-left: 0.4rem;
+}
+
+#visitedContainer_rating_button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .recommationContainer {
@@ -2620,6 +2628,15 @@ body {
   margin: 0.4rem 0;
 }
 
+#addreviewButton {
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  background-color: #222222;
+  color: white;
+  cursor: pointer;
+}
+
 .emotion-rating {
   display: flex;
   gap: 12px;
@@ -2743,6 +2760,7 @@ body {
   padding: 0.5rem;
   width: 10rem;
   box-shadow: 0 0 8px 0px rgb(129, 129, 129);
+  z-index: 1;
 }
 .hamburger_model_links {
   display: flex;
@@ -2759,17 +2777,6 @@ body {
 
 .notification {
   cursor: pointer;
-}
-.notification::after {
-  content: "";
-  position: relative;
-  top: -11px;
-  right: 10px;
-  width: 10px;
-  height: 10px;
-  background-color: #b79535;
-  border-radius: 50%;
-  display: inline-block;
 }
 .notification #bell-logo {
   width: 20px;

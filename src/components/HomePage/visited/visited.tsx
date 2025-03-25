@@ -8,6 +8,7 @@ interface VisitedProps {
   dateandTime: string;
   rating: number;
   eventId: string;
+  addReview?: boolean;
 }
 
 const Visited: React.FC<VisitedProps> = ({
@@ -17,16 +18,19 @@ const Visited: React.FC<VisitedProps> = ({
   dateandTime,
   rating,
   eventId,
+  addReview = false,
 }) => {
   const navigate = useNavigate();
   return (
     <>
-      <div
-        onClick={() => navigate(`/event-details?eventId=${eventId}`)}
-        className="visitedContainer"
-      >
+      <div className="visitedContainer">
         <div className="visitedContainer_imgContainer">
-          <img id="visitedContainer_img" src={imgUrl} alt="underwaterImg" />
+          <img
+            onClick={() => navigate(`/event-details?eventId=${eventId}`)}
+            id="visitedContainer_img"
+            src={imgUrl}
+            alt="underwaterImg"
+          />
         </div>
 
         <div className="visitedContainer_description">
@@ -39,8 +43,13 @@ const Visited: React.FC<VisitedProps> = ({
           </p>
         </div>
 
-        {rating == undefined ? (
-          <button>Rate this event</button>
+        {addReview ? (
+          <button
+            id="visitedContainer_rating_button"
+            onClick={() => navigate(`/add-review?eventId=${eventId}`)}
+          >
+            Rate this event
+          </button>
         ) : (
           <p className="visitedContainer_rating_stars">
             You rated this event

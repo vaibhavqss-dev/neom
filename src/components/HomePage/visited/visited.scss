@@ -1,9 +1,17 @@
-.visitedSection_title p {
-  margin: 5rem 0 0 0;
-  font-family: cursive;
-  font-size: 2rem;
-  font-weight: 200;
-  color: #222222;
+// Common variables
+$primary-font: cursive;
+$secondary-font: sans-serif;
+$text-color: #222222;
+$standard-margin: 0.5rem;
+
+.visitedSection {
+  &_title p {
+    margin: 5rem 0 0 0;
+    font-family: $primary-font;
+    font-size: 2rem;
+    font-weight: 200;
+    color: $text-color;
+  }
 }
 
 .visitedSectionSlider {
@@ -11,13 +19,14 @@
   align-items: center;
   overflow-x: auto;
   scrollbar-width: none;
+  margin-bottom: $standard-margin;
 }
 
 .visitedContainer {
   cursor: pointer;
   margin: 1rem 1rem 1rem 0;
-  font-family: cursive;
-  color: #222222;
+  font-family: $primary-font;
+  color: $text-color;
 
   &_imgContainer {
     width: 16rem;
@@ -38,19 +47,21 @@
   }
 
   &_description {
-    margin: 0.5rem 0 0 0;
-    font-family: sans-serif;
+    margin: $standard-margin 0 0 0;
+    font-family: $secondary-font;
 
     &_title {
       font-size: 0.9rem;
       font-weight: 600;
       margin: 0;
     }
+
     &_attented {
       margin: 0.4rem 0 0 0;
       font-size: 0.7rem;
       font-weight: 300;
     }
+
     &_dateandTime {
       margin: 0;
       font-size: 0.7rem;
@@ -60,16 +71,23 @@
   &_rating {
     display: flex;
     align-items: center;
-    margin: 0.5rem 0 0 0;
-    font-family: sans-serif;
+    margin: $standard-margin 0 0 0;
+    font-family: $secondary-font;
 
     &_stars {
       font-size: 0.8rem;
-      margin: 0.5rem 0 0 0;
-    }
+      margin: $standard-margin 0 0 0;
 
-    &_stars_black {
-      margin-left: 0.4rem;
+      &_black {
+        margin-left: 0.4rem;
+      }
     }
   }
+}
+
+#visitedContainer_rating_button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: underline;
 }

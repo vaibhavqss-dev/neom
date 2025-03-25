@@ -71,9 +71,6 @@ const ModifiedBaseEvents: React.FC<ModifiedBaseEventsProps> = ({
     fetchSuggestedEvents();
   }, []);
 
-  // const timeLeft = useCountdownTimer(18, 15);
-
-  // Parse time for countdown more safely
   const eventTimeLeft = useCountdownTimer(
     suggestEvents?.time?.[0]
       ? parseInt(suggestEvents.time[0].split(":")?.[0] || "0")
@@ -82,16 +79,16 @@ const ModifiedBaseEvents: React.FC<ModifiedBaseEventsProps> = ({
       ? parseInt(suggestEvents.time[0].split(":")?.[1] || "0")
       : 0
   );
-
   return (
     <div className="events">
       {suggestLoaded ? (
         suggestEvents ? (
           <div>
             <EventMessage
-              name={suggestEvents.title}
+              name={localStorage.getItem("fullname") || "User"}
               eventName={eventname}
               messageType={Msgid}
+              eventtime={suggestEvents.time[0]}
             />
 
             <EventDetails

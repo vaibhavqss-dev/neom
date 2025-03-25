@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Neom from "../../assets/img/logo.jpg";
 import bell from "../../assets/img/bell.svg";
 import web from "../../assets/img/web.svg";
-import bellnofiy from "../../assets/img/bell-notify.svg";
 import CancelConfirmationPopup from "./models/cancelEventPopup/cancelConfirmation";
 import ConfirmReSchedule from "./models/confirmReschedulePopup/confirmReSchedule";
 import NotificationItem from "./models/NotificationItem";
-import { useNotifications } from "../../hooks/useNotifications";
+import { useNotifications } from "./hooks/useNotifications";
 import "../../assets/css/notification.css";
 
 type interfaceProps = {
@@ -135,10 +134,9 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
       <CancelConfirmationPopup
         eventId={currentEventId}
         open={isOpen}
-        name={currentEventName}
+        eventname={currentEventName}
         onClose={handleClosePopup}
         clearANotification={clearANotification}
-
       />
 
       <ConfirmReSchedule
@@ -197,7 +195,7 @@ const Navbar: React.FC<interfaceProps> = ({ isModelOpen }) => {
           <div className="notification_model_cancel">
             <button
               className="notification_model_cancelBtn"
-              onClick={() => clearNotifications()}
+              onClick={() => toggleMenu("notification_model")}
             >
               X
             </button>

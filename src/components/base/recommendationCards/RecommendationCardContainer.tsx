@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "../card/card";
 import yogoImg from "./../../../assets/img/yoga.jpg";
 import SelectDistance from "../selectdistance/selectdistance";
-import { Likeevent, Unlikeevent } from "../../../api/like_event";
+import { Likeevent, Unlikeevent } from "../../../api/utility_api";
 
 // type RecommendationItem = {
 //   event_id: string;
@@ -89,12 +89,12 @@ const RecommendationCardContainer: React.FC<
     <div>
       {loading && <p>loading..</p>}
       {error && <p>{}</p>}
+      <p className="recommandationSection_title">
+        Today's recommendation for you, {localStorage.getItem("fullname")}
+      </p>
 
-      {!error && !loading && (
+      {!error && !loading && recommendations.length != 0 ? (
         <>
-          <p className="recommandationSection_title">
-            Today's recommendation for you, {localStorage.getItem("fullname")}
-          </p>
           {/* <SelectDistance /> */}
           <div className="recommendationCardContainer">
             {recommendations.map((ele: any, i: number) => (
@@ -120,6 +120,8 @@ const RecommendationCardContainer: React.FC<
             ))}
           </div>
         </>
+      ) : (
+        <p>No New recommendations found, Please come again after some time</p>
       )}
     </div>
   );

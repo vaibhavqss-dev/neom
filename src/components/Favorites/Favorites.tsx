@@ -1,12 +1,13 @@
-import React from "react";
-import { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import ShortListedCard from "./ShortListedCard/ShortListedCard";
 import smileGreenFace from "./../../assets/img/smileGreenFace.svg";
 import FavoritesRecommendationSlider from "./recommendation/recommadationSlider";
 import Card from "../base/card/card";
-import { Likeevent, Unlikeevent } from "../../api/like_event";
+import { Likeevent, Unlikeevent } from "../../api/utility_api";
+import { get_data } from "../../api/api";
 
-type ShortListed = {
+// Improved type definitions
+type ShortListedItem = {
   key: string;
   onFavoriteRemove: (index: number) => void;
   imgURL: string;
@@ -18,95 +19,97 @@ type ShortListed = {
   event_id: string;
 };
 
-// Generic API fetch function to reduce code duplication
-const fetchData = async (url: string, token: string) => {
-  const response = await fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const data = await response.json();
-
-  if (!response.ok || data.error) {
-    throw new Error(data.error || "Failed to fetch data");
-  }
-
-  return data;
+type LikedItem = {
+  eventId: string;
+  name: string;
 };
 
 const Favorites: React.FC = () => {
-  // State management
-  const [ShortListed, setShortListed] = useState<any[]>([]);
-  const [liked, setLiked] = useState<{ eventId: string; name: string }[]>([]);
+  // State declarations with proper types
+  const [shortListed, setShortListed] = useState<ShortListedItem[]>([]);
+  const [liked, setLiked] = useState<LikedItem[]>([]);
   const [recommendations, setRecommendations] = useState<any[]>([]);
-  const [TrendingEvents, setTrendingEvents] = useState<any[]>([]);
+  const [trendingEvents, setTrendingEvents] = useState<any[]>([]);
 
-  // Loading and error states for each API call
   const [likedEventsLoading, setLikedEventsLoading] = useState(false);
   const [trendingEventsLoading, setTrendingEventsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Handle like/unlike functionality
-  const handleLike = useCallback((eventId: string, name: string) => {
-    setLiked((prev) => {
-      if (prev.map((ele) => ele.eventId).includes(eventId)) {
-        Unlikeevent(eventId.toString());
-        return prev.filter((ele) => ele.eventId !== eventId);
-      } else {
-        Likeevent(eventId.toString());
-        return [...prev, { eventId, name }];
-      }
-    });
+  // Memoized values
+  const loading = useMemo(
+    () => likedEventsLoading || trendingEventsLoading,
+    [likedEventsLoading, trendingEventsLoading]
+  );
+
+  // Memoized liked event IDs for faster lookups
+  const likedEventIds = useMemo(
+    () => new Set(liked.map((item) => item.eventId)),
+    [liked]
+  );
+
+  // Extracted API functions
+  const fetchLikedEvents = useCallback(async () => {
+    setLikedEventsLoading(true);
+    try {
+      const data = await get_data("/user/likeevent");
+      setRecommendations(data.events || []);
+    } catch (err) {
+      console.error("Fetch error:", err);
+      setError("Failed to fetch liked events");
+    } finally {
+      setLikedEventsLoading(false);
+    }
   }, []);
 
-  // Handle removing favorite
+  const fetchTrendingEvents = useCallback(async () => {
+    setTrendingEventsLoading(true);
+    try {
+      const data = await get_data("/events/trending");
+      setTrendingEvents(data.events || []);
+    } catch (err) {
+      console.error("Fetch error:", err);
+      setError("Failed to fetch trending events");
+    } finally {
+      setTrendingEventsLoading(false);
+    }
+  }, []);
+
+  // Optimized callbacks
   const onFavoriteRemove = useCallback((event_id: string) => {
     Unlikeevent(event_id.toString());
     setShortListed((prev) => prev.filter((ele) => ele.event_id !== event_id));
+    setLiked((prev) => prev.filter((ele) => ele.eventId !== event_id));
   }, []);
 
-  // Create an adapter function to pass into ShortListedCard (fixing type mismatch)
   const createFavoriteRemoveHandler = useCallback(
-    (event_id: string) => {
-      return function (index: number) {
-        onFavoriteRemove(event_id);
-      };
-    },
+    (event_id: string) => (index: number) => onFavoriteRemove(event_id),
     [onFavoriteRemove]
   );
 
-  // Fetch liked events
-  useEffect(() => {
-    async function fetchLikedEvents() {
-      setLikedEventsLoading(true);
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setError("Authentication required");
-          return;
-        }
+  const handleLike = useCallback(
+    (eventId: string, name: string) => {
+      const isLiked = likedEventIds.has(eventId);
 
-        const data = await fetchData(
-          "http://localhost:3001/api/user/likeevent",
-          token
+      if (isLiked) {
+        // Unlike event
+        Unlikeevent(eventId.toString());
+        setShortListed((prev) =>
+          prev.filter((item) => item.event_id !== eventId)
         );
-
-        setRecommendations(data.events || []);
-      } catch (err) {
-        console.error("Fetch error:", err);
-        setError("Failed to fetch liked events");
-      } finally {
-        setLikedEventsLoading(false);
+        setLiked((prev) => prev.filter((ele) => ele.eventId !== eventId));
+      } else {
+        // Like event - optimistic UI update then refresh
+        Likeevent(eventId.toString()).then(fetchLikedEvents);
+        setLiked((prev) => [...prev, { eventId, name }]);
       }
-    }
+    },
+    [likedEventIds, fetchLikedEvents]
+  );
 
-    fetchLikedEvents();
-  }, []);
-
-  // Process recommendations into ShortListed data
+  // Process recommendations into shortlisted items
   useEffect(() => {
+    if (!recommendations.length) return;
+
     const favoritesArray = recommendations.map((ele: any, index) => ({
       key: index.toString(),
       event_id: ele.event_id,
@@ -120,78 +123,107 @@ const Favorites: React.FC = () => {
     }));
 
     setShortListed(favoritesArray);
+    setLiked(
+      favoritesArray.map((item) => ({
+        eventId: item.event_id,
+        name: item.name,
+      }))
+    );
   }, [recommendations, createFavoriteRemoveHandler]);
 
-  // Fetch trending events
+  // Initial data fetch
   useEffect(() => {
-    async function fetchTrendingEvents() {
-      setTrendingEventsLoading(true);
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setError("Authentication required");
-          return;
-        }
+    fetchLikedEvents();
+    fetchTrendingEvents();
+  }, [fetchLikedEvents, fetchTrendingEvents]);
 
-        const data = await fetchData(
-          "http://localhost:3001/api/events/trending",
-          token
-        );
+  // Memoized UI for cards
+  const shortListedCards = useMemo(() => {
+    if (loading)
+      return (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "red",
+          }}
+        >
+          Loading...
+        </div>
+      );
 
-        setTrendingEvents(data.events || []);
-      } catch (err) {
-        console.error("Fetch error:", err);
-        setError("Failed to fetch trending events");
-      } finally {
-        setTrendingEventsLoading(false);
-      }
+    if (error) return <div>Error: {error}</div>;
+
+    return (
+      <div className="favoritesPg_container">
+        {shortListed.map((ele) => (
+          <ShortListedCard
+            key={ele.event_id}
+            event_id={ele.event_id}
+            index={parseInt(ele.event_id)}
+            onFavoriteRemove={ele.onFavoriteRemove}
+            imgURL={ele.imgURL}
+            name={ele.name}
+            category={ele.category}
+            date={ele.date}
+            time={ele.time}
+            face={ele.face}
+          />
+        ))}
+      </div>
+    );
+  }, [shortListed, loading, error]);
+
+  // Memoized trending events cards
+  const trendingEventCards = useMemo(() => {
+    if (error || loading || !trendingEvents.length) {
+      return <p>No New Trending Events Available now</p>;
     }
 
-    fetchTrendingEvents();
-  }, []);
-
-  // Combined loading state
-  const loading = likedEventsLoading || trendingEventsLoading;
+    return (
+      <div className="recommendationCardContainer">
+        {trendingEvents.map((ele, i) => (
+          <Card
+            key={ele.event_id}
+            handleLike={handleLike}
+            isLiked={likedEventIds.has(ele.event_id)}
+            eventId={ele.event_id}
+            index={i + 1}
+            imgURL={ele.event.image_urls[0]}
+            subtextDate={ele.event.date[0]}
+            subtextName={ele.event.subtext}
+            name={ele.event.title}
+            timeRange={ele.event.time[0]}
+            location={ele.location}
+            category={ele.category}
+            date={ele.date}
+            time={ele.time}
+          />
+        ))}
+      </div>
+    );
+  }, [trendingEvents, loading, error, handleLike, likedEventIds]);
 
   return (
     <>
       <div className="favoritesPg">
-        <p className="favoritesPg_greet">Good Morning Vaibhav!</p>
-        <p className="favoritesPg_description">
-          You have short listed 8 events to join later
+        <p className="favoritesPg_greet">
+          Good Morning {localStorage.getItem("fullname")}
         </p>
 
-        {loading ? (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              color: "red",
-            }}
-          >
-            Loading...
-          </div>
-        ) : error ? (
-          <div>Error: {error}</div>
+        {shortListed.length === 0 ? (
+          <p className="favoritesPg_description">
+            You have not short listed any events yet, click on heart icon to get
+            started
+          </p>
         ) : (
-          <div className="favoritesPg_container">
-            {ShortListed.map((ele: ShortListed) => (
-              <ShortListedCard
-                key={ele.event_id}
-                event_id={ele.event_id}
-                index={parseInt(ele.event_id)}
-                onFavoriteRemove={ele.onFavoriteRemove}
-                imgURL={ele.imgURL}
-                name={ele.name}
-                category={ele.category}
-                date={ele.date}
-                time={ele.time}
-                face={ele.face}
-              />
-            ))}
-          </div>
+          <p className="favoritesPg_description">
+            You have short listed {shortListed.length} events to join later
+          </p>
         )}
+
+        {shortListedCards}
 
         <FavoritesRecommendationSlider />
 
@@ -201,32 +233,7 @@ const Favorites: React.FC = () => {
           </p>
 
           <div className="favoritesPgRecommandation_section-slider">
-            {!error && !loading && TrendingEvents.length ? (
-              <div className="recommendationCardContainer">
-                {TrendingEvents.map((ele: any, i: number) => (
-                  <Card
-                    key={ele.event_id}
-                    handleLike={handleLike}
-                    isLiked={liked
-                      .map((item) => item.eventId)
-                      .includes(ele.event_id)}
-                    eventId={ele.event_id}
-                    index={i + 1}
-                    imgURL={ele.event.image_urls[0]}
-                    subtextDate={ele.event.date[0]}
-                    subtextName={ele.event.subtext}
-                    name={ele.event.title}
-                    timeRange={ele.event.time[0]}
-                    location={ele.location}
-                    category={ele.category}
-                    date={ele.date}
-                    time={ele.time}
-                  />
-                ))}
-              </div>
-            ) : (
-              <p>No New Trending Events Available now</p>
-            )}
+            {trendingEventCards}
           </div>
         </div>
       </div>
@@ -234,4 +241,4 @@ const Favorites: React.FC = () => {
   );
 };
 
-export default Favorites;
+export default React.memo(Favorites);

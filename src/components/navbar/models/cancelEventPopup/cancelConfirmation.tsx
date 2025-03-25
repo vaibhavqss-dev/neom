@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 type CancelConfirmationPopupProps = {
   open: boolean;
-  name: string;
+  eventname: string;
   eventId: string;
   onClose?: () => void;
   clearANotification?: (id: string) => void;
@@ -14,7 +14,7 @@ const CancelConfirmationPopup: React.FC<CancelConfirmationPopupProps> = (
 ) => {
   const {
     open,
-    name = "Vaibhav",
+    eventname = "event",
     onClose,
     clearANotification,
     eventId,
@@ -24,14 +24,11 @@ const CancelConfirmationPopup: React.FC<CancelConfirmationPopupProps> = (
   const onConfirm = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (clearANotification && eventId) {
       console.log(`Clearing notification for event: ${eventId}`);
-      clearANotification(eventId);
     }
-
-    // Then close the popup
     onClose && onClose();
-
-    // Finally navigate
-    navigate(`/cancel-recommendation?eventId=${eventId}`);
+    navigate(
+      `/cancel-recommendation?eventId=${eventId}&eventname=${eventname}`
+    );
   };
 
   const onCloseClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -44,7 +41,7 @@ const CancelConfirmationPopup: React.FC<CancelConfirmationPopupProps> = (
     <div className="cancelConfirmationPopup_container">
       <div className="cancelConfirmationPopup">
         <div className="cancelConfirmationPopup_header">
-          <h3>Hey {name},</h3>
+          <h3>Hey {localStorage.getItem("fullname")},</h3>
         </div>
         <div className="cancelConfirmationPopup_body">
           <p>Are you sure, you want to cancel this event?</p>

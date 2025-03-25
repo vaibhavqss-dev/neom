@@ -1,9 +1,10 @@
 import React from "react";
 import { Notification } from "../../../types/notification";
 import bellnofiy from "../../../assets/img/bell-notify.svg";
+import { notification_delete } from "../../../api/utility_api";
 
 interface NotificationItemProps {
-  notification: Notification;
+  notification: any;
   onReschedule: (eventId: string, eventName: string) => void;
   onCancel: (eventId: string, eventName: string) => void;
 }
@@ -13,7 +14,8 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
   onReschedule,
   onCancel,
 }) => {
-  const { message, event_id, event_name, msgid } = notification;
+  console.log("notification", notification.message);
+  const { message, event_id, event_name, msgid } = notification.message;
 
   const handleReschedule = () => {
     if (event_id && event_name) {
@@ -23,6 +25,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
 
   const handleCancel = () => {
     if (event_id && event_name) {
+      notification_delete(event_id);
       onCancel(event_id, event_name);
     }
   };
@@ -33,7 +36,8 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         return (
           <div className="notification-item">
             <p className="notification_model_title">
-              Hey Vaibhav <img src={bellnofiy} alt="bellImg" />
+              Hey {localStorage.getItem("fullname")}{" "}
+              <img src={bellnofiy} alt="bellImg" />
             </p>
             <p className="notification_model_text">{message}</p>
           </div>
@@ -42,7 +46,8 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         return (
           <div className="notification-item">
             <p className="notification_model_title">
-              Hey Vaibhav <img src={bellnofiy} alt="bellImg" />
+              Hey {localStorage.getItem("fullname")}{" "}
+              <img src={bellnofiy} alt="bellImg" />
             </p>
             <p className="notification_model_text">{message}</p>
             <div className="notification_model_btns">

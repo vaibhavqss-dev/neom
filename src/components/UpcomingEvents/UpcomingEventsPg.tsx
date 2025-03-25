@@ -1,4 +1,4 @@
-import React, { JSX, useEffect, useState } from "react";
+import React, { JSX, useEffect, useState, useCallback, useMemo } from "react";
 import Card from "../base/card/card";
 import SelectDistance from "../base/selectdistance/selectdistance";
 import location from "../../assets/img/location.svg";
@@ -8,7 +8,33 @@ import {
   formatDateForDisplay,
   formatTimeForDisplay,
 } from "../../utils/utility";
-import { Likeevent, Unlikeevent } from "../../api/like_event";
+import { Likeevent, Unlikeevent } from "../../api/utility_api";
+import { get_data } from "../../api/api";
+
+const NEOM_PLACES = [
+  "Neom City, Saudi Arabia",
+  "The Line",
+  "Trojena",
+  "Sindalah Island",
+  "OXAGON",
+  "Neom Bay",
+  "Gulf of Aqaba",
+  "NEOM Mountain Resort",
+  "NEOM Tech City",
+  "The Spine",
+  "Port NEOM",
+];
+
+const EVENT_CATEGORIES = [
+  "sports",
+  "technology",
+  "entertainment",
+  "business",
+  "adventure",
+  "culture",
+  "health",
+  "food",
+];
 
 type FilterState = {
   date: string;
@@ -24,7 +50,6 @@ type likedEvents = {
   name: string;
 };
 
-// Event data type from API
 type EventData = {
   event_id: number;
   title: string;
@@ -60,36 +85,10 @@ const UpcomingEventsPg: React.FC = () => {
 
   const [likedEvents, setLikedEvents] = useState<likedEvents[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const neomPlaces = [
-    "Neom City, Saudi Arabia",
-    "The Line",
-    "Trojena",
-    "Sindalah Island",
-    "OXAGON",
-    "Neom Bay",
-    "Gulf of Aqaba",
-    "NEOM Mountain Resort",
-    "NEOM Tech City",
-    "The Spine",
-    "Port NEOM",
-  ];
-
-  const eventCategories = [
-    "sports",
-    "technology",
-    "entertainment",
-    "business",
-    "adventure",
-    "culture",
-    "health",
-    "food",
-  ];
-
   const [showDropdown, setShowDropdown] = useState(false);
-  const [filteredPlaces, setFilteredPlaces] = useState(neomPlaces);
+  const [filteredPlaces, setFilteredPlaces] = useState(NEOM_PLACES);
 
-  function handleLike(id: string, name: string) {
+  const handleLike = useCallback((id: string, name: string) => {
     setLikedEvents((prev) => {
       if (prev.map((ele) => ele.id).includes(id)) {
         Unlikeevent(id);
@@ -99,58 +98,68 @@ const UpcomingEventsPg: React.FC = () => {
         return [...prev, { id, name }];
       }
     });
-  }
+  }, []);
 
-  function onFilterChange(e: any, filterType: string | "distance") {
-    if (filterType === "distance" && typeof e === "object") {
+  const onFilterChange = useCallback(
+    (e: any, filterType: string | "distance") => {
+      if (filterType === "distance" && typeof e === "object") {
+        setFilter((prev) => ({
+          ...prev,
+          distance: e,
+          isDistanceApplied: true,
+        }));
+      } else if (filterType === "category") {
+        const categoryValue = e;
+        setFilter((prev) => {
+          const updatedFilter = {
+            ...prev,
+            category: categoryValue,
+            isCategoryApplied: true,
+          };
+          fetchEvents(
+            categoryValue,
+            updatedFilter.location,
+            updatedFilter.date
+          );
+          return updatedFilter;
+        });
+      } else {
+        const value = e.target.value;
+        setFilter((prev) => {
+          const updatedFilter = {
+            ...prev,
+            [filterType]: value,
+          };
+
+          if (filterType === "date") {
+            fetchEvents(updatedFilter.category, updatedFilter.location, value);
+          }
+          return updatedFilter;
+        });
+      }
+    },
+    []
+  );
+
+  const handleLocationChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
       setFilter((prev) => ({
         ...prev,
-        distance: e,
-        isDistanceApplied: true,
+        location: value,
       }));
-    } else if (filterType === "category") {
-      const categoryValue = e;
-      setFilter((prev) => {
-        const updatedFilter = {
-          ...prev,
-          category: categoryValue,
-          isCategoryApplied: true,
-        };
-        fetchEvents(categoryValue, updatedFilter.location, updatedFilter.date);
-        return updatedFilter;
-      });
-    } else {
-      const value = e.target.value;
-      setFilter((prev) => {
-        const updatedFilter = {
-          ...prev,
-          [filterType]: value,
-        };
 
-        if (filterType === "date") {
-          fetchEvents(updatedFilter.category, updatedFilter.location, value);
-        }
-        return updatedFilter;
-      });
-    }
-  }
+      // Filter places based on input
+      setFilteredPlaces(
+        NEOM_PLACES.filter((place) =>
+          place.toLowerCase().includes(value.toLowerCase())
+        )
+      );
+    },
+    []
+  );
 
-  function handleLocationChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value;
-    setFilter((prev) => ({
-      ...prev,
-      location: value,
-    }));
-
-    // Filter places based on input
-    setFilteredPlaces(
-      neomPlaces.filter((place) =>
-        place.toLowerCase().includes(value.toLowerCase())
-      )
-    );
-  }
-
-  function selectLocation(place: string) {
+  const selectLocation = useCallback((place: string) => {
     setFilter((prev) => {
       const updatedFilter = {
         ...prev,
@@ -160,50 +169,41 @@ const UpcomingEventsPg: React.FC = () => {
       return updatedFilter;
     });
     setShowDropdown(false);
-  }
+  }, []);
 
-  async function fetchEvents(category = "", location = "", date = "") {
-    setLoading(true);
-    try {
-      const queryParams = new URLSearchParams();
-      if (category) queryParams.append("category", category.toLowerCase());
-      if (location) queryParams.append("location", location);
-      if (date) {
-        const formattedDate = formatDateForAPI(date);
-        queryParams.append("date", formattedDate);
-      }
-
-      const url = `http://localhost:3001/api/events?${queryParams.toString()}`;
-      console.log("Fetching events from:", url);
-
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      });
-
-      const result = await response.json();
-      if (result.success && Array.isArray(result.data)) {
-        setApiEvents(result.data);
-      } else {
-        console.error("Invalid response format or empty data", result);
+  const fetchEvents = useCallback(
+    async (category = "", location = "", date = "") => {
+      setLoading(true);
+      try {
+        const queryParams = new URLSearchParams();
+        if (category) queryParams.append("category", category.toLowerCase());
+        if (location) queryParams.append("location", location);
+        if (date) {
+          const formattedDate = formatDateForAPI(date);
+          queryParams.append("date", formattedDate);
+        }
+        const url = `/events?${queryParams.toString()}`;
+        const result = await get_data(url);
+        if (result.success && Array.isArray(result.data)) {
+          setApiEvents(result.data);
+        } else {
+          console.error("Invalid response format or empty data", result);
+          setApiEvents([]);
+        }
+      } catch (error) {
+        console.error("Error fetching events:", error);
         setApiEvents([]);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error fetching events:", error);
-      setApiEvents([]);
-    } finally {
-      setLoading(false);
-    }
-  }
+    },
+    []
+  );
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [fetchEvents]);
 
-  // Generate cards from API data
   useEffect(() => {
     if (apiEvents && apiEvents.length > 0) {
       try {
@@ -239,7 +239,23 @@ const UpcomingEventsPg: React.FC = () => {
     } else {
       setEvents([]);
     }
-  }, [apiEvents, likedEvents]);
+  }, [apiEvents, likedEvents, handleLike]);
+
+  const categoryButtons = useMemo(() => {
+    return EVENT_CATEGORIES.map((category) => (
+      <button
+        key={category}
+        onClick={() => onFilterChange(category, "category")}
+        className={
+          Filter.category === category
+            ? "upcomingEventsPg_eventsType_btn_active"
+            : "upcomingEventsPg_eventsType_btn"
+        }
+      >
+        {category.charAt(0).toUpperCase() + category.slice(1)}
+      </button>
+    ));
+  }, [Filter.category, onFilterChange]);
 
   return (
     <div className="upcomingEventsPg">
@@ -323,19 +339,7 @@ const UpcomingEventsPg: React.FC = () => {
         </p>
 
         <div className="upcomingEventsPg_eventsType_btns">
-          {eventCategories.map((category) => (
-            <button
-              key={category}
-              onClick={() => onFilterChange(category, "category")}
-              className={
-                Filter.category === category
-                  ? "upcomingEventsPg_eventsType_btn_active"
-                  : "upcomingEventsPg_eventsType_btn"
-              }
-            >
-              {category.charAt(0).toUpperCase() + category.slice(1)}
-            </button>
-          ))}
+          {categoryButtons}
         </div>
       </div>
 

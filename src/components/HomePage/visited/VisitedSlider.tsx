@@ -63,24 +63,31 @@ const VisitedSlider: React.FC = () => {
   return (
     <div className="visitedSection">
       <div className="visitedSection_title">
-        <p>{localStorage.getItem("fullname")}, here is your master journey with us so far</p>
+        <p>
+          {localStorage.getItem("fullname")}, here is your master journey with
+          us so far
+        </p>
       </div>
       <div
         ref={sliderRef}
         className="visitedSectionSlider"
         style={{ display: "flex", overflowX: "auto", scrollBehavior: "smooth" }}
       >
-        {visited.map((ele: any, index) => (
-          <Visited
-            imgUrl={ele.event.image_urls[0]}
-            title={ele.event.title}
-            attented={index + 1}
-            dateandTime={ele.event.date[0]}
-            rating={ele.reviews[0].avg_rating}
-            eventId={ele.event_id}
-            key={index}
-          />
-        ))}
+        {visited.map((ele: any, index) => {
+          const isReviews = ele?.reviews[0]?.avg_rating;
+          return (
+            <Visited
+              addReview={isReviews ? false : true}
+              imgUrl={ele.event.image_urls[0]}
+              title={ele.event.title}
+              attented={index + 1}
+              dateandTime={ele.event.date[0]}
+              rating={isReviews ? ele?.reviews[0].avg_rating : "0"}
+              eventId={ele.event_id}
+              key={index}
+            />
+          );
+        })}
       </div>
       <Buttons scrollLeft={scrollLeft} scrollRight={scrollRight} />
     </div>

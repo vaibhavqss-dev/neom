@@ -38,10 +38,22 @@ const AddReview: React.FC<AddReviewProps> = ({ name = "Vaibhav" }) => {
   }
 
   const queryParams = new URLSearchParams(window.location.search);
-  const eventId = queryParams.get("event_id");
+  const eventId = queryParams.get("eventId");
   console.log("EventId from query parameters:", eventId);
 
   async function addReview() {
+    if (
+      star.qualityOfEvent === 0 ||
+      star.serviceAtEvent === 0 ||
+      star.facilitiesOfEvent === 0 ||
+      star.staffPoliteness === 0 ||
+      star.operatorOfEvent === 0 ||
+      feedback.trim() === ""
+    ) {
+      setSubmitError("Please fill all the fields");
+      return;
+    }
+
     try {
       setIsSubmitting(true);
       setSubmitError(null);
@@ -58,22 +70,25 @@ const AddReview: React.FC<AddReviewProps> = ({ name = "Vaibhav" }) => {
         token.substring(0, 10) + "..."
       );
 
-      const response = await fetch(`http://localhost:3001/api/user/review`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          quality_of_event: star.qualityOfEvent,
-          service_of_event: star.serviceAtEvent,
-          facilites_of_event: star.facilitiesOfEvent,
-          staffPoliteness: star.staffPoliteness,
-          operator_of_event: star.operatorOfEvent,
-          comment: feedback,
-          event_id: eventId,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/user/review`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            quality_of_event: star.qualityOfEvent,
+            service_of_event: star.serviceAtEvent,
+            facilites_of_event: star.facilitiesOfEvent,
+            staffPoliteness: star.staffPoliteness,
+            operator_of_event: star.operatorOfEvent,
+            comment: feedback,
+            event_id: eventId,
+          }),
+        }
+      );
 
       console.log("Review API response status:", response.status);
 
@@ -109,14 +124,15 @@ const AddReview: React.FC<AddReviewProps> = ({ name = "Vaibhav" }) => {
     <div className="addReview">
       <div className="addReviewPg">
         <div className="addReviewPg_clsBtn">
-          <NavLink to="/">
+          <NavLink to="/myfeedback">
             <button>X</button>
           </NavLink>
         </div>
         <h1 className="addReviewPg_heading">Add a review</h1>
         <p className="addReviewPg_description">
-          Hi {name}, If you're here on this page, we bet you enjoy this event
-          fully. Would you mind to share your valuable feedback review with us?
+          Hi {localStorage.getItem("fullname")}, If you're here on this page, we
+          bet you enjoy this event fully. Would you mind to share your valuable
+          feedback review with us?
         </p>
 
         <div className="addReviewPg_star">

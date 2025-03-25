@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { get_data, patch_data, post_data } from "../../api/api";
 
 type SettingsProps = {
   personalandAccount: boolean;
@@ -37,77 +38,40 @@ const EditSetting: React.FC = () => {
     });
   };
 
-  useEffect(() => {
-    async function fetchSettings() {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("Authentication required");
-        return;
-      }
-
-      try {
-        const response = await fetch(
-          `http://localhost:3001/api/user/settings`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const data = await response.json();
-        setSettings(data.settings);
-      } catch (error) {
-        console.error("Error fetching settings:", error);
-      }
+  async function fetchSettings() {
+    try {
+      const data = await get_data(`/user/settings`);
+      setSettings(data.settings);
+    } catch (error) {
+      console.error("Error fetching settings:", error);
     }
+  }
+  useEffect(() => {
     fetchSettings();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    async function submitSettings() {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        console.error("Authentication required");
+  async function updateSettings() {
+    try {
+      const data = await patch_data(`/user/settings`, settings);
+      if (data.error) {
+        console.error("API error:", data.error);
         return;
       }
-
-      try {
-        const response = await fetch(
-          `http://localhost:3001/api/user/settings`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(settings),
-          }
-        );
-
-        const data = await response.json();
-
-        if (data.error) {
-          console.error("API error:", data.error);
-          return;
-        }
-
-        console.log("Settings submitted successfully:", data);
-      } catch (error) {
-        console.error("Error submitting settings:", error);
-      }
+      alert("Settings submitted successfully");
+    } catch (error) {
+      console.error("Error submitting settings:", error);
     }
-    submitSettings();
+  }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateSettings();
   };
 
   return (
     <div className="editSetting">
       <div className="editSettingPg">
         <div className="editSettingPg_headers">
-          <h1>Good morning handleToggleVaibhav!</h1>
+          <h1>Good morning {localStorage.getItem("fullname")}!</h1>
           <p>
             You can change the settings for your personal data and other
             information.
@@ -129,7 +93,12 @@ const EditSetting: React.FC = () => {
                   type="checkbox"
                   id="personalInfo"
                   checked={settings?.personalandAccount || false}
-                  onChange={() => handleToggle("personalandAccount", !settings?.personalandAccount)}
+                  onChange={() =>
+                    handleToggle(
+                      "personalandAccount",
+                      !settings?.personalandAccount
+                    )
+                  }
                 />
                 <label htmlFor="personalInfo"></label>
               </div>

@@ -1,6 +1,5 @@
 import { Notification } from "../types/notification";
 
-// Keep track of the abort controller to cancel fetch requests
 let abortController: AbortController | null = null;
 const listeners: ((notification: Notification) => void)[] = [];
 

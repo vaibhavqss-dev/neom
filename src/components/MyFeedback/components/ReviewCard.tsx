@@ -12,20 +12,22 @@ type ReviewProps = {
   event_date: string;
   image: string;
   reviews: string;
-  rating: number;
+  avg_rating: number;
+  addReview?: boolean;
 };
 
 const ReviewCard: React.FC<ReviewProps> = ({
-  date = "Nov 17, 2022",
-  city = "Sindalah City",
-  review = "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio nulla quasi reiciendis corrupti, necessitatibus itaque molestiae ipsum beatae accusamus explicabo atque vitae, magni illo cum, pariatur quia officia autem perspiciatis!",
-  avg_star = 4,
-  eventId = "1",
-  name = "Golf Course",
-  event_date = "Nov 17, 2022",
-  image = "https://www.google.com",
-  reviews = 123,
-  rating = 1,
+  date,
+  city,
+  review,
+  avg_star,
+  eventId,
+  name,
+  event_date,
+  image,
+  reviews,
+  avg_rating,
+  addReview = false,
 }) => {
   const navigate = useNavigate();
   return (
@@ -44,11 +46,30 @@ const ReviewCard: React.FC<ReviewProps> = ({
         </div>
         <div className="feedback_text">
           <p className="feedback_text_date">{date}</p>
-          <p className="feedback_text_heading">{city}</p>
-          <p className="feedback_text_subheading">{review}</p>
-          <div className="feedback_text_rating">
-            <EmotionRating rating={(rating + 1) % 7} />
-          </div>
+          {/* <p className="feedback_text_heading">{city}</p> */}
+
+          {addReview ? (
+            <>
+              <p>
+                Hey {localStorage.getItem("fullname")}, you haven't added you
+                feedback yet. Please share your experience with us to serve you
+                better next time.
+              </p>
+              <button
+                id="addreviewButton"
+                onClick={() => navigate(`/add-review?eventId=${eventId}`)}
+              >
+                Add Review{" "}
+              </button>
+            </>
+          ) : (
+            <>
+              <p className="feedback_text_subheading">{review}</p>
+              <div className="feedback_text_rating">
+                <EmotionRating rating={avg_rating} />
+              </div>
+            </>
+          )}
         </div>
       </div>
       <hr />

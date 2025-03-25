@@ -1,24 +1,57 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import VibometerIcon from "../vibOmeter/vibometerIcon";
 import overwhelmed from "../../assets/img/overwhelmed.svg";
 import ReviewCard from "./components/ReviewCard";
 
-type Review = {
+type EventReview = {
+  id: number;
+  quality_of_event: number;
+  service_of_event: number;
+  facilites_of_event: number;
+  staffPoliteness: number;
+  operator_of_event: number;
+  user_id: number;
+  comment: string;
+  avg_rating: number;
   date: string;
-  city: string;
-  review: string;
-  avg_star: number;
-  eventId: string;
-  name: string;
-  event_date: string;
-  image: string;
-  reviews: string;
-  rating: number;
+  time: string;
+  event_id: number;
+  createdAt: string;
+  updatedAt: string;
 };
+
+type Event = {
+  event_id: number;
+  title: string;
+  location: string;
+  category: string;
+  date: string[];
+  description: string;
+  image_urls: string[];
+  subtext: string;
+  avg_rating: string;
+  no_reviews: string;
+  reviews: EventReview[];
+};
+
+type BookingWithEvent = {
+  id: number;
+  user_id: number;
+  date_from: string;
+  date_to: string;
+  time: string | null;
+  no_of_guest: number;
+  event_id: number;
+  createdAt: string;
+  updatedAt: string;
+  event: Event;
+};
+
 document.title = `My Feedback`;
 
 const MyFeedback: React.FC = () => {
-  const [Reviews, setReviews] = React.useState<any[]>([]);
+  const [reviews, setReviews] = useState<any[]>([]);
+
   useEffect(() => {
     async function fetchReviews() {
       try {
@@ -36,7 +69,8 @@ const MyFeedback: React.FC = () => {
           return;
         }
 
-        setReviews(data.reviews);
+        setReviews(data.event);
+        console.log("Reviews", data.event);
       } catch (err) {
         console.error("Fetch error:", err);
       }
@@ -67,27 +101,39 @@ const MyFeedback: React.FC = () => {
 
       <div className="myFeedback_secondSectionAlign">
         <div className="myFeedback_secondSection">
-          <p className="myFeedback_secondSection_heading">Hi Vaibhav,</p>
+          <p className="myFeedback_secondSection_heading">
+            Hi {localStorage.getItem("fullname")},
+          </p>
           <p className="myFeedback_secondSection_text">
             here are the glimpse of your feedback shared with us.
           </p>
 
           <div className="myFeedback_secondSection_feedbackContainer">
-            {Reviews.map((review, index) => (
-              <ReviewCard
-                key={index}
-                date={review.event.date}
-                city={review.city}
-                review={review.comment}
-                avg_star={review.avg_star}
-                eventId={review.event.event_id}
-                name={review.event.title}
-                event_date={review.event.date[0]}
-                image={review.event.image_urls[0]}
-                reviews={review.event.no_reviews}
-                rating={review.avg_rating}
-              />
-            ))}
+            {reviews.map((booking, index) => {
+              const hasReview = booking.event.reviews.length > 0;
+              const review = hasReview ? booking.event.reviews[0] : null;
+
+              return (
+                <ReviewCard
+                  key={index}
+                  addReview={!hasReview}
+                  date={hasReview ? review?.date.split("T")[0] || "" : ""}
+                  city={booking.event.location}
+                  review={hasReview ? review?.comment || "" : ""}
+                  avg_star={hasReview ? review?.avg_rating || 0 : 0}
+                  eventId={booking.event.event_id.toString()}
+                  name={booking.event.title}
+                  event_date={booking.date_from.split("T")[0] || ""}
+                  image={booking.event.image_urls[0]}
+                  reviews={booking.event.no_reviews}
+                  avg_rating={
+                    hasReview
+                      ? parseInt(booking.event.reviews[0].avg_rating)
+                      : 0
+                  }
+                />
+              );
+            })}
           </div>
         </div>
       </div>
