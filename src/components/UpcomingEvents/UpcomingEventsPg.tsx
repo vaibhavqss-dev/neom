@@ -11,6 +11,20 @@ import {
 import { Likeevent, Unlikeevent } from "../../api/utility_api";
 import { get_data } from "../../api/api";
 
+const EARTH_RADIUS_KM = 6371;
+
+const calculateDistance = (lat1:number, lon1:number, lat2:number, lon2:number) => {
+  const toRad = (value:number) => (value * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return EARTH_RADIUS_KM * c;
+};
+
+
 const NEOM_PLACES = [
   "Neom City, Saudi Arabia",
   "The Line",
@@ -72,6 +86,10 @@ type EventData = {
 };
 
 const UpcomingEventsPg: React.FC = () => {
+
+
+
+
   const [events, setEvents] = useState<JSX.Element[]>([]);
   const [apiEvents, setApiEvents] = useState<EventData[]>([]);
   const [Filter, setFilter] = useState<FilterState>({
@@ -149,12 +167,11 @@ const UpcomingEventsPg: React.FC = () => {
         location: value,
       }));
 
-      // Filter places based on input
       setFilteredPlaces(
         NEOM_PLACES.filter((place) =>
           place.toLowerCase().includes(value.toLowerCase())
         )
-      );
+      ); 
     },
     []
   );
@@ -346,12 +363,12 @@ const UpcomingEventsPg: React.FC = () => {
       <div className="upcomingEventsPg_recommendation">
         {loading ? (
           <div>Loading events...</div>
-        ) : events.length === 0 ? (
+        ) : events.length === 0 || Filter.distance.value >= 20 ? (
           <div className="ColorRed">
             No New events found. Try using different filters.
           </div>
         ) : (
-          events
+           (events)
         )}
       </div>
     </div>

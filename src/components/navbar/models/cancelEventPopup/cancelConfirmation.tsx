@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { notification_delete } from "../../../../api/utility_api";
 
 type CancelConfirmationPopupProps = {
   open: boolean;
@@ -25,6 +26,8 @@ const CancelConfirmationPopup: React.FC<CancelConfirmationPopupProps> = (
     if (clearANotification && eventId) {
       console.log(`Clearing notification for event: ${eventId}`);
     }
+
+    notification_delete(eventId);
     onClose && onClose();
     navigate(
       `/cancel-recommendation?eventId=${eventId}&eventname=${eventname}`

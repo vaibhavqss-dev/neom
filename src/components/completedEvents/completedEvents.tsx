@@ -16,10 +16,10 @@ const CompletedEvents: React.FC<CompletedEventsProps> = ({
 }) => {
   return (
     <div className="completedEventsPg">
-      {/* <div className="completedEventsPg_addReview">
+       {/* <div className="completedEventsPg_addReview">
         <div className="completedEventsPg_addReview_text">
           <p className="completedEventsPg_addReview_text_heading">
-            Hey {userName},
+            Hey {localStorage.getItem("fullname")},
           </p>
           <p className="completedEventsPg_addReview_text_description">
             We are sure that you have enjoyed this event a lot. Would you like

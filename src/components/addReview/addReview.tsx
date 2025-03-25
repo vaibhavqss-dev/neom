@@ -1,12 +1,13 @@
 import ReviewStar from "../base/reviewStar/reviewStar";
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { post_data } from "../../api/api";
 
 type AddReviewProps = {
-  name?: string;
+
 };
 
-const AddReview: React.FC<AddReviewProps> = ({ name = "Vaibhav" }) => {
+const AddReview: React.FC<AddReviewProps> = () => {
   const navigate = useNavigate();
   const [star, setStar] = React.useState({
     qualityOfEvent: 0,
@@ -70,15 +71,9 @@ const AddReview: React.FC<AddReviewProps> = ({ name = "Vaibhav" }) => {
         token.substring(0, 10) + "..."
       );
 
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/user/review`,
+      const data= await post_data(
+        `/user/review`,
         {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
             quality_of_event: star.qualityOfEvent,
             service_of_event: star.serviceAtEvent,
             facilites_of_event: star.facilitiesOfEvent,
@@ -86,24 +81,11 @@ const AddReview: React.FC<AddReviewProps> = ({ name = "Vaibhav" }) => {
             operator_of_event: star.operatorOfEvent,
             comment: feedback,
             event_id: eventId,
-          }),
         }
       );
-
-      console.log("Review API response status:", response.status);
-
-      if (response.status === 401) {
-        setSubmitError("Your session has expired. Please log in again.");
-        navigate("/login");
-        return;
-      }
-
-      const data = await response.json();
-      console.log("Review API response:", data);
-
       if (data.success) {
         alert("Review added successfully");
-        navigate("/completed-events");
+        navigate(`/vib-o-meter?eventId=${eventId}`);
       } else {
         setSubmitError(data.message || "Failed to add review");
       }

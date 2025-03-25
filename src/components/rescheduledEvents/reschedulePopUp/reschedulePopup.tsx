@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { get_data, patch_data } from "../../../api/api";
 
 // Define the Event interface to match the API response
 interface EventReview {
@@ -76,11 +77,9 @@ const RescheduledEventPopUp = () => {
     return formatTime(startTime);
   };
 
-  // Function to get available time slots from event data
   const getAvailableTimeSlots = (): string[] => {
     if (!event || !event.time) return [];
 
-    // If we have multiple time values, we can create time slots
     if (event.time.length > 1) {
       const slots = [];
       for (let i = 0; i < event.time.length - 1; i++) {
@@ -88,17 +87,14 @@ const RescheduledEventPopUp = () => {
       }
       return slots.length ? slots : [getTimeSlotDisplay(event.time[0])];
     }
-
-    // If we have just one time value
     return event.time.map((t) => getTimeSlotDisplay(t));
   };
 
-  // Function to get available seats options
   const getAvailableSeatsOptions = (): string[] => {
     if (!event || !event.available_seats) return ["1 seat"];
 
     const options = [];
-    const maxOptions = Math.min(5, event.available_seats); // Limit to 5 options or available seats
+    const maxOptions = Math.min(5, event.available_seats);
 
     for (let i = 1; i <= maxOptions; i++) {
       options.push(`${i} seat${i > 1 ? "s" : ""}`);
@@ -152,10 +148,7 @@ const RescheduledEventPopUp = () => {
     ) {
       return;
     }
-
-    // Extract the number of seats from the format "X seat(s)"
     const seatsValue = formValues.selectedSeats.split(" ")[0];
-
     onChangeEventDay(
       formValues.selectedDay,
       ScheduleEvent.eventId,
@@ -163,30 +156,22 @@ const RescheduledEventPopUp = () => {
       seatsValue
     );
 
-    // Update the event via API
     if (!UpdateEvent()) {
       alert("Event Not Updated");
       return;
     }
 
-    // After updating the event, redirect to upcoming events
-    navigate(`/cancel-recommendation?id=1&eventname=${ event && event.title}`, { replace: true });
   };
 
   async function getEvent() {
     try {
-      const response = await fetch(
-        `http://localhost:3001/api/events?event_id=${eventId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
+      const data = await get_data(
+        `/events?event_id=${eventId}`,
+
       );
-      const data = await response.json();
-      if (response.ok && data.success) {
+
+      console.log("Event data:", data);
+      if (data.success) {
         setEvent(data.event);
       } else {
         console.error("API response was not successful", data);
@@ -201,24 +186,16 @@ const RescheduledEventPopUp = () => {
       // Extract number from seats string (e.g., "2 seats" -> "2")
       const seatsNumber = ScheduleEvent.seats.split(" ")[0];
 
-      const response = await fetch(
-        `http://localhost:3001/api/user/event/reschedule`,
+      const data = await patch_data(
+        `/user/event/reschedule`,
         {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-          body: JSON.stringify({
             event_id: ScheduleEvent.eventId,
             date: ScheduleEvent.eventDay,
             time: ScheduleEvent.timeSlot,
             no_of_guest: seatsNumber,
-          }),
         }
       );
-      const data = await response.json();
-      if (response.ok && data.success) {
+      if (data.success) {
         console.log("Event updated successfully");
         return true;
       } else {
@@ -233,7 +210,7 @@ const RescheduledEventPopUp = () => {
 
   useEffect(() => {
     getEvent();
-  }, [eventId]);
+  }, []);
 
   return (
     <div className="reschedule-popup-overlay">

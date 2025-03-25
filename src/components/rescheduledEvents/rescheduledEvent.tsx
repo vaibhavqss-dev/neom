@@ -3,6 +3,7 @@ import SelectDistance from "../base/selectdistance/selectdistance";
 import RecommendationCardContainer from "../base/recommendationCards/RecommendationCardContainer";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { get_data } from "../../api/api";
 
 interface RescheduledEventProps {}
 
@@ -31,20 +32,12 @@ const RescheduledEvent: React.FC<RescheduledEventProps> = ({}) => {
 
     async function fetchSuggestedEvent() {
       try {
-        const response = await fetch(
-          `http://localhost:3001/api/event/suggest_event/2`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          }
+        const data = await get_data(
+          `/event/suggest_event/2`,
         );
-        const data = await response.json();
 
         if (isMounted) {
-          if (response.ok && data.success) {
+          if (data.success) {
             setSuggestedEvent(data.event);
           } else {
             console.error("API response was not successful", data);
@@ -61,19 +54,13 @@ const RescheduledEvent: React.FC<RescheduledEventProps> = ({}) => {
 
     async function fetchEvent() {
       try {
-        const response = await fetch(
-          `http://localhost:3001/api/events?event_id=${eventId}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          }
+        const data = await get_data(
+          `/events?event_id=${eventId}`,
         );
-        const data = await response.json();
+
+        console.log("data", data);
         if (isMounted) {
-          if (response.ok && data.success) {
+          if (data.success) {
             setEvent(data.event);
           } else {
             console.error("API response was not successful", data);
@@ -88,7 +75,6 @@ const RescheduledEvent: React.FC<RescheduledEventProps> = ({}) => {
       }
     }
 
-    // Set loading to true before fetching
     setLoading(true);
 
     // Fetch both data in parallel
@@ -101,7 +87,7 @@ const RescheduledEvent: React.FC<RescheduledEventProps> = ({}) => {
     return () => {
       isMounted = false;
     };
-  }, [eventId]);
+  }, []);
 
   if (loading) {
     return (

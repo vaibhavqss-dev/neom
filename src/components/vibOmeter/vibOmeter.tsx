@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import VibometerIcon from "./vibometerIcon";
+import { post_data } from "../../api/api";
+import { useNavigate } from "react-router-dom";
 
 const VibOmeter: React.FC = () => {
+  const navigate = useNavigate();
   const query = new URLSearchParams(window.location.search);
-  const event_id = query.get("event_id") || "";
+  const event_id = query.get("eventId") || "";
   const [experience, setExperience] = React.useState<string>("");
 
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -11,19 +14,14 @@ const VibOmeter: React.FC = () => {
   }
 
   async function sendFeedback() {
-    const response = await fetch("http://localhost:3001/api/user/vibometer", {
-      method: "POST",
-      body: JSON.stringify({
+    const data  = await post_data("/user/vibometer", {
         vibe: experience,
         event_id: event_id,
-      }),
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    const data = await response.json();
-    console.log(data);
+      });
+      console.log("console.log(data)", data);
+      if(data.success){
+        navigate("/myfeedback");
+      }
   }
 
   return (

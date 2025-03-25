@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { notification_delete } from "../../../../api/utility_api";
 
 type ReschedulePopupProps = {
   open: boolean;
@@ -14,6 +15,7 @@ const ConfirmReSchedule: React.FC<ReschedulePopupProps> = (props) => {
 
   const onConfirm = (e: React.MouseEvent<HTMLButtonElement>) => {
     onClose && onClose();
+    notification_delete(props.eventId);
     navigate(`/rescheduled-event?eventId=${props.eventId}`);
   };
 
