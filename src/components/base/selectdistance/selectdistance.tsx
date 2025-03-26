@@ -37,6 +37,7 @@ const SelectDistance: React.FC<SelectDistanceProps> = ({
               setDistance?.({ type: "walking", value: 20 }, "distance")
             }
             value="20"
+            id="bothSidebarinDistance"
             className={
               Filter?.distance?.type === "walking" &&
               Filter?.distance?.value === 20
@@ -78,6 +79,7 @@ const SelectDistance: React.FC<SelectDistanceProps> = ({
             10 mins drive
           </button>
           <button
+            id="bothSidebarinDistance"
             onClick={() =>
               setDistance?.({ type: "driving", value: 20 }, "distance")
             }

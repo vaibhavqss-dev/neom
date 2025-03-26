@@ -1,90 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import Suggestion from "./Suggestion";
-import food from "../../../assets/img/chinese.png";
-import islandImg from "../../../assets/img/island.jpg";
-import smileGreenFace from "../../../assets/img/overwhelmed.svg";
-import boredomFace from "../../../assets/img/disappointed.svg";
 import Buttons from "../../LeftandRightButtons/buttons";
-
-interface SuggestionItem {
-  id: string;
-  imgUrl: string;
-  title: string;
-  description: string;
-  dateandTime: string;
-  food: boolean;
-  emoji_url: string;
-}
+import { useSelector, useDispatch } from "react-redux";
+import { removeSuggestionReducer } from "../../../Redux/reducers/suggestion";
 
 const SuggestionSlider: React.FC = () => {
+  const dispatch = useDispatch();
+  const suggestion = useSelector((state: any) => state.suggestion);
+
   const sliderRef = useRef<HTMLDivElement | null>(null);
-
-  const initialSuggestions = Array.from({ length: 3 }).map((_, index) => ({
-    id: `suggestion-${index}`,
-    imgUrl: index & 1 ? food : islandImg,
-    title: index & 1 ? "Chinese Cuisine" : "Island Resort",
-    description:
-      index & 1
-        ? "Enjoy the best Chinese food in town lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-        : "Relax and enjoy the view",
-    dateandTime: new Date().toDateString(),
-    food: index & 1 ? true : false,
-    emoji_url: index & 1 ? smileGreenFace : boredomFace,
-  }));
-
-  // State to track current suggestions
-  const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
-
-  // Load suggestions from localStorage on component mount
-  useEffect(() => {
-    const userId = localStorage.getItem("user_id") || "default_user";
-    const storedSuggestions = localStorage.getItem(`suggestions_${userId}`);
-    const removedSuggestions = JSON.parse(
-      localStorage.getItem(`removed_suggestions_${userId}`) || "[]"
-    );
-
-    if (storedSuggestions) {
-      setSuggestions(JSON.parse(storedSuggestions));
-    } else {
-      // Filter out any suggestions that are in the removedSuggestions list
-      const filteredSuggestions = initialSuggestions.filter(
-        (suggestion) => !removedSuggestions.includes(suggestion.id)
-      );
-      setSuggestions(filteredSuggestions);
-
-      // Save initial filtered suggestions to localStorage
-      localStorage.setItem(
-        `suggestions_${userId}`,
-        JSON.stringify(filteredSuggestions)
-      );
-    }
-  }, []);
-
-  // Function to remove a suggestion
   const removeSuggestion = (id: string) => {
-    const userId = localStorage.getItem("user_id") || "default_user";
-
-    // Update state
-    const updatedSuggestions = suggestions.filter(
-      (suggestion) => suggestion.id !== id
-    );
-    setSuggestions(updatedSuggestions);
-
-    // Save updated suggestions to localStorage
-    localStorage.setItem(
-      `suggestions_${userId}`,
-      JSON.stringify(updatedSuggestions)
-    );
-
-    // Add suggestion ID to removed suggestions list
-    const removedSuggestions = JSON.parse(
-      localStorage.getItem(`removed_suggestions_${userId}`) || "[]"
-    );
-    removedSuggestions.push(id);
-    localStorage.setItem(
-      `removed_suggestions_${userId}`,
-      JSON.stringify(removedSuggestions)
-    );
+    dispatch(removeSuggestionReducer(id));
   };
 
   const scrollLeft = () => {
@@ -109,8 +35,8 @@ const SuggestionSlider: React.FC = () => {
         className="SuggestionSectionSlider"
         style={{ display: "flex", overflowX: "auto", scrollBehavior: "smooth" }}
       >
-        {suggestions.length ? (
-          suggestions.map((suggestion) => (
+        {suggestion.length ? (
+          suggestion.map((suggestion: any) => (
             <Suggestion
               key={suggestion.id}
               imgUrl={suggestion.imgUrl}
@@ -127,7 +53,7 @@ const SuggestionSlider: React.FC = () => {
           <p>No suggestions available</p>
         )}
       </div>
-      {suggestions.length > 0 && (
+      {suggestion.length > 0 && (
         <Buttons scrollLeft={scrollLeft} scrollRight={scrollRight} />
       )}
     </div>

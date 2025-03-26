@@ -174,12 +174,9 @@ const EventDetails: React.FC<EventDetailsProps> = ({
     }
   }, [event_id, navigate]);
 
-  // Improved Razorpay script loading with error handling
   useEffect(() => {
-    // Create a function to load the script
     const loadRazorpayScript = () => {
       return new Promise((resolve, reject) => {
-        // Check if Razorpay is already loaded
         if (window.Razorpay) {
           resolve(true);
           return;
@@ -221,16 +218,13 @@ const EventDetails: React.FC<EventDetailsProps> = ({
       });
     };
 
-    // Load the script
     loadRazorpayScript()
       .then(() => console.log("Razorpay ready to use"))
       .catch((error) =>
         console.error("Razorpay initialization failed:", error)
       );
 
-    // Cleanup function
     return () => {
-      // Only remove if we were the ones who added it
       const script = document.getElementById("razorpay-checkout-js");
       if (script && script.getAttribute("data-added-by") === "event-details") {
         document.body.removeChild(script);
@@ -258,7 +252,6 @@ const EventDetails: React.FC<EventDetailsProps> = ({
     setIsGalleryOpen(false);
   };
 
-  // Fixed handleReservation function with better debugging
   const handleReservation = async () => {
     if (!eventData) {
       alert("Event data not available. Please try again.");
@@ -273,30 +266,25 @@ const EventDetails: React.FC<EventDetailsProps> = ({
         script.async = true;
         document.body.appendChild(script);
 
-        // Wait for script to load
         await new Promise((resolve, reject) => {
           script.onload = resolve;
           script.onerror = reject;
         });
       }
 
-      // Prepare the amount (minimum 1 rupee)
-      const amount = Math.max(100, guestCount * 100); // 100 paise = 1 INR per guest
+      const amount = Math.max(100, guestCount * 100);
 
-      // Razorpay configuration
       const options = {
-        key: "rzp_test_1DP5mmOlF5G5ag", // Use test key
+        key: "rzp_test_1DP5mmOlF5G5ag",
         amount: amount,
         currency: "INR",
         name: "Neom Events",
         description: `Booking for ${eventData.title} - ${guestCount} guests`,
-        image: "https://www.neom.com/favicon.ico", // Use a valid icon URL
-        // Don't use order_id for testing with test key
-        // order_id: uuidv4(),
+        image: "https://www.neom.com/favicon.ico",
         prefill: {
           name: localStorage.getItem("userName") || "Test User",
           email: localStorage.getItem("userEmail") || "test@example.com",
-          contact: localStorage.getItem("userPhone") || "9999999999", // Required for Indian transactions
+          contact: localStorage.getItem("userPhone") || "9999999999",
         },
         notes: {
           event_id: eventData.event_id,
@@ -308,10 +296,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
         handler: async function (response: any) {
           console.log("Payment successful", response);
           try {
-            // Log the payment response
-            console.log("Payment ID:", response.razorpay_payment_id);
-
-            // Prepare reservation data with better error checking
+            // console.log("Payment ID:", response.razorpay_payment_id);
             const dateFrom =
               eventData.date && eventData.date.length > 0
                 ? eventData.date[0]
@@ -332,9 +317,8 @@ const EventDetails: React.FC<EventDetailsProps> = ({
               payment_id: response.razorpay_payment_id,
             };
 
-            console.log("Sending reservation data:", reservationData);
+            // console.log("Sending reservation data:", reservationData);
 
-            // Make POST request to reserve event
             const token = localStorage.getItem("token");
             if (!token) {
               alert("You need to be logged in to reserve an event.");

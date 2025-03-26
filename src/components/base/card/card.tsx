@@ -36,7 +36,7 @@ const Card: React.FC<CardProps> = ({
 }) => {
   const onLikedHandle = () => {
     if (eventId === undefined) return;
-    console.log("Liked Event: ", eventId, name);
+    // console.log("Liked Event: ", eventId, name);
     handleLike && handleLike(eventId, name);
   };
   const navigate = useNavigate();
@@ -55,18 +55,20 @@ const Card: React.FC<CardProps> = ({
           />
         </div>
         <div className="recommendationCards_card_text">
-          <div className="recommendationCards_card_text_</div>subtext">
+          <div className="recommendationCards_card_text_subtext">
             <p className="recommendationCards_card_text_subtext_name">
               {subtextName}
             </p>
             <p className="recommendationCards_card_text_subtext_date">
-              {subtextDate}
+              {subtextDate.split(":")[0]}
             </p>
           </div>
 
           <p className="recommendationCards_card_text_name">{name}</p>
 
-          <p className="recommendationCards_card_text_time">{timeRange}</p>
+          <p className="recommendationCards_card_text_time">
+            {timeRange.split(":")[0]} AM {"-"} {parseInt(timeRange.split(":")[0][0])+3} AM
+          </p>
         </div>
         <div
           onClick={() => onLikedHandle()}

@@ -2,29 +2,24 @@ import React, { useEffect, useState, useCallback } from "react";
 import profilePic from "../../assets/img/profilePic.png";
 import pencil from "../../assets/img/pencil.svg";
 import Interest from "./selectInterest/interest";
+import { get_data, patch_data, post_data } from "../../api/api";
 
-// Helper functions for date formatting
 const formatDateForDisplay = (dateString: string): string => {
   if (!dateString) return "";
 
   try {
-    // Handle ISO format (including with time), DD-MM-YYYY format, or YYYY-MM-DD format
     let date: Date;
-
     if (dateString.includes("T")) {
-      // ISO format with time component
       date = new Date(dateString);
     } else if (dateString.includes("-")) {
       const parts = dateString.split("-");
       if (parts[0].length === 4) {
-        // YYYY-MM-DD format
         date = new Date(
           parseInt(parts[0]),
           parseInt(parts[1]) - 1,
           parseInt(parts[2])
         );
       } else {
-        // DD-MM-YYYY format
         date = new Date(
           parseInt(parts[2]),
           parseInt(parts[1]) - 1,
@@ -34,10 +29,7 @@ const formatDateForDisplay = (dateString: string): string => {
     } else {
       return "";
     }
-
     if (isNaN(date.getTime())) return "";
-
-    // Format as DD-MM-YYYY
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
@@ -53,7 +45,6 @@ const formatDateForInput = (displayDate: string): string => {
   if (!displayDate) return "";
 
   try {
-    // If it's an ISO date with time, convert directly
     if (displayDate.includes("T")) {
       const date = new Date(displayDate);
       if (isNaN(date.getTime())) return "";
@@ -64,8 +55,6 @@ const formatDateForInput = (displayDate: string): string => {
 
       return `${year}-${month}-${day}`;
     }
-
-    // If already in YYYY-MM-DD format
     if (displayDate.includes("-")) {
       const parts = displayDate.split("-");
       if (parts.length !== 3) return "";
@@ -73,7 +62,6 @@ const formatDateForInput = (displayDate: string): string => {
       if (parts[0].length === 4) {
         return displayDate; // Already in correct format
       } else {
-        // Convert from DD-MM-YYYY to YYYY-MM-DD
         return `${parts[2]}-${parts[1]}-${parts[0]}`;
       }
     }
@@ -118,25 +106,16 @@ const EditProfile: React.FC = () => {
   async function UpdateProfile(updatedProfileData?: ProfileProps) {
     try {
       const profileToSend = updatedProfileData || { ...Profile };
-      console.log("Sending profile data to server:", profileToSend);
-      const response = await fetch("http://localhost:3001/api/user/profile", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(profileToSend),
+      const data = await patch_data("/user/profile", {
+        profileToSend,
       });
-      const data = await response.json();
 
-      // Format the date in the response
       if (data.profile?.dob) {
         data.profile.dob = formatDateForDisplay(data.profile.dob);
       }
 
       setProfile(data.updated_fields);
 
-      // Update profile image from API response
       if (data.updated_fields?.profile_img) {
         setProfileImage(data.updated_fields.profile_img);
       }
@@ -154,7 +133,6 @@ const EditProfile: React.FC = () => {
         return;
       }
 
-      // Update the profile_img in the Profile state
       if (profileImage !== profilePic) {
         setProfile((prev) =>
           prev ? { ...prev, profile_img: profileImage } : prev
@@ -180,17 +158,8 @@ const EditProfile: React.FC = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("http://localhost:3001/api/user/profile", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        const data = await response.json();
+        const data = await get_data("/user/profile");
         setProfile(data.profile);
-
-        // Set profile image from API response if available
         if (data.profile?.profile_img) {
           setProfileImage(data.profile.profile_img);
         }
@@ -204,7 +173,6 @@ const EditProfile: React.FC = () => {
     fetchData();
   }, []);
 
-  // Format date when profile data is received
   useEffect(() => {
     if (Profile?.dob && !initialDateFormattingDone.current) {
       setProfile((prev) => {
@@ -218,10 +186,8 @@ const EditProfile: React.FC = () => {
     }
   }, [Profile]);
 
-  // Special handler for date input
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    // Convert YYYY-MM-DD from input to DD-MM-YYYY for storage
     const parts = value.split("-");
     if (parts.length === 3) {
       const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
@@ -229,7 +195,6 @@ const EditProfile: React.FC = () => {
     }
   };
 
-  // Use useEffect to trigger upload when file is selected
   useEffect(() => {
     if (selectedFile) {
       uploadProfileImage();
@@ -238,17 +203,9 @@ const EditProfile: React.FC = () => {
 
   const getPresignedUrl = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:3001/api/user/profile/uploadimg",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({ profile_img_name: "my_profile" }),
-        }
-      );
+      const response = await post_data("/user/profile/uploadimg", {
+        profile_img_name: "my_profile",
+      });
 
       if (!response.ok) {
         console.error("Error response from server:", await response.text());
@@ -256,7 +213,6 @@ const EditProfile: React.FC = () => {
       }
 
       const data = await response.json();
-      console.log("Presigned URL data:", data);
       return data;
     } catch (e) {
       console.error("Error getting presigned URL:", e);
@@ -273,7 +229,6 @@ const EditProfile: React.FC = () => {
     setUploading(true);
 
     try {
-      // Get the presigned URL from the backend
       const presignedUrlData = await getPresignedUrl();
       if (!presignedUrlData || !presignedUrlData.uploadUrl) {
         alert("Error getting presigned URL");
@@ -356,14 +311,10 @@ const EditProfile: React.FC = () => {
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
-                        // Store the actual file for upload
                         setSelectedFile(file);
 
-                        // Create a local preview
                         const imageUrl = URL.createObjectURL(file);
                         setProfileImage(imageUrl);
-
-                        // Upload will be triggered by useEffect
                       }
                     }}
                   />

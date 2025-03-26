@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./login.module.scss";
 import { setFullname, setToken, setUser_id } from "../../../utils/auth";
+import { useSelector, useDispatch } from "react-redux";
+import { addToken } from "../../../Redux/reducers/login";
+import { post_data } from "../../../api/api";
 
 const Login: React.FC = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,21 +23,15 @@ const Login: React.FC = () => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await response.json();
-
+      const data = await post_data(`/login`, { username, password });
       if (data.success && data.token) {
         console.log("Login successful, saving token");
         setToken(data.token);
         setUser_id(data.user_id);
         setFullname(data.fullname || "Test User");
+
+        // Redux  
+        dispatch(addToken(data));
         navigate("/");
       } else {
         setError(data.message || "Login failed");

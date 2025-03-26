@@ -368,6 +368,11 @@ body {
   color: white;
 }
 
+#bothSidebarinDistance {
+  border-left: #222222 1px solid;
+  border-right: #222222 1px solid;
+}
+
 .reviewStar {
   margin: 0;
   display: flex;
@@ -384,6 +389,7 @@ body {
 }
 
 .recommendationCards {
+  margin-top: 2rem;
   cursor: pointer;
   color: #222222;
 }
@@ -425,10 +431,12 @@ body {
   width: 14.5rem;
 }
 .recommendationCards_card_text_subtext_name {
+  font-size: 0.8rem;
   color: #222222;
   margin: 0;
 }
 .recommendationCards_card_text_subtext_date {
+  font-size: 0.8rem;
   color: #222222;
   margin: 0;
 }
@@ -818,10 +826,10 @@ body {
 }
 
 .mapContainerIt_title {
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: 200;
   color: #222222;
-  font-family: cursive;
+  font-family: "IvyMode";
 }
 
 .onSchedule {
@@ -986,7 +994,7 @@ body {
 }
 
 .current-temp {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: bold;
 }
 
@@ -1341,6 +1349,7 @@ body {
   width: 20rem;
   margin: 0;
   overflow: hidden;
+  max-height: 15.3rem;
 }
 .eventDetailsPg_images_left_img img {
   display: block;

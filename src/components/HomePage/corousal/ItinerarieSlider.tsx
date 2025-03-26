@@ -23,6 +23,14 @@ const ItinerarieSlider: React.FC = () => {
     }
   }, []);
 
+  // const [isDisappear, setIsDisappear] = useState(false);
+  // if (
+  //   sliderRef.current &&
+  //   sliderRef.current.clientWidth === sliderRef.current.scrollWidth
+  // ) {
+  //   setIsDisappear(true);
+  // }
+
   useEffect(() => {
     let isMounted = true;
 
@@ -84,7 +92,7 @@ const ItinerarieSlider: React.FC = () => {
         {itineraries.map((ele, index) => (
           <Itinerari
             emojiFaceImg={emojiFaceImg}
-            eventId={ele.event_id }
+            eventId={ele.event_id}
             key={index}
             title={ele.event.title}
             description={ele.event.description}

@@ -12,12 +12,12 @@
   display: flex;
   font-weight: 300;
   // font-style: url("../../../assets/fonts/IvyMode-Regular.ttf");
-  font-style: 'IvyMode';
+  font-style: "IvyMode";
   border-radius: 1rem;
   margin-right: 1rem;
 
   &_imgContainer {
-    font-family: 'IvyMode';
+    font-family: "IvyMode";
     width: 25vw;
     display: flex;
     justify-content: center;
@@ -116,7 +116,7 @@
 }
 
 .current-temp {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: bold;
 }
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import desertCity from "../../../assets/img/desertcity.jpg";
 import music from "../../../assets/img/music.jpg";
 import music1 from "../../../assets/img/music.png";
 import golf from "../../../assets/img/golf.png";
@@ -21,20 +20,24 @@ const Interest: React.FC<InterestProps> = ({
   initialInterests = [],
   onInterestsChange,
 }) => {
-  const availableInterests: any[] = [
+  const predefinedInterests = [
     "adventure",
-    "travel",
-    "sports",
-    "fashion",
-    "fitness",
-    "photography",
-    "reading",
+    "golf",
+    "child-screaming",
+    "walking",
+    "water-sports",
+    "social",
+    "music",
     "explore",
-    "gaming",
+    "rock",
   ];
+
   const [selectedInterests, setSelectedInterests] =
     useState<string[]>(initialInterests);
   const [inputValue, setInputValue] = useState<string>("");
+  const [highlightedInterest, setHighlightedInterest] = useState<string | null>(
+    null
+  );
   const inputRef = useRef<HTMLInputElement>(null);
   const inputContainerRef = useRef<HTMLDivElement>(null);
 
@@ -43,6 +46,21 @@ const Interest: React.FC<InterestProps> = ({
       onInterestsChange(selectedInterests);
     }
   }, [selectedInterests, onInterestsChange]);
+
+  useEffect(() => {
+    const currentInput = inputValue.trim().toLowerCase();
+
+    if (!currentInput) {
+      setHighlightedInterest(null);
+      return;
+    }
+
+    const matchedInterest = predefinedInterests.find(
+      (interest) => interest.toLowerCase() === currentInput
+    );
+
+    setHighlightedInterest(matchedInterest || null);
+  }, [inputValue, predefinedInterests]);
 
   const onInterestImageClick = (interest: string) => {
     let newSelectedInterests;
@@ -89,6 +107,7 @@ const Interest: React.FC<InterestProps> = ({
       if (newInterest && !selectedInterests.includes(newInterest)) {
         setSelectedInterests([...selectedInterests, newInterest]);
         setInputValue("");
+        setHighlightedInterest(null);
       }
     }
 
@@ -105,8 +124,10 @@ const Interest: React.FC<InterestProps> = ({
     }
   };
 
-  const isInterestSelected = (interest: string) => {
-    return selectedInterests.includes(interest);
+  const isInterestMarked = (interest: string) => {
+    return (
+      selectedInterests.includes(interest) || highlightedInterest === interest
+    );
   };
 
   return (
@@ -119,14 +140,14 @@ const Interest: React.FC<InterestProps> = ({
           <p>adventure</p>
           <img
             className={`selectInterest_likes_input_img ${
-              isInterestSelected("adventure") ? "like_opacity" : ""
+              isInterestMarked("adventure") ? "like_opacity" : ""
             }`}
             src={plays}
-            alt={"plays"}
+            alt={"adventure"}
           />
           <img
             className={`selectInterest_likes_input_thumb ${
-              isInterestSelected("plays") ? "like_active" : ""
+              isInterestMarked("adventure") ? "like_active" : ""
             }`}
             src={like}
             alt="like icon"
@@ -139,14 +160,14 @@ const Interest: React.FC<InterestProps> = ({
           <p>golf</p>
           <img
             className={`selectInterest_likes_input_img ${
-              isInterestSelected("golf") ? "like_opacity" : ""
+              isInterestMarked("golf") ? "like_opacity" : ""
             }`}
             src={golf}
             alt={"golf"}
           />
           <img
             className={`selectInterest_likes_input_thumb ${
-              isInterestSelected("golf") ? "like_active" : ""
+              isInterestMarked("golf") ? "like_active" : ""
             }`}
             src={like}
             alt="like icon"
@@ -159,14 +180,14 @@ const Interest: React.FC<InterestProps> = ({
           <p>child-screaming</p>
           <img
             className={`selectInterest_likes_input_img ${
-              isInterestSelected("child-screaming") ? "like_opacity" : ""
+              isInterestMarked("child-screaming") ? "like_opacity" : ""
             }`}
             src={child}
             alt={"child-screaming"}
           />
           <img
             className={`selectInterest_likes_input_thumb ${
-              isInterestSelected("child-screaming") ? "like_active" : ""
+              isInterestMarked("child-screaming") ? "like_active" : ""
             }`}
             src={like}
             alt="like icon"
@@ -179,14 +200,14 @@ const Interest: React.FC<InterestProps> = ({
           <p>walking</p>
           <img
             className={`selectInterest_likes_input_img ${
-              isInterestSelected("walking") ? "like_opacity" : ""
+              isInterestMarked("walking") ? "like_opacity" : ""
             }`}
             src={walking}
             alt={"walking"}
           />
           <img
             className={`selectInterest_likes_input_thumb ${
-              isInterestSelected("walking") ? "like_active" : ""
+              isInterestMarked("walking") ? "like_active" : ""
             }`}
             src={like}
             alt="like icon"
@@ -199,14 +220,14 @@ const Interest: React.FC<InterestProps> = ({
           <p>water-sports</p>
           <img
             className={`selectInterest_likes_input_img ${
-              isInterestSelected("water-sports") ? "like_opacity" : ""
+              isInterestMarked("water-sports") ? "like_opacity" : ""
             }`}
             src={waterSports}
             alt={"water-sports"}
           />
           <img
             className={`selectInterest_likes_input_thumb ${
-              isInterestSelected("water-sports") ? "like_active" : ""
+              isInterestMarked("water-sports") ? "like_active" : ""
             }`}
             src={like}
             alt="like icon"
@@ -219,14 +240,14 @@ const Interest: React.FC<InterestProps> = ({
           <p>social</p>
           <img
             className={`selectInterest_likes_input_img ${
-              isInterestSelected("social") ? "like_opacity" : ""
+              isInterestMarked("social") ? "like_opacity" : ""
             }`}
             src={social}
             alt={"social"}
           />
           <img
             className={`selectInterest_likes_input_thumb ${
-              isInterestSelected("social") ? "like_active" : ""
+              isInterestMarked("social") ? "like_active" : ""
             }`}
             src={like}
             alt="like icon"
@@ -239,14 +260,14 @@ const Interest: React.FC<InterestProps> = ({
           <p>music</p>
           <img
             className={`selectInterest_likes_input_img ${
-              isInterestSelected("music") ? "like_opacity" : ""
+              isInterestMarked("music") ? "like_opacity" : ""
             }`}
             src={music}
             alt={"music"}
           />
           <img
             className={`selectInterest_likes_input_thumb ${
-              isInterestSelected("music") ? "like_active" : ""
+              isInterestMarked("music") ? "like_active" : ""
             }`}
             src={like}
             alt="like icon"
@@ -259,14 +280,14 @@ const Interest: React.FC<InterestProps> = ({
           <p>explore</p>
           <img
             className={`selectInterest_likes_input_img ${
-              isInterestSelected("explore") ? "like_opacity" : ""
+              isInterestMarked("explore") ? "like_opacity" : ""
             }`}
             src={exploring}
             alt={"explore"}
           />
           <img
             className={`selectInterest_likes_input_thumb ${
-              isInterestSelected("explore") ? "like_active" : ""
+              isInterestMarked("explore") ? "like_active" : ""
             }`}
             src={like}
             alt="like icon"
@@ -279,14 +300,14 @@ const Interest: React.FC<InterestProps> = ({
           <p>rock</p>
           <img
             className={`selectInterest_likes_input_img ${
-              isInterestSelected("rock") ? "like_opacity" : ""
+              isInterestMarked("rock") ? "like_opacity" : ""
             }`}
             src={music1}
             alt={"rock"}
           />
           <img
             className={`selectInterest_likes_input_thumb ${
-              isInterestSelected("rock") ? "like_active" : ""
+              isInterestMarked("rock") ? "like_active" : ""
             }`}
             src={like}
             alt="like icon"
@@ -329,8 +350,8 @@ const Interest: React.FC<InterestProps> = ({
               className="selectInterest_input_field"
               placeholder={
                 selectedInterests.length
-                  ? "place (,) to add more interests"
-                  : "Add multiple interests comma ( , ) separated"
+                  ? "Type an interest name to highlight it"
+                  : "Type an interest name to highlight it or add with comma"
               }
             />
           </div>

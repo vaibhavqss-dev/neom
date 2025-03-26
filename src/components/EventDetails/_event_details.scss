@@ -7,7 +7,7 @@ $primaryColor: #222222;
   &_heading {
     color: $primaryColor;
     font-size: 2rem;
-    font-family: 'IvyMode';
+    font-family: "IvyMode";
     margin: 0;
   }
 
@@ -51,6 +51,7 @@ $primaryColor: #222222;
         width: 20rem;
         margin: 0;
         overflow: hidden;
+        max-height: 15.3rem;
         img {
           display: block;
           width: 100%;
@@ -101,7 +102,7 @@ $primaryColor: #222222;
 
       &_heading {
         font-size: 2rem;
-        font-family: 'IvyMode';
+        font-family: "IvyMode";
         margin: 0;
       }
 
@@ -133,7 +134,7 @@ $primaryColor: #222222;
         margin-top: 4rem;
         &_heading {
           font-size: 2rem;
-          font-family: 'IvyMode';
+          font-family: "IvyMode";
           margin: 0;
         }
 
@@ -267,7 +268,7 @@ $primaryColor: #222222;
   &_recommendations {
     &_heading {
       font-size: 1.7rem;
-      font-family: 'IvyMode';
+      font-family: "IvyMode";
       margin: 3rem 0 0 0;
     }
 

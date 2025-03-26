@@ -8,7 +8,7 @@
 .arrow-button {
   width: 40px;
   height: 40px;
-  border: 2px solid rgb(73, 72, 72);
+  border: 2px solid rgb(158, 158, 158);
   border-radius: 50%;
   background-color: white;
   display: flex;
@@ -19,24 +19,22 @@
   margin: 0.5rem;
 }
 
-.arrow-button::after{
+.arrow-button::after {
   content: "";
-  /* margin-left: 2rem; */
   width: 11px;
   height: 0px;
-  border: 2px solid rgb(80, 76, 76);
+  border: 2px solid rgb(189, 189, 189);
   border-top: transparent;
   border-right: transparent;
   position: absolute;
 }
-
 
 .arrow-button.left::before,
 .arrow-button.right::before {
   content: "";
   width: 8px;
   height: 8px;
-  border: 2px solid rgb(80, 76, 76);
+  border: 2px solid rgb(146, 145, 145);
   border-top: transparent;
   border-right: transparent;
   position: absolute;
