@@ -276,7 +276,7 @@ const UpcomingEventsPg: React.FC = () => {
 
   return (
     <div className="upcomingEventsPg">
-      <h1 className="upcomingEventsPg_heading">Hey Vaibhav,</h1>
+      <h1 className="upcomingEventsPg_heading">Hey {localStorage.getItem('fullname')},</h1>
 
       <p className="upcomingEventsPg_subtext">
         Let's find something exciting for you.

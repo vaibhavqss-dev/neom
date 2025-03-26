@@ -16,15 +16,16 @@
   border-radius: 0.7rem;
   padding: 0.5rem;
   width: 22rem;
-  font-family: cursive;
+  font-family: 'IvyMode';
 }
+
+
 
 .home {
   margin-left: 2rem;
-  font-family: sans-serif;
+  font-family: "IvyMode";
 
   &_title {
-    font-family: cursive;
     font-size: 2rem;
     font-weight: 200;
     color: #333;
@@ -32,7 +33,6 @@
   }
 
   &_subtitle {
-    font-family: cursive;
     font-size: 1rem;
     font-weight: 200;
     color: #333;
@@ -40,7 +40,6 @@
   }
 }
 
-/* Suggestion Starts from here */
 .SuggestionSectionSlider {
   display: flex;
   justify-content: space-between;
@@ -55,7 +54,6 @@
 
 .recommandationSection {
   &_title {
-    font-family: cursive;
     font-size: 2rem;
     font-weight: 200;
     color: #222222;

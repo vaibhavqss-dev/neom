@@ -15,13 +15,13 @@
     &_para {
       font-weight: 500;
       font-size: 1.9rem;
-      font-family: cursive;
+      font-family: 'IvyMode';
       margin: 0;
     }
 
     &_subPara {
       font-size: 1.2rem;
-      font-family: cursive;
+      font-family: 'IvyMode';
       line-height: 1.5;
       margin: 0.5rem 0;
     }
@@ -63,7 +63,7 @@
   // Event details overlay
   &_details {
     text-align: center;
-    font-family: cursive;
+    font-family: 'IvyMode';
     color: white;
     position: absolute;
     top: 50%;

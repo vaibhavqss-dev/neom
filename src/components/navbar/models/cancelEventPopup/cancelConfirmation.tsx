@@ -35,10 +35,10 @@ const CancelConfirmationPopup: React.FC<CancelConfirmationPopupProps> = (
   };
 
   const onCloseClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onClose && onClose(); // Call the callback when closed without clearing notification
+    onClose && onClose();
   };
 
-  if (!open) return null; // Don't render anything if not open
+  if (!open) return null; 
 
   return (
     <div className="cancelConfirmationPopup_container">

@@ -7,7 +7,7 @@ $primaryColor: #222222;
   &_heading {
     color: $primaryColor;
     font-size: 2rem;
-    font-family: cursive;
+    font-family: 'IvyMode';
     margin: 0;
   }
 
@@ -101,7 +101,7 @@ $primaryColor: #222222;
 
       &_heading {
         font-size: 2rem;
-        font-family: cursive;
+        font-family: 'IvyMode';
         margin: 0;
       }
 
@@ -133,7 +133,7 @@ $primaryColor: #222222;
         margin-top: 4rem;
         &_heading {
           font-size: 2rem;
-          font-family: cursive;
+          font-family: 'IvyMode';
           margin: 0;
         }
 
@@ -267,7 +267,7 @@ $primaryColor: #222222;
   &_recommendations {
     &_heading {
       font-size: 1.7rem;
-      font-family: cursive;
+      font-family: 'IvyMode';
       margin: 3rem 0 0 0;
     }
 

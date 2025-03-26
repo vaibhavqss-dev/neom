@@ -1,6 +1,10 @@
+@font-face {
+  font-family: "IvyMode";
+  src: url("./assets/fonts/IvyMode-Regular.ttf") format("truetype");
+}
 body {
   padding: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: "IvyMode", sans-serif;
   background-color: #f9f7f2;
 }
 
@@ -515,12 +519,12 @@ body {
 .events_messageBox_para {
   font-weight: 500;
   font-size: 1.9rem;
-  font-family: cursive;
+  font-family: "IvyMode";
   margin: 0;
 }
 .events_messageBox_subPara {
   font-size: 1.2rem;
-  font-family: cursive;
+  font-family: "IvyMode";
   line-height: 1.5;
   margin: 0.5rem 0;
 }
@@ -553,7 +557,7 @@ body {
 }
 .events_details {
   text-align: center;
-  font-family: cursive;
+  font-family: "IvyMode";
   color: white;
   position: absolute;
   top: 50%;
@@ -640,7 +644,7 @@ body {
 
 .visitedSection_title p {
   margin: 5rem 0 0 0;
-  font-family: cursive;
+  font-family: "IvyMode";
   font-size: 2rem;
   font-weight: 200;
   color: #222222;
@@ -698,7 +702,7 @@ body {
   display: flex;
   align-items: center;
   margin: 0.5rem 0 0 0;
-  font-family: sans-serif;
+  font-family: "IvyMode";
 }
 .visitedContainer_rating_stars {
   font-size: 0.8rem;
@@ -850,29 +854,26 @@ body {
   border-radius: 0.7rem;
   padding: 0.5rem;
   width: 22rem;
-  font-family: cursive;
+  font-family: "IvyMode";
 }
 
 .home {
   margin-left: 2rem;
-  font-family: sans-serif;
+  font-family: "IvyMode";
 }
 .home_title {
-  font-family: cursive;
   font-size: 2rem;
   font-weight: 200;
   color: #333;
   margin: 2rem 0 0 0;
 }
 .home_subtitle {
-  font-family: cursive;
   font-size: 1rem;
   font-weight: 200;
   color: #333;
   margin: 1.2rem 0 2rem 0;
 }
 
-/* Suggestion Starts from here */
 .SuggestionSectionSlider {
   display: flex;
   justify-content: space-between;
@@ -886,7 +887,6 @@ body {
 }
 
 .recommandationSection_title {
-  font-family: cursive;
   font-size: 2rem;
   font-weight: 200;
   color: #222222;
@@ -911,7 +911,7 @@ body {
   margin-right: 1rem;
 }
 .corousalContainer_imgContainer {
-  font-family: "Cormorant Garamond", serif;
+  font-family: "IvyMode";
   width: 25vw;
   display: flex;
   justify-content: center;
@@ -1060,7 +1060,7 @@ body {
 }
 
 .suggestionSection_title p {
-  font-family: cursive;
+  font-family: "IvyMode";
   font-size: 2rem;
   font-weight: 200;
   color: #222222;
@@ -1192,7 +1192,7 @@ body {
 
 .favorites_recommendation_title {
   font-size: 2rem;
-  font-family: cursive;
+  font-family: "IvyMode";
   margin: 5rem 0 1rem 0;
 }
 .favorites_recommendation_container {
@@ -1210,14 +1210,14 @@ body {
 }
 .favoritesPg_greet {
   font-size: 2rem;
-  font-family: cursive;
+  font-family: "IvyMode";
   margin: 0;
   padding: 0;
   margin-top: 20px;
 }
 .favoritesPg_description {
   font-size: 1.2rem;
-  font-family: cursive;
+  font-family: "IvyMode";
   margin: 0.7rem 0 0 0;
 }
 .favoritesPg_container {
@@ -1226,7 +1226,7 @@ body {
 }
 .favoritesPgRecommandation_section-title {
   font-size: 2rem;
-  font-family: cursive;
+  font-family: "IvyMode";
   margin: 3rem 0 1rem 0;
 }
 .favoritesPgRecommandation_section-slider {
@@ -1301,7 +1301,7 @@ body {
 .eventDetailsPg_heading {
   color: #222222;
   font-size: 2rem;
-  font-family: cursive;
+  font-family: "IvyMode";
   margin: 0;
 }
 .eventDetailsPg_details {
@@ -1384,7 +1384,7 @@ body {
 }
 .eventDetailsPg_description_left_heading {
   font-size: 2rem;
-  font-family: cursive;
+  font-family: "IvyMode";
   margin: 0;
 }
 .eventDetailsPg_description_left_details {
@@ -1413,7 +1413,7 @@ body {
 }
 .eventDetailsPg_description_left_eventName_heading {
   font-size: 2rem;
-  font-family: cursive;
+  font-family: "IvyMode";
   margin: 0;
 }
 .eventDetailsPg_description_left_eventName_stars {
@@ -1520,7 +1520,7 @@ body {
 }
 .eventDetailsPg_recommendations_heading {
   font-size: 1.7rem;
-  font-family: cursive;
+  font-family: "IvyMode";
   margin: 3rem 0 0 0;
 }
 .eventDetailsPg_recommendations_cards {
@@ -1600,7 +1600,7 @@ body {
 }
 
 .upcomingEventsPg {
-  font-family: cursive;
+  font-family: "IvyMode";
   margin: 3rem 0 0 2rem;
   color: #222222;
 }
@@ -1742,10 +1742,10 @@ body {
   margin: 2rem 0 0 0;
   font-size: 2rem;
   font-weight: 600;
-  font-family: cursive;
+  font-family: "IvyMode";
 }
 .canceleventPg_description {
-  font-family: cursive;
+  font-family: "IvyMode";
   font-size: 1.2rem;
   width: 81rem;
 }
@@ -1763,12 +1763,12 @@ body {
 }
 .completedEventsPg_addReview_text_heading {
   margin: 0.7rem 0;
-  font-family: cursive;
+  font-family: "IvyMode";
   font-size: 2rem;
 }
 .completedEventsPg_addReview_text_description {
   margin: 0;
-  font-family: cursive;
+  font-family: "IvyMode";
   font-size: 1.2rem;
 }
 .completedEventsPg_addReview_btn {
@@ -1812,11 +1812,11 @@ body {
   margin: 0;
   font-size: 2rem;
   font-weight: 500;
-  font-family: cursive;
+  font-family: "IvyMode";
 }
 .addReviewPg_description {
   margin: 1rem 0;
-  font-family: cursive;
+  font-family: "IvyMode";
   font-size: 1.1rem;
 }
 .addReviewPg_star {
@@ -1848,7 +1848,7 @@ body {
 }
 .addReviewPg_feedback {
   margin: 1rem 0;
-  font-family: cursive;
+  font-family: "IvyMode";
   font-size: 1.1rem;
 }
 .addReviewPg_feedback_textArea {
@@ -1890,7 +1890,7 @@ body {
 }
 .vibometer_heading {
   margin: 0;
-  font-family: cursive;
+  font-family: "IvyMode";
   font-size: 2rem;
 }
 .vibometer_description {
@@ -1991,10 +1991,10 @@ body {
   border: 1px solid black;
   padding: 1rem;
   width: 78rem;
-  font-family: cursive;
+  font-family: "IvyMode";
   border-radius: 0.5rem;
   margin: 1rem 0 0 2rem;
-  font-family: cursive;
+  font-family: "IvyMode";
 }
 .rescheduledEventPg_headers h1 {
   font-weight: 500;
@@ -2154,7 +2154,7 @@ body {
   width: 60rem;
 }
 .editProfilePg_heading {
-  font-family: cursive;
+  font-family: "IvyMode";
   font-size: 2rem;
   font-weight: 500;
   margin-bottom: 2rem;
@@ -2244,7 +2244,7 @@ body {
   margin: 1.2rem 0 3rem 0;
 }
 .editSettingPg_headers h1 {
-  font-family: cursive;
+  font-family: "IvyMode";
   font-weight: 500;
   margin: 0;
 }
@@ -2498,7 +2498,7 @@ body {
   border-radius: 0.6rem;
 }
 .confirmationPopup_header {
-  font-family: cursive;
+  font-family: "IvyMode";
 }
 .confirmationPopup_header h3 {
   font-family: 16rem;
@@ -2506,7 +2506,7 @@ body {
   margin: 0;
 }
 .confirmationPopup_body {
-  font-family: cursive;
+  font-family: "IvyMode";
 }
 .confirmationPopup_body p {
   font-family: 5rem;
@@ -2538,12 +2538,12 @@ body {
 .myFeedback_firstSection_left_category {
   font-size: 1.8rem;
   font-weight: 500;
-  font-family: cursive;
+  font-family: "IvyMode";
   margin: 0.5rem 0;
 }
 .myFeedback_firstSection_left_text {
   font-size: 1.8rem;
-  font-family: cursive;
+  font-family: "IvyMode";
   margin: 0;
 }
 .myFeedback_firstSection_left_subtext {
@@ -2602,7 +2602,7 @@ body {
 .feedback_image_overlay p:first-child {
   font-size: 1.2rem;
   font-weight: 500;
-  font-family: cursive;
+  font-family: "IvyMode";
   margin: 0;
 }
 .feedback_image_overlay p {
@@ -2619,7 +2619,7 @@ body {
 .feedback_text_heading {
   font-size: 1.4rem;
   font-weight: 500;
-  font-family: cursive;
+  font-family: "IvyMode";
   margin: 0;
 }
 .feedback_text_subheading {
@@ -2670,6 +2670,7 @@ body {
 .navbar {
   height: 4rem;
   display: flex;
+  font-family: "IvyMode";
 }
 
 .neom {
@@ -2856,7 +2857,7 @@ body {
 .notification_model_title {
   color: #eeff00;
   font-size: 1.5rem;
-  font-family: cursive;
+  font-family: "IvyMode";
   margin: 0 1rem;
 }
 .notification_model_title img {
@@ -2916,7 +2917,7 @@ body {
   border-radius: 0.5rem;
 }
 .cancelConfirmationPopup_header {
-  font-family: cursive;
+  font-family: "IvyMode";
   font-size: 1.3rem;
   margin: 0;
 }

@@ -8,6 +8,7 @@ $backgroundColor: rgba(0, 0, 0, 0.5);
 .navbar {
   height: 4rem;
   display: flex;
+  font-family: 'IvyMode';
 }
 
 .neom {
@@ -217,7 +218,7 @@ $backgroundColor: rgba(0, 0, 0, 0.5);
   &_title {
     color: #eeff00;
     font-size: 1.5rem;
-    font-family: cursive;
+    font-family: 'IvyMode';
     margin: 0 1rem;
 
     img {

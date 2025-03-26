@@ -20,7 +20,7 @@ type ItinerariProps = {
   subtext?: string;
   min_temprature?: number;
   max_temprature?: number;
-};  
+};
 
 const Itinerari: React.FC<ItinerariProps> = ({
   eventId,
@@ -54,7 +54,7 @@ const Itinerari: React.FC<ItinerariProps> = ({
             <div className="weather-icon">🌤️</div>
             <div className="temperature">
               <span className="current-temp">
-                {((max_temprature) + min_temprature) / 2} °C
+                {(max_temprature + min_temprature) / 2} °C
               </span>
               <div className="range">
                 <span className="high-temp">{max_temprature}°</span>

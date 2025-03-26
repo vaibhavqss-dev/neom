@@ -19,7 +19,7 @@ interface SuggestionItem {
 const SuggestionSlider: React.FC = () => {
   const sliderRef = useRef<HTMLDivElement | null>(null);
 
-  const initialSuggestions = Array.from({ length: 10 }).map((_, index) => ({
+  const initialSuggestions = Array.from({ length: 3 }).map((_, index) => ({
     id: `suggestion-${index}`,
     imgUrl: index & 1 ? food : islandImg,
     title: index & 1 ? "Chinese Cuisine" : "Island Resort",
