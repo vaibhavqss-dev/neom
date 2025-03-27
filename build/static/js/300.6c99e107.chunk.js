@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkneomcity_vaibhav=self.webpackChunkneomcity_vaibhav||[]).push([[300,727],{1712:(e,t,a)=>{a.r(t),a.d(t,{default:()=>n});a(5043);var s=a(7126),l=a(579);const n=e=>{let{userName:t="Vaibhav",eventCompleted:a=!0}=e;return(0,l.jsx)("div",{className:"completedEventsPg",children:(0,l.jsx)(s.default,{eventCompleted:a})})}}}]);
+//# sourceMappingURL=300.6c99e107.chunk.js.map

@@ -1,3 +1,5 @@
+import { Navigate } from "react-router-dom";
+
 // get event data
 export const get_data = async (url: string) => {
   try {
@@ -12,6 +14,10 @@ export const get_data = async (url: string) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
+    if(res.status == 401){
+      throw new Error("login Again")
+    }
+
     const data = res.json();
     return data;
   } catch (err) {
@@ -36,6 +42,9 @@ export const post_data = async (url: string, body: any) => {
       },
       body: JSON.stringify(body),
     });
+    if(res.status == 401){
+      throw new Error("login Again")
+    }
     const data = res.json();
     return data;
   } catch (err) {
@@ -60,6 +69,9 @@ export const delete_data = async (url: string, body: any) => {
       },
       body: JSON.stringify(body),
     });
+    if(res.status == 401){
+      throw new Error("login Again")
+    }
     const data = res.json();
     return data;
   } catch (err) {
@@ -83,6 +95,9 @@ export const patch_data = async (url: string, body: any) => {
       },
       body: JSON.stringify(body),
     });
+    if(res.status == 401){
+      throw new Error("login Again")
+    }
     const data = res.json();
     return data;
   } catch (err) {
