@@ -1,107 +1,81 @@
-import { Navigate } from "react-router-dom";
+import {
+  checkAuthToken,
+  handleApiResponse,
+  handleApiError,
+} from "../utils/ApiErrorHandler";
 
 // get event data
 export const get_data = async (url: string) => {
   try {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("No authentication token found. Login to login.");
-    }
+    const token = checkAuthToken();
     const res = await fetch(`${process.env.REACT_APP_API_URL}${url}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
     });
-    if(res.status == 401){
-      throw new Error("login Again")
-    }
 
-    const data = res.json();
-    return data;
+    handleApiResponse(res);
+    return res.json();
   } catch (err) {
-    console.log(err);
-    throw new Error(`Failed to fetch data: ${err} from url ${url}`);
+    return handleApiError(err, url);
   }
 };
- 
+
 // post_event_data
 export const post_data = async (url: string, body: any) => {
   try {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("No authentication token found. Login to login.");
-      return;
-    }
+    const token = checkAuthToken();
     const res = await fetch(`${process.env.REACT_APP_API_URL}${url}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
     });
-    if(res.status == 401){
-      throw new Error("login Again")
-    }
-    const data = res.json();
-    return data;
+    handleApiResponse(res);
+    return res.json();
   } catch (err) {
-    console.log(err);
-    throw new Error(`Failed to fetch data: ${err} from url ${url}`);
+    return handleApiError(err, url);
   }
 };
- 
+
 //delete event data
 export const delete_data = async (url: string, body: any) => {
   try {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("No authentication token found. Login to login.");
-      return;
-    }
+    const token = checkAuthToken();
     const res = await fetch(`${process.env.REACT_APP_API_URL}${url}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
     });
-    if(res.status == 401){
-      throw new Error("login Again")
-    }
-    const data = res.json();
-    return data;
+    handleApiResponse(res);
+    return res.json();
   } catch (err) {
-    console.log(err);
-    throw new Error(`Failed to fetch data: ${err} from url ${url}`);
+    return handleApiError(err, url);
   }
 };
- 
+
 // patch event_data
 export const patch_data = async (url: string, body: any) => {
   try {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("No authentication token found. Login to login.");
-    }
+    const token = checkAuthToken();
     const res = await fetch(`${process.env.REACT_APP_API_URL}${url}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
     });
-    if(res.status == 401){
-      throw new Error("login Again")
-    }
-    const data = res.json();
-    return data;
+    handleApiResponse(res);
+    return res.json();
   } catch (err) {
-    console.log(err);
-    throw new Error(`Failed to fetch data: ${err} from url ${url}`);
+    return handleApiError(err, url);
   }
 };

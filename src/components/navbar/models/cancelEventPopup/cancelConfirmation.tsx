@@ -38,7 +38,7 @@ const CancelConfirmationPopup: React.FC<CancelConfirmationPopupProps> = (
     onClose && onClose();
   };
 
-  if (!open) return null; 
+  if (!open) return null;
 
   return (
     <div className="cancelConfirmationPopup_container">

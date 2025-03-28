@@ -1,7 +1,6 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import Router from "./Router";
-import Error from "./Error/Error";
+import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Login from "./components/user_auth/login/login";
 import Signup from "./components/user_auth/signup/signup";
@@ -53,8 +52,7 @@ const protectedRoutes = [
 export const router = createBrowserRouter([
   {
     path: "/",
-    errorElement: <Error />,
-    element: <Router />,
+    element: <Layout />,
     children: [
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <Signup /> },

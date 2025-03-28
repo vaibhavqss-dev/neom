@@ -14,14 +14,13 @@ const VibOmeter: React.FC = () => {
   }
 
   async function sendFeedback() {
-    const data  = await post_data("/user/vibometer", {
-        vibe: experience,
-        event_id: event_id,
-      });
-      console.log("console.log(data)", data);
-      if(data.success){
-        navigate("/myfeedback");
-      }
+    const data = await post_data("/user/vibometer", {
+      vibe: experience,
+      event_id: event_id,
+    });
+    if (data.success) {
+      navigate("/myfeedback");
+    }
   }
 
   return (

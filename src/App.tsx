@@ -1,11 +1,21 @@
-import React from "react";
-import "./App.css";
 import { RouterProvider } from "react-router-dom";
-import { router } from "./routes";
+import { NotificationProvider } from "./context/NotificationContext";
+import { NotificationDisplay } from "./components/NotificationDisplay";
+import { router as appRouter } from "./routes";
 import "./Body.css";
-
-const App: React.FC = () => {
-  return <RouterProvider router={router} />;
+import "./App.css";
+ 
+const AppWithNotifications = () => {
+  return (
+    <NotificationProvider>
+      <RouterProvider router={appRouter} />
+      <NotificationDisplay />
+    </NotificationProvider>
+  );
 };
-
+ 
+function App() {
+  return <AppWithNotifications />;
+}
+ 
 export default App;

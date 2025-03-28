@@ -1,5 +1,6 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import Navbar from "../navbar/navbar";
 
 const ProtectedRoute: React.FC = () => {
   const isAuthenticated = localStorage.getItem("token") !== null;
@@ -8,7 +9,12 @@ const ProtectedRoute: React.FC = () => {
     return <Navigate to="/login" replace />;
   }
 
-  return <Outlet />;
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  );
 };
 
 export default ProtectedRoute;

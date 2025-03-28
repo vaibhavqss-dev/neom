@@ -1,4 +1,4 @@
-import { get_data, post_data, delete_data, patch_data } from "./api";
+import { get_data, post_data, delete_data, patch_data } from "../api/api";
 
 export const Likeevent = async (event_id: string) => {
   return await post_data(`/user/likeevent`, {

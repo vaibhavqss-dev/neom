@@ -13,8 +13,13 @@ import { get_data } from "../../api/api";
 
 const EARTH_RADIUS_KM = 6371;
 
-const calculateDistance = (lat1:number, lon1:number, lat2:number, lon2:number) => {
-  const toRad = (value:number) => (value * Math.PI) / 180;
+const calculateDistance = (
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+) => {
+  const toRad = (value: number) => (value * Math.PI) / 180;
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
   const a =
@@ -23,7 +28,6 @@ const calculateDistance = (lat1:number, lon1:number, lat2:number, lon2:number) =
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return EARTH_RADIUS_KM * c;
 };
-
 
 const NEOM_PLACES = [
   "Neom City, Saudi Arabia",
@@ -86,10 +90,6 @@ type EventData = {
 };
 
 const UpcomingEventsPg: React.FC = () => {
-
-
-
-
   const [events, setEvents] = useState<JSX.Element[]>([]);
   const [apiEvents, setApiEvents] = useState<EventData[]>([]);
   const [Filter, setFilter] = useState<FilterState>({
@@ -171,7 +171,7 @@ const UpcomingEventsPg: React.FC = () => {
         NEOM_PLACES.filter((place) =>
           place.toLowerCase().includes(value.toLowerCase())
         )
-      ); 
+      );
     },
     []
   );
@@ -276,7 +276,9 @@ const UpcomingEventsPg: React.FC = () => {
 
   return (
     <div className="upcomingEventsPg">
-      <h1 className="upcomingEventsPg_heading">Hey {localStorage.getItem('fullname')},</h1>
+      <h1 className="upcomingEventsPg_heading">
+        Hey {localStorage.getItem("fullname")},
+      </h1>
 
       <p className="upcomingEventsPg_subtext">
         Let's find something exciting for you.
@@ -368,7 +370,7 @@ const UpcomingEventsPg: React.FC = () => {
             No New events found. Try using different filters.
           </div>
         ) : (
-           (events)
+          events
         )}
       </div>
     </div>

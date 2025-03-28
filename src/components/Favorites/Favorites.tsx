@@ -116,7 +116,7 @@ const Favorites: React.FC = () => {
       onFavoriteRemove: createFavoriteRemoveHandler(ele.event_id),
       imgURL: ele.image_urls[0],
       name: ele.title,
-      category: ele.category, 
+      category: ele.category,
       date: ele.date[0],
       time: ele.time[0],
       face: smileGreenFace,

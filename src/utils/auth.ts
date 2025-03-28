@@ -1,7 +1,3 @@
-/**
- * Auth utilities for token management and authentication
- */
-
 export const getToken = (): string | null => {
   return localStorage.getItem("token");
 };

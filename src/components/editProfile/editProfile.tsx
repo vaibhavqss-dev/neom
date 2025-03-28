@@ -3,6 +3,7 @@ import profilePic from "../../assets/img/profilePic.png";
 import pencil from "../../assets/img/pencil.svg";
 import Interest from "./selectInterest/interest";
 import { get_data, patch_data, post_data } from "../../api/api";
+import { useNotification } from "../../context/NotificationContext";
 
 const formatDateForDisplay = (dateString: string): string => {
   if (!dateString) return "";
@@ -91,6 +92,8 @@ const EditProfile: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
+  const { showNotification } = useNotification();
+
   const onChangeHandler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { id, value } = e.target;
@@ -104,23 +107,16 @@ const EditProfile: React.FC = () => {
   }, []);
 
   async function UpdateProfile(updatedProfileData?: ProfileProps) {
-    try {
-      const profileToSend = updatedProfileData || { ...Profile };
-      const data = await patch_data("/user/profile", {
-        profileToSend,
-      });
+    const profileToSend = updatedProfileData || { ...Profile };
+    const data = await patch_data("/user/profile", profileToSend);
+    if (data.profile?.dob) {
+      data.profile.dob = formatDateForDisplay(data.profile.dob);
+    }
 
-      if (data.profile?.dob) {
-        data.profile.dob = formatDateForDisplay(data.profile.dob);
-      }
+    setProfile(data.updated_fields);
 
-      setProfile(data.updated_fields);
-
-      if (data.updated_fields?.profile_img) {
-        setProfileImage(data.updated_fields.profile_img);
-      }
-    } catch (e) {
-      console.error("Error updating data:", e);
+    if (data.updated_fields?.profile_img) {
+      setProfileImage(data.updated_fields.profile_img);
     }
   }
 
@@ -139,7 +135,7 @@ const EditProfile: React.FC = () => {
         );
       }
 
-      alert("Profile updated successfully!");
+      showNotification("Profile updated successfully!", "success");
       UpdateProfile();
     },
     [Profile, profileImage]
@@ -201,25 +197,6 @@ const EditProfile: React.FC = () => {
     }
   }, [selectedFile]);
 
-  const getPresignedUrl = async () => {
-    try {
-      const response = await post_data("/user/profile/uploadimg", {
-        profile_img_name: "my_profile",
-      });
-
-      if (!response.ok) {
-        console.error("Error response from server:", await response.text());
-        return null;
-      }
-
-      const data = await response.json();
-      return data;
-    } catch (e) {
-      console.error("Error getting presigned URL:", e);
-      return null;
-    }
-  };
-
   const uploadProfileImage = async () => {
     if (!selectedFile) {
       console.error("No file selected");
@@ -229,7 +206,9 @@ const EditProfile: React.FC = () => {
     setUploading(true);
 
     try {
-      const presignedUrlData = await getPresignedUrl();
+      const presignedUrlData = await post_data("/user/profile/uploadimg", {
+        profile_img_name: "my_profile",
+      });
       if (!presignedUrlData || !presignedUrlData.uploadUrl) {
         alert("Error getting presigned URL");
         setUploading(false);
@@ -239,7 +218,6 @@ const EditProfile: React.FC = () => {
       console.log("Attempting to upload to:", presignedUrlData.uploadUrl);
       console.log("File size:", selectedFile.size);
 
-      // Upload the file to storage
       const uploadResponse = await fetch(presignedUrlData.uploadUrl, {
         method: "PUT",
         body: selectedFile,
@@ -255,30 +233,20 @@ const EditProfile: React.FC = () => {
         );
       }
 
-      // Get the public URL for the uploaded image
       const publicUrl = presignedUrlData.publicUrl;
       console.log("Public URL:", publicUrl);
 
-      // Create an updated profile object with the new image URL
       if (Profile) {
         const updatedProfile = {
           ...Profile,
           profile_img: publicUrl,
         };
 
-        // Log the updated profile for debugging
         console.log("Updated profile with new image:", updatedProfile);
-
-        // Update state for local display
         setProfileImage(publicUrl);
-
-        // Save profile changes to backend, passing the updated profile directly
         await UpdateProfile(updatedProfile);
-
-        // Update local state after backend confirms update
         setProfile(updatedProfile);
-
-        alert("Profile image uploaded successfully!");
+        showNotification("Profile image updated successfully!", "success");
       } else {
         console.error("Profile is undefined, cannot update");
       }
