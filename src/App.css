@@ -490,16 +490,17 @@ body {
 }
 .recommendationCards_cardRank {
   position: absolute;
-  font-size: 84px;
+  font-size: 80px;
+  font-family: sans-serif;
   font-weight: bolder;
-  color: rgba(255, 255, 255, 0.15);
+  color: rgba(181, 29, 29, 0.15);
   background-color: transparent;
   -webkit-text-stroke: 2px white;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
   z-index: 1;
   left: 11.5rem;
   top: 16rem;
-  filter: contrast(0.8);
+  filter: contrast(0.5);
   -webkit-text-fill-color: transparent;
 }
 
@@ -719,12 +720,14 @@ body {
 .visitedContainer_rating_stars_black {
   margin-left: 0.4rem;
 }
-
-#visitedContainer_rating_button {
+.visitedContainer_rating_button {
+  margin: 0;
+  padding: 3px 0px;
   border: none;
   background: none;
   cursor: pointer;
   text-decoration: underline;
+  font-size: 11px;
 }
 
 .recommationContainer {

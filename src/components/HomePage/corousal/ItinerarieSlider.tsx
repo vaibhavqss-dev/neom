@@ -106,6 +106,7 @@ const ItinerarieSlider: React.FC = () => {
             Scheduled
             min_temprature={parseInt(ele.event.min_temperature)}
             max_temprature={parseInt(ele.event.max_temperature)}
+            time={ele.event.time}
           />
         ))}
       </div>

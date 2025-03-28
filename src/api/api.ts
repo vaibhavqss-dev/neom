@@ -21,8 +21,8 @@ export const get_data = async (url: string) => {
     const data = res.json();
     return data;
   } catch (err) {
-    throw new Error(`Failed to fetch data: ${err} from url ${url}`);
     console.log(err);
+    throw new Error(`Failed to fetch data: ${err} from url ${url}`);
   }
 };
  

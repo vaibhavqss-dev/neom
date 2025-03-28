@@ -67,7 +67,7 @@ const Card: React.FC<CardProps> = ({
           <p className="recommendationCards_card_text_name">{name}</p>
 
           <p className="recommendationCards_card_text_time">
-            {timeRange.split(":")[0]} AM {"-"} {parseInt(timeRange.split(":")[0][0])+3} AM
+            {parseInt(timeRange.split(":")[0])%13} PM {"-"} {parseInt(timeRange.split(":")[0][0])+3} AM
           </p>
         </div>
         <div

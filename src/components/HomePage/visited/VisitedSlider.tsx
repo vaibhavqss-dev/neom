@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Visited from "./visited";
-import yogaImg from "../../../assets/img/yoga.jpg";
-import music from "../../../assets/img/music.jpg";
 import Buttons from "../../LeftandRightButtons/buttons";
+import { get_data } from "../../../api/api";
 
 const VisitedSlider: React.FC = () => {
   const sliderRef = useRef<HTMLDivElement | null>(null);
@@ -27,23 +26,7 @@ const VisitedSlider: React.FC = () => {
     async function fetchItineraries() {
       setLoading(true);
       try {
-        const apiUrl = "http://localhost:3001";
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-          setError("Authentication required");
-          return;
-        }
-
-        const response = await fetch(`${apiUrl}/api/user/visitedevent`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const data = await response.json();
-
+        const data = await get_data(`/user/visitedevent`);
         if (data.error) {
           setError(data.error);
           console.error("API error:", data.error);

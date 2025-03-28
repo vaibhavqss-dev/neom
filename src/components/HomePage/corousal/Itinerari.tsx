@@ -20,6 +20,7 @@ type ItinerariProps = {
   subtext?: string;
   min_temprature?: number;
   max_temprature?: number;
+  time: string;
 };
 
 const Itinerari: React.FC<ItinerariProps> = ({
@@ -37,6 +38,7 @@ const Itinerari: React.FC<ItinerariProps> = ({
   min_temprature = 0,
   max_temprature = 0,
   subtext = "Overwhelming vibes are coming here",
+  time,
 }) => {
   const navigate = useNavigate();
 
@@ -87,7 +89,9 @@ const Itinerari: React.FC<ItinerariProps> = ({
         <div className="corousalContainer_eventDetails">
           <div>
             <img src={calendar} alt="calendar" />
-            {dateandTime}{" "}
+            {dateandTime.split(" ").join(" ")} {parseInt(time[0]) % 13}
+            {":00 "} AM - {dateandTime} {parseInt(time[0]) % 13}
+            {":00 "} AM
           </div>
           <div>
             <img src={location} alt="location" />

@@ -3,6 +3,7 @@ import Card from "../card/card";
 import yogoImg from "./../../../assets/img/yoga.jpg";
 import SelectDistance from "../selectdistance/selectdistance";
 import { Likeevent, Unlikeevent } from "../../../api/utility_api";
+import { get_data } from "../../../api/api";
 
 // type RecommendationItem = {
 //   event_id: string;
@@ -60,15 +61,7 @@ const RecommendationCardContainer: React.FC<
           return;
         }
 
-        const response = await fetch(`${apiUrl}/api/user/recommendation`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const data = await response.json();
-
+        const data = await get_data(`/user/recommendation`);
         if (data.error) {
           setError(data.error);
           console.error("API error:", data.error);

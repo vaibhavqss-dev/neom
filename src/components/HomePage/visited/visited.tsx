@@ -26,7 +26,9 @@ const Visited: React.FC<VisitedProps> = ({
       <div className="visitedContainer">
         <div className="visitedContainer_imgContainer">
           <img
-            onClick={() => navigate(`/event-details?eventId=${eventId}`)}
+            onClick={() =>
+              navigate(`/event-details?eventId=${eventId}&isScheduled=1`)
+            }
             id="visitedContainer_img"
             src={imgUrl}
             alt="underwaterImg"
@@ -45,7 +47,7 @@ const Visited: React.FC<VisitedProps> = ({
 
         {addReview ? (
           <button
-            id="visitedContainer_rating_button"
+            className="visitedContainer_rating_button"
             onClick={() => navigate(`/add-review?eventId=${eventId}`)}
           >
             Rate this event

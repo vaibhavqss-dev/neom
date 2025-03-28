@@ -1,16 +1,16 @@
 import React, { memo } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import MapWithPoints from "./maps/maps";
 import ItinerarieSlider from "./corousal/ItinerarieSlider";
 import SuggestionSlider from "./Suggestion/SuggestionSlider";
 import VisitedSlider from "./visited/VisitedSlider";
 import RecommendationCardContainer from "../base/recommendationCards/RecommendationCardContainer";
-import { useSelector, useDispatch } from "react-redux";
 
 const Home: React.FC = () => {
   const fullname = localStorage.getItem("fullname");
 
   const token = useSelector((state: any) => state.login);
-  console.log("TOKEN", token);
 
   return (
     <div className="home isblur">

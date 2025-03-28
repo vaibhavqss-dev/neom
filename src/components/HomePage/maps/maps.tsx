@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import L from "leaflet"; // Change from * as L to just L
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useNavigate } from "react-router-dom";
 
-// Improved category-to-icon mapping with more professional icons
 const categoryIcons = {
   location: "https://cdn-icons-png.flaticon.com/512/4874/4874937.png",
   swim: "https://cdn-icons-png.flaticon.com/512/2784/2784593.png",
@@ -64,17 +63,20 @@ const mapCssContent = `
   font-weight: 600;
   color: #2c3e50;
   margin-bottom: 8px;
-  font-size: 16px;
+  font-size: 10px;
   text-transform: uppercase;
+  font-weight: bold;
+  width:10rem;
 }
 .popup-rating {
-  color: #f39c12;
-  font-weight: bold;
+  // color:rgb(97, 93, 88);
+  // font-weight: bold;
   margin-bottom: 6px;
+  font-size: 10px;
 }
 .popup-time {
   color: #7f8c8d;
-  font-size: 13px;
+  font-size: 10px;
   margin-bottom: 8px;
 }
 .popup-status-ontime {
@@ -129,7 +131,7 @@ interface MapWithPointsProps {
 
 interface Event {
   event: {
-    id: string;
+    event_id: string;
     title: string;
     description: string;
     category: string;
@@ -156,10 +158,8 @@ const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates = [] }) => {
     `map-container-${Math.random().toString(36).substring(2, 9)}`
   );
   const styleSheetRef = useRef<HTMLStyleElement | null>(null);
-  // Fix the map ref type
   const mapRef = useRef<any | null>(null);
 
-  // Fetch events data from API - adding cleanup flag to prevent state updates after unmount
   useEffect(() => {
     let isMounted = true;
 
@@ -210,13 +210,11 @@ const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates = [] }) => {
 
     fetchEvents();
 
-    // Cleanup function
     return () => {
       isMounted = false;
     };
   }, []);
 
-  // Make sure stylesheet is added only once
   useEffect(() => {
     if (!styleSheetRef.current) {
       const style = document.createElement("style");
@@ -233,25 +231,18 @@ const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates = [] }) => {
     };
   }, []);
 
-  // Setup map only after DOM is ready and cleanup properly
   useEffect(() => {
     let mapInstance: any | null = null;
 
-    // Wait for DOM to be ready
     const initializeMap = () => {
-      // Safety check to ensure the container exists
       const container = document.getElementById(mapContainerId.current);
       if (!container) {
         console.error("Map container not found");
         return;
       }
 
-      // Add explicit height to make sure the container is visible
       container.style.height = "30rem";
-
-      // Initialize map
       mapInstance = L.map(container, {
-        // Add fade animation: false to prevent some positioning errors
         fadeAnimation: false,
       }).setView([28.0, 35.0], 7);
 
@@ -268,16 +259,13 @@ const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates = [] }) => {
       setMapInitialized(true);
     };
 
-    // Small timeout to ensure DOM is ready
     const timer = setTimeout(() => {
       initializeMap();
     }, 100);
 
-    // Clean up function
     return () => {
       clearTimeout(timer);
       if (mapInstance) {
-        // Properly remove map to prevent memory leaks
         mapInstance.remove();
         mapRef.current = null;
         setMapInitialized(false);
@@ -285,28 +273,21 @@ const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates = [] }) => {
     };
   }, []);
 
-  // Fix for the map markers effect - memoize complex values
   const memoizedEvents = React.useMemo(() => events, [events]);
   const memoizedCoordinates = React.useMemo(() => coordinates, [coordinates]);
-
-  // Add markers after map is initialized and events are loaded - with memoized dependencies
   useEffect(() => {
-    // Only proceed if map is initialized and we have data
     if (!mapInitialized || !mapRef.current) return;
 
     const map = mapRef.current;
     const bounds = L.latLngBounds();
     let hasMarkers = false;
 
-    // Clear existing markers if needed
-    // Fix the layer parameter type
     map.eachLayer((layer: any) => {
       if (layer instanceof L.Marker) {
         map.removeLayer(layer);
       }
     });
 
-    // Create custom icon for each marker
     const createCustomIcon = (iconUrl: string, type: string) => {
       return L.divIcon({
         html: `<div class="custom-marker marker-pulse"><img src="${iconUrl}" alt="${type}" style="width: 100%; height: 100%;" /></div>`,
@@ -315,7 +296,6 @@ const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates = [] }) => {
       });
     };
 
-    // Add markers from coordinates prop (for backward compatibility)
     memoizedCoordinates.forEach(([lat, lon, type]) => {
       const iconUrl =
         categoryIcons[type as keyof typeof categoryIcons] ||
@@ -329,25 +309,19 @@ const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates = [] }) => {
 
         bounds.extend(marker.getLatLng());
         hasMarkers = true;
-
-        // ...existing popup code...
       } catch (e) {
         console.error("Error adding marker:", e);
       }
     });
 
-    // Add markers from fetched events data
     memoizedEvents.forEach((eventItem, index) => {
       const { event } = eventItem;
 
-      // Parse coordinates from strings to numbers
       const lat = parseFloat(event.latitude);
       const lon = parseFloat(event.longitude);
 
-      // Skip if we don't have valid coordinates
       if (isNaN(lat) || isNaN(lon)) return;
 
-      // Get icon URL based on event category
       const category = event.category.toLowerCase();
       const iconUrl =
         categoryIcons[category as keyof typeof categoryIcons] ||
@@ -361,50 +335,36 @@ const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates = [] }) => {
 
         bounds.extend(marker.getLatLng());
         hasMarkers = true;
-
-        // Create popup with real event data
         const popupContent = document.createElement("div");
         popupContent.className = "popup-container";
         popupContent.innerHTML = `
-        <div class="popup-title">${event.title}</div>
-        <div class="popup-rating">
-          ${event.overall_rating} ${Array.from(
-          { length: Math.round(event.overall_rating) },
-          () => "★"
-        ).join("")}
-          <span style="color: #bdc3c7;">${Array.from(
-            { length: 5 - Math.round(event.overall_rating) },
-            () => "★"
-          ).join("")}</span>
-          (${event.no_reviews} reviews)
-        </div>
-        <div class="popup-time">
-          <i style="margin-right: 5px;">📅</i> ${event.date || "Upcoming"} ${
-          event.time ? `at ${event.time}` : ""
-        }
-        </div>
-        <div class="popup-location">
-          <i style="margin-right: 5px;">📍</i> ${event.location}
-        </div>
-        <div style="margin-top: 8px;">
-          <span class="${
-            event.status === "delayed"
-              ? "popup-status-delay"
-              : "popup-status-ontime"
-          }">
-            ${event.status === "delayed" ? "Delayed" : "On Time"}
-          </span>
-        </div>
+          <div
+            style="display: flex; gap: 1rem;"
+          >
+              <div>
+                <img src="${
+                  event.image_urls.length ? event.image_urls[0] : iconUrl
+                }" alt="${
+          event.title
+        }" style="height: 5rem; width:5rem; border-radius: 8px; margin-bottom: 10px;" />
+              
+              </div>
+              <div>
+              <div class="popup-title">${event.title}</div>
+              <div class="popup-time">
+                  ${event.date || "Upcoming"}
+              </div>
+              <div style="font-size: 10px;">
+                  ${event.time ? ` ${event.time}` : ""}
+              </div>
+              
+              <div class="popup-rating">
+                  ${Array.from({ length: 1 }, () => "★").join("")} ${event.overall_rating} 
+                  (${event.no_reviews} reviews)
+              </div>
+            </div>
+          </div>
       `;
-
-        const viewButton = document.createElement("button");
-        viewButton.className = "popup-button";
-        viewButton.textContent = "View Details";
-        viewButton.onclick = () => {
-          navigate(`/event-details?id=${event.id}`);
-        };
-
-        popupContent.appendChild(viewButton);
 
         marker.bindPopup(popupContent, {
           closeButton: true,
@@ -421,19 +381,16 @@ const MapWithPoints: React.FC<MapWithPointsProps> = ({ coordinates = [] }) => {
       }
     });
 
-    // Fit map to markers if we have any
     if (hasMarkers) {
       try {
         map.fitBounds(bounds, { padding: [40, 40] });
       } catch (e) {
         console.error("Error fitting bounds:", e);
-        // Fallback to default view
         map.setView([28.0, 35.0], 7);
       }
     }
   }, [memoizedCoordinates, memoizedEvents, mapInitialized, navigate]);
 
-  // Clean up styles on component unmount
   useEffect(() => {
     return () => {
       if (styleSheetRef.current) {

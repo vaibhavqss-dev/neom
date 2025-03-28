@@ -7,7 +7,7 @@ $standard-margin: 0.5rem;
 .visitedSection {
   &_title p {
     margin: 5rem 0 0 0;
-    font-family: 'IvyMode';
+    font-family: "IvyMode";
     font-size: 2rem;
     font-weight: 200;
     color: $text-color;
@@ -72,7 +72,7 @@ $standard-margin: 0.5rem;
     display: flex;
     align-items: center;
     margin: $standard-margin 0 0 0;
-    font-family: 'IvyMode';
+    font-family: "IvyMode";
 
     &_stars {
       font-size: 0.8rem;
@@ -82,12 +82,15 @@ $standard-margin: 0.5rem;
         margin-left: 0.4rem;
       }
     }
-  }
-}
 
-#visitedContainer_rating_button {
-  border: none;
-  background: none;
-  cursor: pointer;
-  text-decoration: underline;
+    &_button {
+      margin: 0;
+      padding: 3px 0px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 11px;
+    }
+  }
 }
