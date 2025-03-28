@@ -28,8 +28,9 @@ const VibOmeter: React.FC = () => {
       <div className="vibometer">
         <p className="vibometer_heading">Vib-o-meter</p>
         <p className="vibometer_description">
-          Hi Vaibhav, we would love know the vibes you got from this event. It
-          helps us to improve us and serve you best for the next time.{" "}
+          Hi {localStorage.getItem("fullname")}, we would love know the vibes
+          you got from this event. It helps us to improve us and serve you best
+          for the next time.{" "}
         </p>
 
         <VibometerIcon />

@@ -1,14 +1,14 @@
 import ReviewStar from "../base/reviewStar/reviewStar";
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
 import { post_data } from "../../api/api";
 
 type AddReviewProps = {
-
+  onSubmit?: () => void;
+  onClose?: () => void;
 };
 
-const AddReview: React.FC<AddReviewProps> = () => {
-  const navigate = useNavigate();
+const AddReview: React.FC<AddReviewProps> = ({ onSubmit, onClose }) => {
+  // const navigate = useNavigate();
   const [star, setStar] = React.useState({
     qualityOfEvent: 0,
     serviceAtEvent: 0,
@@ -21,15 +21,6 @@ const AddReview: React.FC<AddReviewProps> = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  // Check auth token on component mount
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.warn("No authentication token found. Redirecting to login.");
-      navigate("/login");
-    }
-  }, [navigate]);
-
   function handleStarChange(key: string, value: number) {
     setStar((prev) => ({ ...prev, [key]: value }));
   }
@@ -37,10 +28,6 @@ const AddReview: React.FC<AddReviewProps> = () => {
   function handleFeedbackChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setFeedback(e.target.value);
   }
-
-  const queryParams = new URLSearchParams(window.location.search);
-  const eventId = queryParams.get("eventId");
-  console.log("EventId from query parameters:", eventId);
 
   async function addReview() {
     if (
@@ -59,33 +46,18 @@ const AddReview: React.FC<AddReviewProps> = () => {
       setIsSubmitting(true);
       setSubmitError(null);
 
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setSubmitError("Please log in to submit a review");
-        navigate("/login");
-        return;
-      }
-
-      console.log(
-        "Submitting review with token:",
-        token.substring(0, 10) + "..."
-      );
-
-      const data= await post_data(
-        `/user/review`,
-        {
-            quality_of_event: star.qualityOfEvent,
-            service_of_event: star.serviceAtEvent,
-            facilites_of_event: star.facilitiesOfEvent,
-            staffPoliteness: star.staffPoliteness,
-            operator_of_event: star.operatorOfEvent,
-            comment: feedback,
-            event_id: eventId,
-        }
-      );
+      const data = await post_data(`/user/review`, {
+        quality_of_event: star.qualityOfEvent,
+        service_of_event: star.serviceAtEvent,
+        facilites_of_event: star.facilitiesOfEvent,
+        staffPoliteness: star.staffPoliteness,
+        operator_of_event: star.operatorOfEvent,
+        comment: feedback,
+        event_id: 2,
+      });
       if (data.success) {
         alert("Review added successfully");
-        navigate(`/vib-o-meter?eventId=${eventId}`);
+        onSubmit && onSubmit();
       } else {
         setSubmitError(data.message || "Failed to add review");
       }
@@ -97,7 +69,7 @@ const AddReview: React.FC<AddReviewProps> = () => {
     }
   }
 
-  function onSubmit() {
+  function onSubmithandler() {
     if (isSubmitting) return;
     addReview();
   }
@@ -106,9 +78,7 @@ const AddReview: React.FC<AddReviewProps> = () => {
     <div className="addReview">
       <div className="addReviewPg">
         <div className="addReviewPg_clsBtn">
-          <NavLink to="/myfeedback">
-            <button>X</button>
-          </NavLink>
+          <button onClick={onClose}>X</button>
         </div>
         <h1 className="addReviewPg_heading">Add a review</h1>
         <p className="addReviewPg_description">
@@ -196,7 +166,7 @@ const AddReview: React.FC<AddReviewProps> = () => {
         {submitError && <div className="addReviewPg_error">{submitError}</div>}
 
         <button
-          onClick={onSubmit}
+          onClick={onSubmithandler}
           className="addReviewPg_submitBtn"
           disabled={isSubmitting}
         >

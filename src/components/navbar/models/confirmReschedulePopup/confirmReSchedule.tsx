@@ -7,16 +7,18 @@ type ReschedulePopupProps = {
   name: string;
   eventId: string;
   onClose?: () => void;
+  onConfirms?: () => void;
 };
 
 const ConfirmReSchedule: React.FC<ReschedulePopupProps> = (props) => {
-  const { open, name = "Vaibhav", onClose } = props;
-  const navigate = useNavigate();
+  const { open, name = "Vaibhav", onClose, onConfirms } = props;
+  // const navigate = useNavigate();
 
-  const onConfirm = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onConfirmClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     onClose && onClose();
-    notification_delete(props.eventId);
-    navigate(`/rescheduled-event?eventId=${props.eventId}`);
+    onConfirms && onConfirms();
+    // notification_delete(props.eventId);
+    // navigate(`/rescheduled-event?eventId=${props.eventId}`);
   };
 
   const onCloseClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -37,7 +39,7 @@ const ConfirmReSchedule: React.FC<ReschedulePopupProps> = (props) => {
         <div className="cancelConfirmationPopup_btn">
           <button
             className="cancelConfirmationPopup_btn_yes"
-            onClick={(e) => onConfirm(e)}
+            onClick={(e) => onConfirmClick(e)}
           >
             Yes, I'm sure
           </button>

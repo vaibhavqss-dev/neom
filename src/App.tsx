@@ -4,18 +4,23 @@ import { NotificationDisplay } from "./components/NotificationDisplay";
 import { router as appRouter } from "./routes";
 import "./Body.css";
 import "./App.css";
- 
+import { ModalProvider } from "./context/ModelContext";
+import GlobalModal from "./components/Models/ModelDisplay";
+
 const AppWithNotifications = () => {
   return (
     <NotificationProvider>
-      <RouterProvider router={appRouter} />
+      <ModalProvider>
+        <RouterProvider router={appRouter} />
+        <GlobalModal />
+      </ModalProvider>
       <NotificationDisplay />
     </NotificationProvider>
   );
 };
- 
+
 function App() {
   return <AppWithNotifications />;
 }
- 
+
 export default App;

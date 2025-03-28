@@ -1,5 +1,6 @@
 import React, { use } from "react";
 import { useNavigate } from "react-router-dom";
+import { useModal } from "../../../context/ModelContext";
 
 interface VisitedProps {
   imgUrl: string;
@@ -21,6 +22,8 @@ const Visited: React.FC<VisitedProps> = ({
   addReview = false,
 }) => {
   const navigate = useNavigate();
+
+  const { openModal } = useModal();
   return (
     <>
       <div className="visitedContainer">
@@ -48,7 +51,15 @@ const Visited: React.FC<VisitedProps> = ({
         {addReview ? (
           <button
             className="visitedContainer_rating_button"
-            onClick={() => navigate(`/add-review?eventId=${eventId}`)}
+            onClick={() =>
+              openModal("addreview", {
+                eventId: eventId,
+                title: title,
+                onSubmit: () => {
+                  console.log("Review submitted here...");
+                },
+              })
+            }
           >
             Rate this event
           </button>

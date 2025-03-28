@@ -9,7 +9,7 @@ import RecommendationCardContainer from "../base/recommendationCards/Recommendat
 import ReviewCardContainer from "./reviewCard/ReviewCardContainer";
 import neom from "../../assets/img/neom.png";
 import ImageGallery from "./ImageGallery";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 interface User {
